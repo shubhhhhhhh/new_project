@@ -1,0 +1,799 @@
+/* register form  { */
+var loading_img="<img src='//imgs.bharatmatrimony.com/bmimages/loading-small-icon.gif' width='20' height='19' border='0'>";
+var S_interval;
+//calender
+var one_day=1000*60*60*24
+var one_month=1000*60*60*24*30
+var one_year=1000*60*60*24*30*12
+// Map mother-tongue to the respective domain
+MOTHERTONGUE_DOMAIN_MAPPING = {"1":"13","2":"13","3":"10","4":"7","5":"10","6":"10","7":"10","8":"10","9":"10","10":"0","11":"0","12":"10","13":"13","14":"5","15":"10","16":"10","17":"10","18":"10","19":"4","20":"10","21":"5","22":"13","23":"6","24":"11","25":"10","26":"5","27":"13","28":"10","29":"10","30":"10","31":"3","32":"13","33":"6","34":"14","35":"13","36":"13","37":"13","38":"7","39":"10","40":"11","41":"8","42":"14","43":"10","44":"11","45":"9","46":"1","47":"1","48":"2","49":"13","50":"4","51":"15","53":"1","99":"0","54":"10"};
+		
+function domain_return(domainval)
+{
+	if(domainval==1){utext="tamil";}
+	if(domainval==2){utext="telugu";}
+	if(domainval==3){utext="kerala";}
+	if(domainval==4){utext="kannada";}
+	if(domainval==5){utext="gujarati";}
+	if(domainval==6){utext="marathi";}
+	if(domainval==7){utext="bengali";}
+	if(domainval==8){utext="punjabi";}
+	if(domainval==9){utext="sindhi";}
+	if(domainval==10){utext="hindi";}
+	if(domainval==11){utext="oriya";}
+	if(domainval==12){utext="parsi";}
+	if(domainval==13){utext="assamese";}
+	if(domainval==14){utext="marwadi";}	
+	if(domainval==15){utext="urdu";}
+	if(domainval==0){utext="bharat";}
+	return utext;
+}
+
+
+function displayage(yr, mon, day, unit, decimal, round){
+today=new Date()
+var pastdate=new Date(yr, mon-1, day)
+
+var countunit=unit
+var decimals=decimal
+var rounding=round
+finalunit=(countunit=="days")? one_day : (countunit=="months")? one_month : one_year
+decimals=(decimals<=0)? 1 : decimals*10
+
+if (unit!="years"){
+if (rounding=="rounddown")
+alert (Math.floor((today.getTime()-pastdate.getTime())/(finalunit)*decimals)/decimals+' '+countunit)
+else
+alert (Math.ceil((today.getTime()-pastdate.getTime())/(finalunit)*decimals)/decimals+' '+countunit)
+}
+else
+{
+yearspast=today.getFullYear()-yr-1
+tail=(today.getMonth()>mon-1 || today.getMonth()==mon-1 && today.getDate()>=day)? 1 : 0
+pastdate.setFullYear(today.getFullYear())
+pastdate2=new Date(today.getFullYear()-1, mon-1, day)
+tail=(tail==1)? tail+Math.floor((today.getTime()-pastdate.getTime())/(finalunit)*decimals)/decimals : Math.floor((today.getTime()-pastdate2.getTime())/(finalunit)*decimals)/decimals
+var calyear=yearspast+tail;
+}
+return calyear;
+}
+//calender
+
+
+
+var domain_request=false, caste_request=false, more_request=false, def_domain;
+
+function makeDrequest(mothertongue) {
+
+	if (document.registrationform.RELIGION.value!=0)
+	{
+		if (dgebid('spnFreeTxt').style.display=="block")
+		{
+			dgebid('CASTE_FREETEXT').value="";
+			dgebid('spnFreeTxt').style.display = "none";
+		}
+		if(mothertongue>0 && mothertongue!=null) {
+			document.getElementById("CASTE_NORMAL").style.visibility="hidden";	
+			document.getElementById("CASTE_LOADING").innerHTML=loading_img;;
+		var selbox = $('#DOMAIN');
+
+
+		$.getJSON('/register/ajax_registration.php',{type:"get_domain",mother_tongue: mothertongue},
+		function(data)
+		{
+				$("#DOMAIN_LOADING").html("");
+				selbox.loadrigSelect(data);
+				selbox.show();
+			if($("#RELIGION").val()>0)
+			{
+				$('#CASTE_NORMAL').css("visibility", "HIDDEN");
+				$("#CASTE_LOADING").html(loading_img);
+			
+				var selbox1 = $('#CASTE_NORMAL');
+				selbox1.emptyrigSelect();
+				$.getJSON('/register/ajax_registration.php',{type:"caste",language: data[0].value,religion:$("#RELIGION").val(),mothertongue:mothertongue},
+				function(data){
+					$.each(data, function(index, obj) {selbox1.append($('<option></option').val(obj.value).html(obj.caption).css({color:obj.color}));});
+					//selbox1.loadSelect(data);
+					$("#CASTE_LOADING").html("");
+					$('#CASTE_NORMAL').css("visibility", "visible");
+					if($('#visitorrestric').val() == "1"){$('#CASTE_NORMAL').css("width", "240px");}
+					});
+			}
+		})		
+		}
+	}else{alert("Please select religion"); document.registrationform.RELIGION.focus();}
+}
+
+//load select
+(function($) {
+  $.fn.emptyrigSelect = function() {
+    return this.each(function(){
+      if (this.tagName=='SELECT') this.options.length = 0;
+    });
+  }
+
+  $.fn.loadrigSelect = function(optionsDataArray) {
+    return this.emptyrigSelect().each(function(){
+      if (this.tagName=='SELECT') {
+        var selectElement = this;
+        $.each(optionsDataArray,function(index,optionData){
+          var option = new Option(optionData.caption,
+                                  optionData.value);
+          if ($.browser.msie) {
+            selectElement.add(option);
+          }
+          else {
+            selectElement.add(option,null);
+          }
+        });
+      }
+    });
+  }
+})(jQuery);
+
+//load select
+
+
+function showMoreCaste(selValue){
+
+	if(selValue == 'no') {		
+		if (document.registrationform.CASTE_NORMAL.value=="no")
+		{		
+		 var selbox = $('#DOMAIN');
+		 $.getJSON('/register/ajax_registration.php',{type:"caste",language: def_domain,religion: $("#RELIGION").val(),caste:"no"},
+		function(data){
+				$("#DOMAIN_LOADING").html("");
+				selbox.loadrigSelect(data);
+				selbox.show();
+			if($("#RELIGION").val()>0)
+			{
+				$('#CASTE_NORMAL').css("visibility", "HIDDEN");
+				$("#CASTE_LOADING").html(loading_img);
+			
+				var selbox1 = $('#CASTE_NORMAL');
+				selbox1.emptyrigSelect();
+				$.getJSON('/register/ajax_registration.php',{type:"caste",language: data[0].value,religion:$("#RELIGION").val(),mothertongue:$("#MOTHERTONGUE").val(),caste:"no"},
+				function(data){
+					$.each(data, function(index, obj) {selbox1.append($('<option></option').val(obj.value).html(obj.caption).css({color:obj.color}));});
+					//selbox1.loadSelect(data);
+					$("#CASTE_LOADING").html("");
+					$('#CASTE_NORMAL').css("visibility", "visible");
+					if($('#visitorrestric').val() == "1"){$('#CASTE_NORMAL').css("width", "240px");}
+					});
+				}
+			})			
+		}		
+	} 
+	else if(selValue == '999') { if (document.registrationform.CASTE_NORMAL.value=="999") { dgebid('spnFreeTxt').style.display = "block";dgebid('CASTE_FREETEXT').value="- Enter caste -";} if($('#visitorrestric').val() == "1"){$('#CASTE_NORMAL').css("width", "101px");} }
+	if(selValue != '999') { if (document.registrationform.CASTE_NORMAL.value!="999") { dgebid('spnFreeTxt').style.display = "none";dgebid('CASTE_FREETEXT').value="";  } if($('#visitorrestric').val() == "1"){$('#CASTE_NORMAL').css("width", "240px");}}	
+}
+
+
+
+function showMoreCountry(cntryValue) { 
+	if(arguments[1]){
+		if(cntryValue == "no"){
+			get_minreg_country('M_COUNTRYCODE','M_COUNTRYCODE');
+
+		}
+	}else {
+		if(cntryValue==888) {
+			get_minreg_country('COUNTRY','COUNTRY');
+			get_minreg_country('M_COUNTRYCODE','M_COUNTRYCODE');
+		}else {
+			dgebid('M_COUNTRYCODE').value=cntryValue;
+			if(document.getElementById("AREACODE")){
+				if(cntryValue==98) { 
+						
+						dgebid('AREACODE').value="STD Code";
+				}else{ 
+					dgebid('AREACODE').value="Area Code";
+				}
+			}
+		}
+	}
+}
+
+function get_minreg_country(lobj,lspan)
+{
+	$.getJSON('/register/ajax_registration.php',{type:"country"},
+	function(data)
+	{
+		$('#'+lobj).loadrigSelect(data);$('#'+lspan).hide();$('#'+lobj).show();
+	});
+}
+
+
+/* commom */
+function IsEmpty(obj, obj_type) {
+	if (obj_type == "text" || obj_type == "password" || obj_type == "textarea" || obj_type == "file")	{
+		var objValue;
+		objValue = obj.value.replace(/\s+$/,"");
+		if (objValue.length == 0) { return true; } else { return false; }
+	} else if (obj_type == "select" || obj_type == "select-one") {
+		for (i=0; i < obj.length; i++) {
+			if (obj.options[i].selected) {
+					if(obj.options[i].value==" ") {return true;obj.focus();} else {return false;}
+					if(obj.options[i].value == "0") { if(obj.options[i].seletedIndex == "0") {return true;obj.focus();} } else { return false; }
+			}
+		}
+		return true;	
+	} else if (obj_type == "radio" || obj_type == "checkbox") {
+		if (!obj[0] && obj) {
+			if (obj.checked) { return false; } else { return true; }
+		} else {
+			for (i=0; i < obj.length; i++) { if (obj[i].checked) { return false; } }
+			return true;
+		}
+	} else { return false; }
+}
+function ValidateEmail(Email) {
+	//var funRegExp	      = new RegExp("^[A-Za-z0-9][A-Za-z0-9_\\.\-]*\\@[a-zA-Z0-9\-]+\\.[a-zA-Z]+[\\.]?[a-zA-Z]*$");	
+	if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(Email))) { return false; }//if
+	return true;
+}
+function ValidateNo( NumStr, String ) {
+	for( var Idx = 0; Idx < NumStr.length; Idx ++ ) {
+		 var Char = NumStr.charAt( Idx );
+		 var Match = false;
+		 for( var Idx1 = 0; Idx1 < String.length; Idx1 ++) { if( Char == String.charAt( Idx1 ) ) { Match = true; } }
+		if ( !Match ) { return false; }
+ 	}
+   	return true;
+}
+/* commom */
+
+/* registrationform Validate */
+function validateregistrationform() {
+	var registrationform = this.document.registrationform;
+	var reg = /^([^0-9]*)$/;
+	var getgendercon="";
+	
+	if(dgebid("REGISTERED_BY").value == 0){alert("Select for whom you are registering the profile."); dgebid("REGISTERED_BY").focus(); return false;}
+	pc_val=dgebid("REGISTERED_BY").value;
+	if(pc_val == 10 || pc_val == 11 || pc_val == 4 || pc_val == 5) { var agesubtxt = "enter the age or "; } else if(pc_val == 1 || pc_val == 8 || pc_val == 9) { var agesubtxt = ""; } else { var agesubtxt = "enter the age or "; }	
+	
+	if(reg.test(dgebid("NAME").value) == false){alert("Invalid. You can't use numeric values."); dgebid("NAME").focus(); return false;}
+
+	/*if ((registrationform.NAME.value =="Name." || registrationform.NAME.value =="Groom's Name." || registrationform.NAME.value =="Bride's Name.") || (IsEmpty(registrationform.NAME,'text'))) { if(registrationform.NAME.value != "") { var nametxt = registrationform.NAME.value; } else { var nametxt = "Name"; } alert("Enter your "+nametxt);registrationform.NAME.focus( );return false;}*/
+	if ((registrationform.NAME.value =="Name." || registrationform.NAME.value =="Groom's Name." || registrationform.NAME.value =="Bride's Name.") || (IsEmpty(registrationform.NAME,'text')))
+	{ 
+		if(registrationform.NAME.value != "") 
+		{ 
+			var nametxt = registrationform.NAME.value; 
+		} 
+		else if(pc_val==1)
+			alert("Enter your name.");
+		else if(pc_val==8)
+			alert("Enter your Son's name.");
+		else if(pc_val==9)
+			alert("Enter your Daughter's name.");
+		else if(pc_val==10)
+			alert("Enter name of the Groom.");
+		else if(pc_val==11)
+			alert("Enter name of the Bride.");
+		else if(pc_val==4)
+			alert("Enter name of your Relative.");
+		else if(pc_val==5)
+			alert("Enter name of your Friend.");
+		registrationform.NAME.focus( );
+		return false;
+	}
+	if ( !registrationform.GENDER[0].checked && !registrationform.GENDER[1].checked) {alert( "Select Gender." );registrationform.GENDER[0].focus( );	return false;}
+	if(registrationform.GENDER[0].checked){
+		getgendercon="Groom.";
+	}
+	else if(registrationform.GENDER[1].checked){
+		getgendercon="Bride.";
+	}
+    var agesubtxt ="";
+	if(((registrationform.AGE.value == "Age") || (registrationform.AGE.value == "Ag") || (registrationform.AGE.value == "")) && (registrationform.DOBMONTH.value == "0" && registrationform.DOBDAY.value == "0" && registrationform.DOBYEAR.value == "0")){alert("Select date of birth of "+getgendercon);registrationform.AGE.value="";registrationform.DOBDAY.focus();return false;}
+
+	if(dgebid("DOBDAY").value!=0 && dgebid("DOBMONTH").value!=0 && dgebid("DOBYEAR").value!=0 && dgebid("AGE").value!='' && dgebid("AGE").value!="Ag" && dgebid("AGE").value!="Age"){
+		var agediff = calculate_age(dgebid("DOBYEAR").value,dgebid("DOBMONTH").value,dgebid("DOBDAY").value);
+		if (agediff!=dgebid("AGE").value){
+			alert("The age value does not match with the date-of-birth. Please enter the correct date-of-birth.");
+			dgebid("AGE").focus(); 
+			return false;
+		}
+	}	
+
+	// var isdob = 1;
+	if(dgebid("DOBYEAR").value==0 || dgebid("DOBMONTH").value==0 || dgebid("DOBDAY").value==0){
+		isdob = 0; registrationform.AGE.value="";
+	}	
+/*
+	if((dgebid("DOBDAY").value==0 || dgebid("DOBMONTH").value==0 || dgebid("DOBYEAR").value==0) && isdob==1 && dgebid("AGE").value>0){
+		alert("Please select the date of birth");
+		return false;
+	}
+	*/	
+	if((registrationform.AGE.value == "Age")||(registrationform.AGE.value == "Ag") ||(registrationform.AGE.value == "")){ 
+	if (registrationform.DOBMONTH.value == "0"){alert("Select month of birth of "+getgendercon);registrationform.DOBMONTH.focus(); return false;}
+	if (registrationform.DOBDAY.value == "0"){alert("Select date of birth of "+getgendercon);registrationform.DOBDAY.focus(); return false;}
+	if (registrationform.DOBYEAR.value=="0"){alert("Select year of birth of "+getgendercon); registrationform.DOBYEAR.focus(); return false;}}else{
+	if(!ValidateNo(registrationform.AGE.value, "0123456789")){alert("Please enter a valid age."); registrationform.AGE.focus(); return false;}}
+	var age = parseInt(registrationform.AGE.value);
+	var calyear = displayage(registrationform.DOBYEAR.value,registrationform.DOBMONTH.value,registrationform.DOBDAY.value, 'years', 0, 'rounddown')
+	if ((age<21) && (registrationform.GENDER[0].checked) && (registrationform.AGE.value!="Age" || registrationform.AGE.value!="")) {alert("Invalid, only persons who are 21 years or more can register the profile.");registrationform.DOBDAY.focus();return false;}
+	if ((registrationform.AGE.value=="Age" || registrationform.AGE.value=="") && (calyear < 21) && (registrationform.GENDER[0].checked)) {alert("Invalid, only persons who are 21 years or more can register the profile.");registrationform.DOBDAY.focus();return false;}
+	if (age < 18 && registrationform.GENDER[1].checked && (registrationform.AGE.value!="Age" || registrationform.AGE.value!="")) {alert("Prospect should be 18 years to register.");registrationform.DOBDAY.focus();return false;}
+	if ((registrationform.AGE.value=="Age" || registrationform.AGE.value=="") && calyear < 18 && registrationform.GENDER[1].checked) {alert("Prospect Should be 18 years to Register.");registrationform.DOBDAY.focus();return false;}
+	if ( age > 70 && calyear > 70) {alert("Maximum age allowed is 70.");registrationform.AGE.focus( );return false;}	
+
+	
+	if ( registrationform.GENDER[0].checked && registrationform.AGE.value != "" && registrationform.AGE.value < 21) {alert( "You must be atleast 21 yrs old to register." );registrationform.AGE.focus( );return false;}	
+	
+	if ( registrationform.RELIGION.selectedIndex == 0 ) {alert( "Select religion of "+getgendercon );registrationform.RELIGION.focus( );return false;}
+	if (registrationform.MOTHERTONGUE.value == '0') {alert ('Select mother tongue of '+getgendercon);registrationform.MOTHERTONGUE.focus();return false;}		
+	if ((registrationform.CASTE_NORMAL.value == 'casteselect0')||(registrationform.CASTE_NORMAL.value == '00')) {alert ('Select caste / division of '+getgendercon);registrationform.CASTE_NORMAL.focus();return false;}
+	if (dgebid('spnFreeTxt').style.display == "block")
+	{
+		if ((registrationform.CASTE_FREETEXT.value=="- Enter caste -") || (IsEmpty(registrationform.CASTE_FREETEXT,'text'))) {
+			alert("Please enter valid caste."); registrationform.CASTE_FREETEXT.focus(); return false;
+		}
+	}
+	if (registrationform.COUNTRY.value == '0') {alert ('Select country.');registrationform.COUNTRY.focus();return false;}	
+	
+	if((registrationform.MOBILENO.value=="Mobile Number") && (document.getElementById("PHONENO")) && (registrationform.PHONENO.value=="Landline Number")){
+		alert('Please enter mobile/landline number.');
+		registrationform.MOBILENO.focus();
+
+		return false;
+	}
+
+	if((registrationform.MOBILENO.value=="Mobile Number")){
+		alert('Enter mobile number.');
+		registrationform.MOBILENO.focus();
+		return false;
+	}
+
+	if ((registrationform.MOBILENO.value!="Mobile Number")||((document.getElementById("PHONENO")) && (registrationform.PHONENO.value!="Landline Number")))
+	{
+		if (registrationform.MOBILENO.value!="Mobile Number")
+		{			
+			//if( !ValidateNo( registrationform.MOBILENO.value, "0123456789" ) ) {alert("Please enter valid mobile number");registrationform.MOBILENO.focus();return false;}
+			//if( ValidateNo( registrationform.MOBILENO.value, "0123456789" ) ) {
+				var Mcncode = registrationform.M_COUNTRYCODE.value;
+
+				var val = registrationform.MOBILENO.value;
+				val = val.replace(/-|\+|\s/g, '');
+				uaeval=val;
+				val=val.replace(/^0{1,}/,"");
+				if( !ValidateNo( val, "0123456789" ) ) {alert("Invalid. Enter only a valid mobile number.");registrationform.MOBILENO.focus();return false;}
+				if(Mcncode == 98) {	// for india
+					//var startstr = val.charAt(0);
+					var iChars = "!@#$%^&*()=[]\\\';,/{}|\":<>?";
+					for (var i = 0; i < registrationform.MOBILENO.value.length; i++) {
+						if (iChars.indexOf(registrationform.MOBILENO.value.charAt(i)) != -1) {
+							alert("Invalid. Enter only a valid mobile number.");
+							registrationform.MOBILENO.focus();
+							return false;
+						}
+					}
+					if(val.match(/^([0-9])\1*$/)!=null){
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+					else if(val.match(/^.*?([6-9]{1})([0-9]{9})$/)==null){
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+					else
+						registrationform.EMAIL.focus();
+					/*if(startstr == "7" || startstr == "8" || startstr == "9")  {
+						if(val.length==12){ 
+							val = val.substr(2);
+						}
+						if(val.length>=10 && val.length<=12 && val > 0){
+							registrationform.EMAIL.focus();
+						}
+						else{
+							alert("Please enter a valid mobile number.");
+							registrationform.MOBILENO.focus();
+							return false;
+						}
+					} else {
+						alert("Please enter a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}*/
+				}
+				else if(Mcncode == 39 || Mcncode == 222) {	// for US and canada
+					if(val.substr(0,1)=='1'){ 
+						val = val.substr(1);
+					}
+					if(val.length>=10 && val.length<=12 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}	
+				else if(Mcncode == 220) { //uae
+					var chk=true;
+					if(uaeval.substr(0,1)>0){ 
+						chk=false;
+					}
+					
+					var reg = /^[0-9]{9,10}$/;			
+				    err = reg.test(uaeval);
+			
+					if(uaeval <= 0) 
+						err = false;
+					if(err==true &&  (uaeval.length==9 || (uaeval.length==10 && chk==true))) {registrationform.EMAIL.focus();}else  {alert("Please enter a valid mobile number");
+					registrationform.MOBILENO.focus();
+					return false;}
+				}
+				else if(Mcncode == 185 || Mcncode == 114 || Mcncode == 161 || Mcncode == 17 || Mcncode == 173) { //uae
+							
+					if(Mcncode == 185){
+						var reg = /^[0-9]{9}$/;			
+			        	err = reg.test(uaeval);
+					}else{
+						var reg = /^[0-9]{8}$/;			
+			        	err = reg.test(uaeval);
+					}
+			
+					if(uaeval <= 0) 
+						err = false;
+					if(err==true && uaeval.substr(0,1)>0 )  {registrationform.EMAIL.focus();}else  {alert("Please enter a valid mobile number");
+					registrationform.MOBILENO.focus();
+					return false;}
+				}
+				else if(Mcncode == 13) {	// for Australia
+					if(val.substr(0,2)=='61'){ 
+						val = val.replace(/^61/,"");
+					}
+					if(val.length>=9 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}	
+				else if(Mcncode == 189) {	// for singapore 
+					if(val.substr(0,2)== '65'){
+						val = val.replace(/^65/,"");
+					}
+					if(val.length>=8 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}
+				else if(Mcncode == 129) {	// for Malaysia
+					if(val.substr(0,2)=='60'){ 
+						val = val.replace(/^60/,"");
+					}
+					if(val.length>=9 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}
+				else if(Mcncode == 221) {	// for UK 
+					if(val.substr(0,2)=='44'){ 
+						val = val.replace(/^44/,"");
+					}
+					if(val.length>=8 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}
+				else {	
+					if(val.length>=8 && val > 0){
+						registrationform.EMAIL.focus();
+					}
+					else{
+						alert("Invalid. Enter only a valid mobile number.");
+						registrationform.MOBILENO.focus();
+						return false;
+					}
+				}
+			//}
+		}
+		if ((document.getElementById("PHONENO")) && (registrationform.PHONENO.value!="Landline Number"))
+		{
+			if ((registrationform.AREACODE.value=="Area Code")&&(registrationform.AREACODE.value=="STD Code")) { alert("Please enter valid Area/STD code.");registrationform.AREACODE.focus();return false; }
+			if( !ValidateNo( registrationform.AREACODE.value, "0123456789" ) ) {alert("Please enter valid Area/STD code.");registrationform.AREACODE.focus();return false;}
+			if (IsEmpty(registrationform.PHONENO,'text')) { alert ('Please enter valid landline number.');registrationform.PHONENO.focus();return false; }
+			if( !ValidateNo( registrationform.PHONENO.value, "0123456789" ) ) {alert("Please enter valid landline number.");registrationform.PHONENO.focus();return false;}
+		
+			if( ValidateNo( registrationform.PHONENO.value, "0123456789" ) ) 
+			{				
+				var totlen;
+				var stdcode = registrationform.AREACODE.value;
+
+				if(registrationform.COUNTRY.value == 222 || registrationform.COUNTRY.value == 39) {	//us and canada
+					var phonereg = new RegExp('^[0-9]+$');				
+					stdcode = stdcode.replace(/-|\+|\s/g, '');
+					if(stdcode.substr(0,1)=='0' || stdcode.substr(0,1)==0) { var areacode = stdcode.substring(1); } else { var areacode = stdcode; }
+					totlen = areacode.length + registrationform.PHONENO.value.length;
+					if (totlen!=10) { alert("Please enter valid area code/phone number.");registrationform.AREACODE.focus();return false; }
+				}
+				else if(registrationform.COUNTRY.value == 98) 
+				{	//india
+					var indiareg = new RegExp('^[0-9]+$');
+					if(stdcode.substr(0,1)=='0' || stdcode.substr(0,1)==0) { var areacode = stdcode.substring(1); } else { var areacode = stdcode; }
+					totlen = areacode.length + registrationform.PHONENO.value.length;
+					if (totlen!=10) { alert("Please enter valid STD code/phone number.");registrationform.AREACODE.focus();return false; }
+				}
+				else if (registrationform.COUNTRY.value==220) 
+				{ //uae
+					if (registrationform.PHONENO.value.length<7) {alert("Please enter valid landline number.");registrationform.PHONENO.focus();return false;}
+				}
+				else if (registrationform.COUNTRY.value==13 || registrationform.COUNTRY.value==189) 
+				{ //Aus and singapore
+					if (registrationform.PHONENO.value.length<8) {alert("Please enter valid landline number.");registrationform.PHONENO.focus();return false;}				
+				}else{
+					if (registrationform.PHONENO.value.length<6) {alert("Please enter valid landline number.");registrationform.PHONENO.focus();return false;}
+				}
+			}
+		}
+	}
+	var rege = new RegExp(/^([0-9]){6,20}$/);
+	if ((registrationform.EMAIL.value == 'E-mail')||(registrationform.EMAIL.value == '')) {alert ('Enter e-mail ID.');registrationform.EMAIL.focus();return false;}
+	if (ValidateEmail(registrationform.EMAIL.value) == false) {alert ('Invalid. Enter a valid e-mail ID.');registrationform.EMAIL.focus();return false;}
+	if (registrationform.PASSWD1.value == 'Password' || registrationform.PASSWD1.value.length==0) {alert ('Enter password.');registrationform.PASSWD1.focus();return false;}
+	if ( registrationform.PASSWD1.value.length < 6 ){alert("Invalid password. Password should be between 6-20 characters.");	registrationform.PASSWD1.focus(); return false;}
+	var pwd1=registrationform.PASSWD1.value;
+	pwd1=pwd1.toUpperCase();
+	var una=registrationform.NAME.value;
+	una=una.toUpperCase();
+	if (pwd1 == una) {alert("Invalid. Name and password cannot be the same.");registrationform.PASSWD1.focus( );return false;}
+	if(rege.test(pwd1)) {alert("Sorry, your password has been rejected.It is recommended that you submit a password with alphanumeric characters.");registrationform.PASSWD1.focus( );return false;}
+	tmpPass = registrationform.PASSWD1.value;
+	goodPasswd = 1;
+	for( var idx=0; idx< tmpPass.length; idx++ ) {
+		ch = tmpPass.charAt(idx);
+		if( !((ch>='a') && (ch<='z')) && !((ch>='A') && (ch<='Z')) && !((ch>=0) && (ch <=9)) || (ch==' ')) { goodPasswd = 0;break; }
+	}
+	//if ( goodPasswd ==0 ) {alert("Invalid. Spaces and special characters are not allowed in the password.");registrationform.PASSWD1.focus( );return false;}	
+
+	if (registrationform.AGE.value=="Age") { registrationform.AGE.value=""; }
+	
+
+	if ((document.getElementById("AREACODE")) && ((registrationform.AREACODE.value=="Area Code") ||(registrationform.AREACODE.value=="STD Code"))) { registrationform.AREACODE.value=""; }
+
+	if ((document.getElementById("PHONENO")) && (registrationform.PHONENO.value=="Landline Number")) {registrationform.PHONENO.value="";
+	}
+
+	if (registrationform.MOBILENO.value=="Mobile Number") { registrationform.MOBILENO.value=""; }
+
+if (registrationform.TERMS.checked === false)
+	{
+		alert("Please read and confirm acceptance of our Terms and Conditions,\nPrivacy Policy, and to receive emails and telephonic communications from us.");
+		return false;
+	}
+
+	var dnames=domain_return(MOTHERTONGUE_DOMAIN_MAPPING[registrationform.MOTHERTONGUE.value]);
+	if($("#GOSECURE").val() == "Y") {
+		var regaction="https://secure."+dnames+"matrimony.com/register/regredirect.php?REGTRK=SRVPREG";
+	} else {	
+		var regaction="//profile."+dnames+"matrimony.com/register/campaignregistration.php?REGTRK=SRVPREG";
+	}
+
+	registrationform.action=regaction;
+	registrationform.submit();
+
+}
+/* registrationform Validate */
+
+function show_gen() {
+	var registrationform = this.document.registrationform;
+	pc_val=registrationform.REGISTERED_BY.value;
+	
+	if(pc_val==8 || pc_val==9 || pc_val==10 || pc_val==11) {
+		if(pc_val==8){registrationform.GENDER[0].checked=true;gen_val="M";}
+		if(pc_val==9){registrationform.GENDER[1].checked=true;gen_val="F";}
+		if(pc_val==10){registrationform.GENDER[0].checked=true;gen_val="M";}
+		if(pc_val==11){registrationform.GENDER[1].checked=true;gen_val="F";}
+		
+		var c=registrationform.GENDER.length;for(i=0;i<c;i++){registrationform.GENDER[i].disabled=true;}
+	}
+	
+	if(pc_val==1 || pc_val==4 || pc_val==5)	{
+		gen_val=0;
+		var c=registrationform.GENDER.length;for(i=0;i<c;i++){registrationform.GENDER[i].checked=false;registrationform.GENDER[i].disabled=false;}
+	}
+	if(gen_val == "M") {
+		dgebid("NAME").value="Groom's Name";
+	} else if(gen_val == "F"){
+		dgebid("NAME").value="Bride's Name";
+	} else {
+		dgebid("NAME").value="Name";
+	}
+	
+	if(pc_val==1 || pc_val==8 || pc_val==9)	{
+		$("#ageblock").hide();
+		$("#AGE").val("");
+	} else {
+		//$("#ageblock").show();
+		$("#ageblock").hide();
+	}
+	
+	dgebid("GEN_VAL").value = gen_val;
+}
+
+/* Age Validate { */
+function ageclk() { $("DOBDAY").value="0";$("DOBMONTH").value="0";$("DOBYEAR").value="0"; }
+function agesel() { //$("AGE").value="Age"; 
+if(dgebid("DOBDAY").value!=0 && dgebid("DOBMONTH").value!=0 && dgebid("DOBYEAR").value!=0){
+		var agediff = calculate_age(dgebid("DOBYEAR").value,dgebid("DOBMONTH").value,dgebid("DOBDAY").value);
+		dgebid("AGE").value = agediff;
+	}
+}
+
+function chkage(){
+	if(dgebid("DOBDAY").value!=0 && dgebid("DOBMONTH").value!=0 && dgebid("DOBYEAR").value!=0 && dgebid("AGE").value!='' && dgebid("AGE").value!="Ag" && dgebid("AGE").value!="Age"){
+		var agediff = calculate_age(dgebid("DOBYEAR").value,dgebid("DOBMONTH").value,dgebid("DOBDAY").value);
+		if (agediff!=dgebid("AGE").value){
+			alert("The age value does not match with the date-of-birth. Please enter the correct date-of-birth.");
+			 return false;
+		}
+	}
+}
+/* Age Validate } */
+
+
+/* register form  } */
+
+function calculate_age(dobyear,dobmonth,dobday){   
+    var diff = '';
+    if(dobyear!=0 && dobmonth!=0 && dobday!=0){
+        var today = new Date(dgebid('todayYear').value,dgebid('todayMonth').value-1,dgebid('todayDay').value);  
+        var dob = new Date(dobyear,dobmonth-1,dobday);
+        var one_year = 1000*60*60*24*365.25;
+        diff = today-dob;   
+        diff = Math.floor(diff/one_year);
+    }
+    return diff;   
+}
+
+
+function updateDay(change,formName,yearName,monthName,dayName){
+  var form = document.forms[formName];
+  var yearSelect = form[yearName];
+  var monthSelect = form[monthName];
+  var daySelect = form[dayName];
+  var year = yearSelect[yearSelect.selectedIndex].value;
+  var month = monthSelect[monthSelect.selectedIndex].value;
+  var day = daySelect[daySelect.selectedIndex].value;
+  if(month>0){
+     if(change == 'month' || (change == 'year' && month == 2)){
+      var i=31;
+      var flag = true;
+      while(flag){
+       var date = new Date(year,month-1,i);
+       if(date.getMonth() == month - 1){
+        flag = false;
+       }else{
+        i=i-1;
+       }
+      }
+      daySelect.length = 0;
+      daySelect.length = i;
+      var j=1;
+	  daySelect[0] = new Option('DD',0);
+      while(j <= i){			 
+       daySelect[j] = new Option(j,j);		  
+       j=j+1;
+      }
+	  if(day>=i){
+		  daySelect.selectedIndex = i;
+	  }else if(day > 0 && day<i){
+		  daySelect.selectedIndex = day;
+	  }else{
+		  daySelect.selectedIndex = 0;
+	  }
+     }
+  }
+}
+
+function loadDOByear()
+{
+	var registrationform = this.document.registrationform;
+	if(registrationform.GENDER[0].checked==true){gen_val="M";}
+	if(registrationform.GENDER[1].checked==true){gen_val="F";}
+
+	if(gen_val=="M")
+	{
+		
+		var currYear = document.getElementById("todayYear").value;
+		var startYear = currYear - 21;
+		var endYear = startYear - 70;
+		var newOption = document.getElementById("DOBYEAR").options.length = 0;
+		var newOption = '<option value="0">YYYY</option>';
+		$('#DOBYEAR').append(newOption);
+		for (var i=startYear;i>=endYear;i--){ 
+			var newOption = $('<option value="'+i+'">'+i+'</option>');
+			$('#DOBYEAR').append(newOption);
+		}
+	}
+	if(gen_val=="F")
+	{
+		
+		var currYear = document.getElementById("todayYear").value;
+		var startYear = currYear - 18;
+		var endYear = startYear - 70;
+		var newOption = document.getElementById("DOBYEAR").options.length = 0;
+		var newOption = '<option value="0">YYYY</option>';
+		$('#DOBYEAR').append(newOption);
+		for (var i=startYear;i>=endYear;i--){ 
+			var newOption = $('<option value="'+i+'">'+i+'</option>');
+			$('#DOBYEAR').append(newOption);
+		}
+	}
+}
+function gentrack(){
+	var registrationform = this.document.registrationform;
+	pcc_val=registrationform.REGISTERED_BY.value;
+	
+	if(pcc_val==8 || pcc_val==9 || pcc_val==10 || pcc_val==11) {
+		if(pcc_val==8 || pcc_val==10){var gender_val='Sregform-male'; var gatrackgen = "#gatrack-gender-m-count";}
+		if(pcc_val==9 || pcc_val==11){var gender_val='Sregform-female'; var gatrackgen = "#gatrack-gender-f-count";}
+	}else return '';
+	var val=0; 
+	val = RegGATrack(pcc_val,gender_val,$(gatrackgen).val(),1);
+	if(val==1){$(gatrackgen).val(1);}
+}
+function RegGATrack(CurVal,CurId,gatrackcount,gentrack){	
+	var flag = 0;
+	
+	var path ="";
+	var pushval = 1;
+	
+	if ((CurVal.length > 0) && (CurVal !=0)) {
+		
+			path = '/GAVirtual/'+CurId;
+		
+	}
+	if((path!="") && (gatrackcount==0)){
+		pushval = _gaq.push(['_trackPageview',path]);
+		flag = 1;
+		return flag; // this return is for - if-incase error in GA track
+	}
+	return flag;
+}	
+
+function onTtip(cnyVal){
+	if(cnyVal != 98 || cnyVal == 'undefined'){
+		document.getElementById("tooltipCN").style.display = "block"; 
+		registrationform.MOBILENO.value = "";
+		registrationform.MOBILENO.focus();
+	}
+	else if (cnyVal == 98){
+		document.getElementById("tooltipCN").style.display = "none"; 
+		registrationform.MOBILENO.setAttribute("onFocus","");
+		registrationform.MOBILENO.value = "";
+		registrationform.MOBILENO.focus();
+	}
+}
+
+function offTtip(){
+	document.getElementById("tooltipCN").style.display = "none"; 
+	registrationform.MOBILENO.setAttribute("onFocus","if(this.value=='Mobile Number') {this.value='';}");
+}
+function mothertongueauto(){
+	var mothertongue_value = document.getElementById("MOTHERTONGUE").value;
+	if(mothertongue_value > 0)
+		makeDrequest(mothertongue_value);
+}

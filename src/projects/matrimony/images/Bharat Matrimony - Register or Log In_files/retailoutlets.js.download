@@ -1,0 +1,112 @@
+	
+function showAddress()
+{		
+	if(document.getElementById("state").value == 0)
+		{
+			  alert("Please Select state ");
+			  document.getElementById("state").focus();
+			  return false;
+		}
+	 else
+		 {
+			 document.outlet.submit();
+		 }
+ }
+	
+function showAddresspop()
+{		
+	if(document.getElementById("statepop").value == 0)
+		{
+			  alert("Please Select state ");
+			  document.getElementById("statepop").focus();
+			  return false;
+		}
+	 else
+		 {
+			 document.outletpop.submit();
+		 }
+ }
+
+function clsaddr(addrid)
+{
+	document.getElementById('d_'+addrid).className='inactive';//close 
+	document.getElementById(addrid).style.display="none";
+}
+function closediv(id)
+{		
+	document.getElementById(id).style.display="none";
+	if(document.getElementById('activepanel')!=null){
+	document.getElementById('activepanel').className='inactive';
+	}
+	//close 
+
+}
+
+
+function show_genfun() {
+	var registrationform = this.document.registrationform;
+	pc_val=registrationform.REGISTERED_BY.value;
+	
+	if(pc_val==8 || pc_val==9 || pc_val==10 || pc_val==11) {
+		if(pc_val==8){registrationform.GENDER[0].checked=true;gen_val="M";}
+		if(pc_val==9){registrationform.GENDER[1].checked=true;gen_val="F";}
+		if(pc_val==10){registrationform.GENDER[0].checked=true;gen_val="M";}
+		if(pc_val==11){registrationform.GENDER[1].checked=true;gen_val="F";}
+		
+		var c=registrationform.GENDER.length;for(i=0;i<c;i++){registrationform.GENDER[i].disabled=true;}
+	}
+	
+	if(pc_val==1 || pc_val==4 || pc_val==5)	{
+		gen_val=0;
+		var c=registrationform.GENDER.length;for(i=0;i<c;i++){registrationform.GENDER[i].checked=false;registrationform.GENDER[i].disabled=false;}
+	}
+
+	if(pc_val==8){
+		$('#mpname').html("Son's Name");
+	}else if(pc_val==9){
+		$('#mpname').html("Daughter's Name");
+	}else if(pc_val==10){
+		$('#mpname').html("Groom's Name");
+	}else if(pc_val==11){
+		$('#mpname').html("Bride's Name");
+	}else if(pc_val==4){
+		$('#mpname').html("Relative's Name");
+	}else if(pc_val==5){
+		$('#mpname').html("Friend's Name");
+	}else{
+		$('#mpname').html("Name");
+		}
+	
+	if(pc_val==1 || pc_val==8 || pc_val==9)	{
+		$("#ageblock").hide();
+		$("#AGE").val("");
+		$('#mpage').html("DOB");
+	} else {
+		//$("#ageblock").show();
+		$("#ageblock").hide();
+		//$('#mpage').html("Age");
+		$('#mpage').html("DOB");
+	}
+	
+	dgebid("GEN_VAL").value = gen_val;
+}
+function clearField(val)
+{
+	var val = val;
+	if(val == 'Name')
+		document.getElementById('MEMBERNAME').value = '';
+
+	if(val == 'Phone No.')
+		document.getElementById('PHNO').value = '';
+}
+
+function setValueField(val)
+{
+	var val = val;
+	var name = 	document.getElementById('MEMBERNAME').value;
+	var phoneno = 	document.getElementById('PHNO').value;
+	if(name == '')
+		document.getElementById('MEMBERNAME').value = 'Name';
+	if(phoneno == '')
+		document.getElementById('PHNO').value = 'Phone No.';
+}

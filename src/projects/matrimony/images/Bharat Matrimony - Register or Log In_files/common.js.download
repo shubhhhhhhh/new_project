@@ -1,0 +1,1376 @@
+// global variable
+
+var moduleId = "";
+var ivrspriorityflag = 0;
+
+	function dgebid(obj){
+		if(document.getElementById){
+			if(document.getElementById(obj)!=null){return document.getElementById(obj)}else{return "";}
+		}else if(document.all){
+			if(document.all[obj]!=null){return document.all[obj]}else{return "";}
+		}
+	}
+
+	function toggle(show,hide){
+		if(!hide){
+			if (dgebid(show).style.display != "none") {dgebid(show).style.display = 'none';} else {dgebid(show).style.display = "";}
+		}else{		
+			dgebid(hide).style.display="none";
+			dgebid(show).style.display="block";
+		}
+	}
+
+	function tab(id,ttab,cname,csson,cssoff) {		
+		for (i=1; i<=ttab; i++){
+			container = cname + i;			
+			if(id == "l"+i && container!=undefined){dgebid(container).style.display = "block"; dgebid("l"+i).className= csson;}
+			else if(container!=undefined){dgebid(container).style.display = "none"; dgebid("l"+i).className= cssoff;}
+		}
+		if(id == 'l1'){
+			var gactURL = "/profiledetail/viewprofile.php?gaact=VPMPTB&gasrc=VP" ;
+			_gaq.push(['_trackPageview',gactURL]);
+		}
+		if(id == 'l2'){
+			var gactURL = "/profiledetail/viewprofile.php?show=facebook&gaact=VPSPTB&gasrc=VP" ;
+			_gaq.push(['_trackPageview',gactURL]);
+		}
+		if(id == 'l3'){
+			var gactURL = "/profiledetail/viewprofile.php?show=linkedin&gaact=VPPPTB&gasrc=VP" ;
+			_gaq.push(['_trackPageview',gactURL]);
+		}
+	}
+
+
+	function genNumbers() {
+	  var d=new Date();
+	  var rand_flag = "sr"+d.getSeconds()+"we";
+	  return rand_flag;
+	}	
+
+	function findloc()
+	{
+		var loc=location.href;
+		loc=loc.toLowerCase();
+		loc=loc.substring(0,(loc.indexOf('.com/')))
+		dm=loc.substring(loc.indexOf('.'),loc.length)
+		dm=dm+".com"
+		return dm
+	}
+
+	function setCookie(c_name,value)
+	{document.cookie = c_name + "=" + escape(value)+";DOMAIN="+findloc()+";PATH=/";}
+
+	/*Get cookie value*/
+	function GetCookie(name)
+	{
+	var cname = name + "=";
+	var dc = document.cookie;
+		if (dc.length > 0)
+		{ 
+			begin = parseInt(dc.indexOf(cname));
+			if (begin >= 0)
+			{
+				begin += cname.length;
+				end = dc.indexOf(";", begin);
+				if (end == -1) end = dc.length;
+				return unescape(dc.substring(begin, end));
+			}
+		}
+	return null;
+	}
+
+	function CallAlert()
+	{
+		setCookie('swf_ck','null');
+	}
+
+	//Ajax Function
+	var reqSent = 0;
+	function jqajaxRequest(file,method,qs,storeContent){ 
+		
+		if(arguments[4] =='' || arguments[4] == undefined) dt = 'HTML';
+		else dt = arguments[4];
+
+		if(arguments[5] =='' || arguments[5] == undefined) callbackfunction = '';
+		else callbackfunction = arguments[5];
+ 		qs = qs+"&closediv="+storeContent;
+
+		if(reqSent==1){return false;}else{
+		$.ajax({  
+			url: file,	
+			type: method,
+			data: qs,
+			cache:false,
+			dataType: dt,
+			//async: false,
+			timeout: 30000,
+			beforeSend: function(){ 
+				reqSent =1;
+				$("#"+storeContent).html('<center><img src="//imgs.bharatmatrimony.com/bmimgs/small_loading.gif"></center>');
+				$("#"+storeContent).show();//$.colorbox.resize();
+			},
+			success: function (html) {
+				$("#"+storeContent).fadeOut(0).fadeIn("slow");
+				$("#"+storeContent).html(html);
+				parent.$("#"+storeContent).html(html);
+
+				if(callbackfunction != ''){
+					callbackfunction(); 
+				}$(".litebox").colorbox($.extend({}, getParameters())); $.colorbox.resize();
+			},
+			complete: function (jqXHR,textStatus) {
+				reqSent =0;
+				if(textStatus == 'timeout'){
+					$("#"+storeContent).html('<div class="padd5 lheight16"><font color="#ff0000">Request timed out.</font> <a href="javascript:void(0)" onclick=jqajaxRequest(\''+file+'\',\''+method+'\',\''+qs+'\',\''+storeContent+'\',\''+dt+'\') class="clr1">Click here</a> <font color="#000000">to try again.</font><br />If you continue to face the problem there could be an issue with your<br />Internet connection.</div>');
+					var jerror = file + "?"+ qs + " : "+ textStatus;
+					WriteToErrorFile(jerror); 
+				}
+			},
+			error: function (jqXHR,textStatus,errorThrown) { 
+				if(jqXHR.status == 500 || jqXHR.status == 404){
+					var jerror = file + "?"+ qs + " : " + errorThrown;
+					WriteToErrorFile(jerror);
+				}
+			}
+		}); }
+	}
+
+
+	function WriteToErrorFile(errorURL){
+		var replaceerrorUrl=errorURL.replace('//','');
+		var qstrring=replaceerrorUrl.replace(/&/g,'~');
+		$.ajax({
+			url	: "/iptracking.php",
+			type	: 'GET',
+			data	: 'fname='+qstrring+'~trand='+genNumbers(),
+			success: function (html) {  }		
+		});	
+	}
+
+
+	function getParameters(){
+		var
+		settingsObject = {},
+		hash,
+		hashes = location.search.substring(1).split(/&/);
+		for(var i = 0; i < hashes.length; i++){
+			hash = hashes[i].split('=');
+			settingsObject[hash[0]] = hash[1];
+		}
+		return settingsObject;
+	}
+
+
+
+
+	// Common functions used in bm
+
+function IsEmpty(obj, obj_type)
+{
+	if (obj_type == "text" || obj_type == "password" || obj_type == "textarea" || obj_type == "file")	{
+		var objValue;		
+		objValue = $(obj).attr("value").replace(/\s+$/,"");
+		if (objValue.length == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (obj_type == "select" || obj_type == "select-one") {
+		for (i=0; i < obj.length; i++) {
+			if (obj.options[i].selected) 
+				{
+					if(obj.options[i].value==" ") 
+					{return true;obj.focus();} else {return false;}
+					
+					if(obj.options[i].value == "0") 
+					{
+						if(obj.options[i].seletedIndex == "0") 
+						{return true;obj.focus();}
+					} else {return false;}
+				}
+			
+		}
+		return true;	
+	} else if (obj_type == "radio" || obj_type == "checkbox") {
+		if (!obj[0] && obj) {
+			if (obj.checked) {
+				return false;
+			} else {
+				return true;	
+			}
+		} else {
+			for (i=0; i < obj.length; i++) {
+				if (obj[i].checked) {
+					return false;
+				}
+			}
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+
+function CompareValue( NumStr, pattern )
+{
+	for( var Idx = 0; Idx < NumStr.length; Idx ++ )
+	{
+		 var Char = NumStr.charAt( Idx );
+		 var Match = false;
+
+		for( var Idx1 = 0; Idx1 < pattern.length; Idx1 ++)
+		{
+		 if( Char == pattern.charAt( Idx1 ) )
+		 Match = true;
+		}
+		if ( !Match )
+		return false;
+ 	}
+   	return true;
+}
+
+
+function ValidateEmail(Email)
+{
+	var funRegExp	      = new RegExp("^[A-Za-z0-9][A-Za-z0-9_\\.\-]*\\@[a-zA-Z0-9\-]+\\.[a-zA-Z]+[\\.]?[a-zA-Z]*$");
+	if (!Email.match(funRegExp)) { return false; }//if
+	return true;
+}
+
+function enterfiled(rowid)
+{document.getElementById(rowid).className="rowcolor";}
+
+function onexit(rowid)
+{document.getElementById(rowid).className="normalrow";}
+
+function ChkEmpty(obj,obj_type,rowid,spanname,msg)
+{	
+	if (obj_type=="text" || obj_type=="password" || obj_type=="textarea" || obj_type=="file")
+	{
+		var objValue;
+		objValue = obj.value.replace(/\s+$/,"");
+		if (objValue.length == 0)
+		{document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML=msg;return true;} 
+		else {document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML=" ";return false;}
+	} 
+	
+	if (obj_type == "select") 
+	{
+		if (obj.selectedIndex==0)
+		{document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML=msg;return true;} 
+		else {document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML="";return false;}
+		return true;	
+	} 
+	
+	if (obj_type == "radio" || obj_type == "checkbox") 
+	{
+		var objlength=obj.length
+		var objcount=0;
+		for (i=0;i<objlength;i++ )
+		{
+			if(obj[i].checked){objcount=1;break;}else{objcount=0;}
+		}
+		if(objcount==0)
+		{document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML=msg;}
+		else{document.getElementById(rowid).className="normalrow";document.getElementById(spanname).innerHTML=" ";}
+		
+		return true;
+	} 
+	
+		return false;
+}
+
+
+function ValidateNo( NumStr, String )
+{
+	for( var Idx = 0; Idx < NumStr.length; Idx ++ )
+	{
+		 var Char = NumStr.charAt( Idx );
+		 var Match = false;
+
+		for( var Idx1 = 0; Idx1 < String.length; Idx1 ++)
+		{
+		 if( Char == String.charAt( Idx1 ) )
+		 Match = true;
+		}
+
+		if ( !Match )
+		return false;
+ 	}
+   	return true;
+}
+
+function replaceAlpha(strIn) {
+	var strOut='';
+	for(var i=0 ; i < strIn.length ; i++) {
+		var cChar=strIn.charAt(i);
+		if((cChar >= 'A' && cChar <= 'Z') || (cChar >= 'a' && cChar <= 'z') || (cChar >= '0' && cChar <= '9')) {
+			strOut += cChar;
+		} else {
+			strOut += "_";
+		}
+	} return strOut;
+}
+
+var t_msgn;
+
+function launchIC(userID,destinationUserID) // click to open for chat online link
+{
+	var cookary=GetCookie("LOGININFO").split("^|");
+	var entrytype=cookary[7];
+	var Gender = cookary[1];
+	if(entrytype == 'R')
+	{
+		GAeventTrk('ChatLink',Gender+'PaidMemberClicked',$(location).attr('pathname'));
+	}
+	if(NODECHAT!=undefined && NODECHAT=="1"){
+
+		var memberIdArr = destinationUserID.split("_");
+		jqcc.cometchat.chatWith(memberIdArr[0]);
+
+	}else{
+
+		cmsgreq='';	 // test should remove
+		var dest_id=destinationUserID.split('_');
+
+		if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
+		{ 
+			var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+			if (ffversion>=3)
+			{winwidth="500";winheight="310";}
+			else 
+			{winwidth="500";winheight="310";}
+		}
+		else if (/MSIE (\d+\.\d+);/.test(navigator.userAgent))
+		{winwidth="500";winheight="310";}
+		else
+		{winwidth="500";winheight="310";}
+		var wintitle=userID+"vs"+dest_id[0];
+
+		if(cmsgreq==1)
+		{var winurl="//chat."+DOMAINARRAY['domainnameshort']+"matrimony.com/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0];}
+		else
+		{var winurl="//"+DOMAINARRAY['domainmodule']+"/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0];}
+
+		window.open(winurl,wintitle,"width="+winwidth+",height="+winheight+",toolbar=0,directories=0,menubar=0,status=0,location=0,scrollbars=0,resizable=0");
+
+	}
+	var gactURL = "/chat/chatwindow.php?gaact=VPCHAT&gasrc=VP" ;
+	_gaq.push(['_trackPageview',gactURL]);
+}
+
+function launch_auto(userID,destinationUserID,firstmsg) //auto open and click to open via webnotification
+{
+	var dest_id=destinationUserID.split('_');	
+	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
+	{ 
+		var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+		if (ffversion>=3)
+		{winwidth="500";winheight="310";}
+		else 
+		{winwidth="500";winheight="310";}
+	}
+	else if (/MSIE (\d+\.\d+);/.test(navigator.userAgent))
+	{winwidth="500";winheight="310";}
+	else
+	{winwidth="500";winheight="310";}
+	var wintitle=userID+"vs"+dest_id[0];
+		
+	if(cmsgreq==1)
+	{var winurl="//chat."+DOMAINARRAY['domainnameshort']+"matrimony.com/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0]+"&firstmsg="+firstmsg;}
+	else
+	{var winurl="//"+DOMAINARRAY['domainmodule']+"/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0]+"&firstmsg="+firstmsg;}
+
+
+	var is_chat_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+	if(is_chat_chrome==true)
+	{
+			var newwin=window.open("","test","width=0,height=0");
+			checkPopupBlocked(newwin,userID,destinationUserID,firstmsg);
+	}
+	else
+	{
+		var popupWindowTest=null;
+		popupWindowTest=window.open(winurl,wintitle,"width="+winwidth+",height="+winheight+",toolbar=0,directories=0,menubar=0,status=0,location=0,scrollbars=0,resizable=0");
+
+		if(popupWindowTest==null) 
+		{			
+			if(cmsgreq==1)
+			{setCookie("mpb",userID+"@"+destinationUserID+"@"+firstmsg.substring(0,50));}
+			else
+			{
+				var cl_win_id="";
+				if(GetCookie("closewin")==null || GetCookie("closewin")=="null"){setCookie("closewin",dest_id[0]);}
+				else{cl_win_id=GetCookie("closewin")+"~"+dest_id[0];setCookie("closewin",cl_win_id);}
+				alert("Your popup blocker stopped an InstantCommunicator window from opening. Please disable it.");
+			}
+		}
+	}
+}
+
+function checkPopupBlocked(poppedWindow,userID,destinationUserID,firstmsg) 
+{
+ setTimeout(function(){doCheckPopupBlocked(poppedWindow,userID,destinationUserID,firstmsg);}, 5000);
+}
+
+function doCheckPopupBlocked(poppedWindow,userID,destinationUserID,firstmsg) 
+{
+    var result = false;
+    if (poppedWindow && poppedWindow.outerWidth == 0) {result = true;}
+
+	if(result)
+    {//The popup was blocked.
+		poppedWindow.close();		
+		if(cmsgreq==1)
+		{setCookie("mpb",userID+"@"+destinationUserID+"@"+firstmsg.substring(0,50));}
+		else{alert("Your popup blocker stopped an InstantCommunicator window from opening. Please disable it.");}
+	}
+	else
+	{//The popup was not blocked.
+		poppedWindow.close();
+		var dest_id=destinationUserID.split('_');
+		var wintitle=userID+"vs"+dest_id[0];
+		
+		if(cmsgreq==1)
+		{var winurl="//chat."+DOMAINARRAY['domainnameshort']+"matrimony.com/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0]+"&firstmsg="+firstmsg;}
+		else
+		{var winurl="//"+DOMAINARRAY['domainmodule']+"/chat/chatwindow.php?myid="+userID+"&recpid="+dest_id[0]+"&firstmsg="+firstmsg;}
+
+		var cwin=window.open(winurl,wintitle,"width=500,height=310,toolbar=0,directories=0,menubar=0,status=0,location=0,scrollbars=0,resizable=0");
+	}
+}
+
+var VideoCheckRequest= funVideoMakeObject();
+function funProtectedPassword()
+{
+	var frmName	=	document.frmProtectedPassword;
+	if ((frmName.password.value).replace(' /\s+/','') == ''){
+		document.getElementById('protecterror').innerHTML='Enter Password';
+		frmName.password.value = '';
+		frmName.password.focus();
+		return false;
+	} else {
+		document.getElementById('protecterror').innerHTML='&nbsp';
+	}
+	var arguments	= 'password='+frmName.password.value+'&frmPasswordSubmit='+frmName.frmProtectedPasswordSubmit.value+'&matriId='+frmName.matriId.value;
+	var URL			=	'//'+DOMAINARRAY["domainmodule"]+'/video/video-view.php';
+	VideoCheckRequest = MakePostRequest(URL,arguments,'VideoAjaxCallBack');
+	return true;
+}//funProtectedPassword
+
+
+
+function funDisplayPassword(){
+	var frmname	=	this.document.frmPassworddisplay;
+	var arguments	= 'matriId='+frmname.matriId.value;
+	var URL			= '//'+DOMAINARRAY["domainmodule"]+'/video/video-view-password.php';
+	VideoCheckRequest = MakePostRequest(URL,arguments,'VideoAjaxCallBack');
+	return true;
+}//funDisplayPassword
+
+function funVideoSpeed(speed,oppositematriId,URL,width,height,password,name) {
+	window.open( "//"+DOMAINARRAY['domainmodule']+"/video/show-video.php?videospeed="+speed+"&matriId="+oppositematriId+"&password="+password+"&name="+name+"", "myWindow","status = 1, height ="+height+", width = "+width+", resizable = 0")
+}
+
+function VideoAjaxCallBack()
+{
+	if (VideoCheckRequest.readyState == 4) 
+	{
+		if (VideoCheckRequest.status == 200)
+		 {
+			 document.getElementById('video').innerHTML	 = VideoCheckRequest.responseText;
+
+		 }
+		 else alert('There was a problem with the request.'); 
+	}
+}//VideoAjaxCallBack
+
+function funVideoMakeObject(){
+	var response;
+	var browser = navigator.appName;
+	if(browser == "Microsoft Internet Explorer")	{
+		response = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	else {
+		response = new XMLHttpRequest();
+	}
+	return response;
+}
+
+//savesearch
+function savesearchsubmit(formid) {
+	var js_randid=genNumbers();
+	var frm=eval("document.frm_"+formid); 
+	frm.randid.value=js_randid;
+	document.forms[0].submit();
+}
+
+function formFocus(frmName) {eval('document.'+frmName+'.elements[0].focus();');}
+window.status = "BharatMatrimony.com";
+
+
+/* Toll Number {*/
+var ban_country=GetCookie("USERCNTRY");
+function hp_phone(pagefor) {
+	if(pagefor == "outletbanner") {
+		if(ban_country!=null) {
+			/* banner for india */ if(ban_country == 98) { document.getElementById('outletphnodiv').innerHTML='0-814-499-8877'; document.getElementById('outletbancountryname').innerHTML=" INDIA";}
+			/* banner for uae */ else if(ban_country == 220) { document.getElementById('outletphnodiv').innerHTML="971-4-3968637"; document.getElementById('outletbancountryname').innerHTML=" UAE";}
+			/* banner for usa */ else if(ban_country == 222) { document.getElementById('outletphnodiv').innerHTML="818-688-3593"; document.getElementById('outletbancountryname').innerHTML=" USA";}
+			/* banner for uk */ else if(ban_country == 221) { document.getElementById('outletphnodiv').innerHTML="0-808-168-3055"; document.getElementById('outletbancountryname').innerHTML=" UK";}
+			/* banner for malaysia */ else if(ban_country == 129) { document.getElementById('outletphnodiv').innerHTML="603-2272 5521"; document.getElementById('outletbancountryname').innerHTML=" MY";}
+			/* banner for other countries */ else { document.getElementById('outletphnodiv').innerHTML="0-814-499-8877 (India)"; document.getElementById('outletbancountryname').innerHTML="";}
+		}
+	} else {
+		if(ban_country!=null) {
+			/* banner for india */ if(ban_country == 98) { document.getElementById('phnodiv').innerHTML='0-814-499-8877'; document.getElementById('bancountryname').innerHTML=" INDIA"; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="1800-3000-3456"; } }
+			/* banner for uae */ else if(ban_country == 220) { document.getElementById('phnodiv').innerHTML="971-4-3968637"; document.getElementById('bancountryname').innerHTML=" UAE"; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="+97150-140-2940"; } }
+			/* banner for usa */ else if(ban_country == 222) { document.getElementById('phnodiv').innerHTML="818-688-3593"; document.getElementById('bancountryname').innerHTML=" USA"; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="8668076684"; } }
+			/* banner for uk */ else if(ban_country == 221) { document.getElementById('phnodiv').innerHTML="0-808-168-3055"; document.getElementById('bancountryname').innerHTML=" UK"; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="8081683096"; } }
+			/* banner for malaysia */ else if(ban_country == 129) { document.getElementById('phnodiv').innerHTML="603-2272 5521"; document.getElementById('bancountryname').innerHTML=" MY"; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="603-2272 5521"; } }
+			/* banner for other countries */ else { document.getElementById('phnodiv').innerHTML="0-814-499-8877 (India)"; document.getElementById('bancountryname').innerHTML=""; if (document.getElementById('privtollnum')) { document.getElementById('privtollnum').innerHTML="818-688-3593"; } }
+		}
+	}
+}
+/* Toll Number }*/
+
+/* Closing function for Express Interest and send mail and voice*/
+function closeexpmsg(divid) { 
+	//close button class name. 
+	if(divid=='Showradiodiv')
+	{
+		$('.'+divid).html(''); 
+		$('.'+divid).hide();
+	}
+	$('#'+divid).html(''); 
+	$('#'+divid).hide(); 
+	if(moduleId == "VP") {
+		$('#phouterborder').css("border-bottom","none");
+		$('#msgvoice').hide();
+	}
+	if(arguments[1] == "cbox")	{	//For view all commn
+		$.colorbox.resize();
+	}
+}
+// Function used for Apply class while clicking a link from  show all left panel
+  function ChangeHighlights(id) {
+
+    $('#eireceive').removeClass("active"); $('#eireceive').addClass("inactive");
+    $('#eisent').removeClass("active"); $('#eisent').addClass("inactive");
+    $('#rqreceive').removeClass("active"); $('#rqreceive').addClass("inactive");
+    $('#rqsent').removeClass("active"); $('#rqsent').addClass("inactive");
+    $('#inbreceive').removeClass("active"); $('#inbreceive').addClass("inactive");
+    $('#inbsent').removeClass("active"); $('#inbsent').addClass("inactive");
+    $('#vmreceive').removeClass("active"); $('#vmreceive').addClass("inactive");
+    $('#vmsent').removeClass("active"); $('#vmsent').addClass("inactive");
+    $('#notify').removeClass("active"); $('#notify').addClass("inactive");
+    $('#lvsl').removeClass("active"); $('#lvsl').addClass("inactive");
+    $('#lvvpn').removeClass("active"); $('#lvvpn').addClass("inactive");
+    $('#lvig').removeClass("active"); $('#lvig').addClass("inactive");
+    $('#lvbk').removeClass("active"); $('#lvbk').addClass("inactive");
+    $('#lvvmp').removeClass("active"); $('#lvvmp').addClass("inactive");
+    $('#lvvmpn').removeClass("active"); $('#lvvmpn').addClass("inactive");
+    $('#lvssms').removeClass("active"); $('#lvssms').addClass("inactive");
+    $('#lvrsms').removeClass("active"); $('#lvrsms').addClass("inactive");
+    
+    $('#'+id).addClass("active");$('#'+id).removeClass("inactive");
+ }
+
+function validateById(){
+	var objMValue = document.getElementById('SSID').value.replace(/\s+$/,"");
+	if (objMValue.length == 0){
+		show_menu('2', this, '121'); subTabTimeout('menu_block2','tab1','2'); show_hide_sbid("show");
+		alert("Please enter matrimony ID");
+		document.getElementById('SSID').focus();return false;
+	}
+	else {return true;}
+}
+
+function frmvalidbyid(){//Search by ID
+	if(validateById()==true){
+		document.MatriFormSBID.action="//"+DOMAINARRAY['domainmodule']+"/profiledetail/viewprofile.php?gaact=SID&gasrc=SRCH";
+		document.MatriFormSBID.submit();
+	}else return false; 
+}
+
+
+function showallAction(msgallurl,placeDiv,moduleName) {
+        msgallurl = msgallurl+'&fromVpVal='+moduleName;
+        var urlrep = msgallurl.replace("//profile."+DOMAINARRAY['domainnameshort']+"matrimony.com","");
+        _gaq.push(['_trackPageview',urlrep]);
+         $('#'+placeDiv).attr('href',msgallurl);
+		 if(moduleName!="logpin"&&placeDiv!="sendmailId" && placeDiv!="sendmailIdbtm")
+                $('#'+placeDiv).attr('class','litebox');  
+         $(".litebox").colorbox($.extend({}, getParameters())); 
+        // iframeresize();
+
+        if(msgallurl.indexOf("inbcontact.php") > -1 && $.browser.msie && ($.browser.version == "6.0" || $.browser.version == "7.0" || $.browser.version == "8.0"))    {
+                if(msgallurl.indexOf("fromVp=2") > -1)    {
+                        iframeWidth     =       "640px";
+                        iframeHeight     =       "100%";
+                } else {
+                        iframeWidth     =       "570px";
+                        iframeHeight     =       "75%";
+                }
+                $(".litebox").colorbox({ width:iframeWidth,height:iframeHeight,overflow:hidden,iframe:true,fixed:true,onLoad:function(){ setformCloseDiv(moduleName);}, 
+         onClosed:function(){$("#"+placeDiv).attr("href","javascript:;"); }
+         });  
+        } else {
+                $(".litebox").colorbox({ onLoad:function(){ setformCloseDiv(moduleName);}, 
+                onClosed:function(){$("#"+placeDiv).attr("href","javascript:;"); }
+                });
+        }
+	setformCloseDiv(moduleName);
+}
+
+ 
+function setformCloseDiv(moduleName){ 
+ 
+
+
+var splir = moduleName.slice("3");
+var exp=moduleName.slice(0,2);
+
+$("#cboxClose").remove();
+
+ if(moduleName == 'EI') 
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();eirefreshMainWindow();" class="">close</div>').appendTo('#cboxContent');
+ else  if(moduleName == 'PM') 
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();refreshMainWindow();" class="">close</div>').appendTo('#cboxContent');
+ else  if(moduleName == 'VP') 
+
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();" class="">close</div>').appendTo('#cboxContent');
+ else  if(exp == 'SH') 
+
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();shrefreshwindow(\''+splir+'\');" class="">close</div>').appendTo('#cboxContent');
+else  if(exp == 'Si') 
+
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();shrefreshwindowsix(\''+splir+'\');" class="">close</div>').appendTo('#cboxContent');
+else  if(moduleName == 'LO') 
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();refreshMsgIntPending();" class="">close</div>').appendTo('#cboxContent');
+
+
+ else 
+	  var $close = $('<div id="cboxClose" style="" onclick="$.colorbox.close();" class="">close</div>').appendTo('#cboxContent');
+}
+
+function SetPinContent(viewid,viewname,rep_ele)
+ {
+        $('#boardcontent_'+viewid).css({"width":"410px"});
+	$('.toolTipClose').hide();
+	$('.toolTipDivClose').hide();
+	var profhg = '';
+	var click_eve='';
+	cookary=GetCookie("LOGININFO").split("^|");
+	entrytype = cookary[7];
+	if(cookary[1]=="M"){
+		mgend="she";
+		mgend1="her";
+       }else{
+	       mgend="he";
+	       mgend1="him";
+       }
+	if(arguments[4]){
+	profhg=arguments[4];
+	}
+	prof_location=String(window.location);
+	prof_loc_confirm=prof_location.indexOf("profiledetail/viewprofile.php");
+	if(prof_loc_confirm==-1)
+	click_eve='stop_event(event);';
+	
+	
+	var content,CommentPresent,pincontent,pincontent1='';
+	pincontent='<div class="" id="pinprofilediv'+viewid+'"><div class="txt-center"></div><div class="mediumtxt boldtxt">Pin your profile on '+viewname+'\'s ('+viewid+') Match Board</div>';
+	CommentPresent=0;
+	if (entrytype!="F")
+	{
+	CommentPresent=1;
+	pincontent+='<div class="paddt8 paddb10"><textarea onClick="'+click_eve+'" maxlength="150" name="SendComment" id="SendComment" style="width:93%; height:50px;" class="textfield" onkeyup=\"javascript:document.getElementById(\'charcount\').innerHTML=document.getElementById(\'SendComment\').value.length;return maxLenControl(event,this,150); \" onkeydown=\"javascript:document.getElementById(\'charcount\').innerHTML=document.getElementById(\'SendComment\').value.length;return maxLenControl(event,this,150); \"></textarea><br><span id="errmsg'+viewid+'" class="errortxt"></span><div class="smalltxt clr3 fright"><div id="charcount" class="fleft paddr5">0 </div> characters entered. (Max. 150 Chars)</div><br></div><div class="smalltxt clr3 fleft" style="width:47px;font-size:10px;">Example: </div><div class="smalltxt clr3 fleft" style="font-size:10px;width:270px;">I\'m interested in your profile and if you are also interested in my profile, please let me know.</div>';
+	}
+	else
+	{
+	pincontent1='<div class="smalltxt clr3 paddt5">Pin your profile on the member\'s Match Board to make sure '+mgend+' looks at your profile.<br /><b>Note</b> : Become a paid member to pin with a personalised comment.</div>';
+	}
+	
+	if (arguments[3] && arguments[5]){
+	pincontent+='<div class="fright" style="float:right;"><input type="button" class="membutton" value="Submit" onClick="'+click_eve+'PinBoardConfirm(\''+viewid+'\',\''+viewname+'\','+CommentPresent+',\''+rep_ele+'\',\''+arguments[3]+'\',\''+arguments[5]+'\');"></div><div class="clear"></div>'+pincontent1+'</div>';
+	}
+	else if(arguments[5])
+	{ 
+	
+	pincontent+='<div class="fright" style="float:right;"><input type="button" class="membutton" value="Submit" onClick="'+click_eve+'PinBoardConfirm(\''+viewid+'\',\''+viewname+'\','+CommentPresent+',\''+rep_ele+'\',\'\',\''+arguments[5]+'\',\''+arguments[6]+'\',\''+arguments[7]+'\');"></div><div class="clear"></div>'+pincontent1+'</div>';
+	}
+	$('#boardcontent_'+profhg+viewid).html(pincontent);
+	showTooltip('boardtxt_'+profhg+viewid);
+ }
+
+ function PinBoardConfirm(ViewedID,ViewedName,CommentPresent,elemid)
+{
+	
+	var senddata,mgend,mgend1,err=0,rlycmt="",srchvar,googletrack;
+	srchvar=arguments[4];
+	viewerEntryType = 	arguments[6];
+	urlFrom = arguments[7];
+	$(".matchbrd").hide();
+	if(arguments[5]){ googletrack='&'+arguments[5];	}
+	else{ googletrack=''; }
+	if (CommentPresent==1)
+	{	
+	senddata='viewedid='+ViewedID+'&viewname='+ViewedName+googletrack+'&comments='+$("#SendComment").val();
+		if ($("#SendComment").val()=="")
+		{
+			$("#errmsg"+ViewedID).html("Please enter your message");
+			err=1;
+		}
+	}
+	else
+	{
+		senddata='viewedid='+ViewedID+'&viewname='+ViewedName+googletrack;		
+	}
+	var urlGtrack = '/profiledetail/pinedprofiles.php?'+senddata;
+	_gaq.push(['_trackPageview',urlGtrack]);
+	if (err==0){
+$.ajax({
+			url	: "//"+DOMAINARRAY['domainmodule']+"/profiledetail/pinedprofiles.php",
+			type	: 'GET',
+			data	: senddata,
+			beforeSend:function(){$("#pinprofilediv"+ViewedID).html("<center><img src='//"+DOMAINARRAY['domainnameimgs']+"/bmimgs/loading-icon.gif'></center>");},
+			success: function (htmlres) {
+                        htmlresSplit           =        htmlres.split("###");
+                        
+                        if(htmlresSplit[1] != "")       {
+                                if(urlFrom != "frmvp" && urlFrom != "srt" && urlFrom != "MVMP")      {
+                                        $('#boardcontent_'+ViewedID).attr("onclick","stop_event(event)");
+                                }
+			}
+
+			if (htmlresSplit[0]=="1")
+			{                                
+				if(GetCookie("LOGININFO")!=null && GetCookie("LOGININFO")!=""){
+				logininf_r=GetCookie("LOGININFO").split("^|");
+				//if (logininf_r[7]!="F") 
+				rlycmt=' onclick="stop_event(event);PinCommentReply(\''+ViewedID+'\')"  style="cursor:pointer;"';
+				if(logininf_r[1]=="M"){
+					 mgend="her";
+					 mgend1="her";
+				}else{
+					mgend="his";
+					mgend1="him";
+				}
+					if (srchvar)
+					{
+					$("#"+elemid).html('<a style="text-decoration:none;"  class="gpinicon" href="javascript:;" onclick="$(\'.pbrd\').hide();PinCommentReply(\''+ViewedID+'\');"></a>');
+					}
+					else
+					{
+						if(cookary[7] == 'F' && viewerEntryType=='F'){
+							styleborder = " border:0px;background:none;";
+							styleqsym = "border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -khtml-border-radius:3px; background:#fff; color:#0274CB;";
+							DispContent = '<span id="pinedprofile" >You\'re on '+mgend+' Match Board</span>';
+							$("#pipelinesym_"+ViewedID).show();
+						}else{
+							DispContent = '<span id="pinedprofile"  '+rlycmt+'><a style="text-decoration:none;">You\'re on '+mgend+' Match Board</a></span>';
+							styleborder  = ' ';
+							styleqsym = '';
+						}
+							
+							$("#"+elemid).html('<div class="buttonBdron" style="display: inline-block; width:186px; '+styleborder+'"><span class="pinBoardon fleft"></span><div class="inlineblock fleft" id="pinclick">'+DispContent+'</div><span class="vpover inlineblock clr3  boldtxt srcappendele'+ViewedID+'" onmouseover="if (!$(\'#boardcontent_'+ViewedID+'\').is(\':visible\')) showTooltip(\'tiptxt_'+ViewedID+'\')" onmouseout="hideTooltip(\'tiptxt_'+ViewedID+'\')" style="'+styleqsym+'">?</span><br clear="all"><div id="tiptxt_'+ViewedID+'" style="display:none;"><div style="width:20px; position:absolute; right:6px; top:21px; z-index:15003;" class="tiparr'+ViewedID+'"><div class="tiptopArrow"></div></div><div style="position:absolute; left:140px; top:31px; z-index:15002;text-align:left;"><div class="vp-tooltip" style="width:250px;">Match Board is a unique patent pending feature, where the members matching the basic match criteria can pin their profile on the Match Board.</div></div></div></div>');
+
+							if(urlFrom =='frmsrch' && cookary[7] == 'F' && viewerEntryType=='F'){
+								$('.srcappendele'+ViewedID).after('<span class="paddl8 paddt8" id="pipelinesym_'+ViewedID+'">|</span>');
+								$('#'+elemid+' .buttonBdron').css("width","195px");	
+								$('.tiparr'+ViewedID).css("right","14px");	
+							}else if(cookary[7] == 'F' && viewerEntryType=='F') {
+								$('#vpmatchshow').after('<span class="fleft paddt8" id="pipelinesym_'+ViewedID+'">|</span>');
+							}
+					}		
+				}
+				$("#pinprofilediv"+ViewedID).html('<center><div class="padd5">You have pinned your profile on '+ViewedName+'\'s ('+ViewedID+') Match Board. <a onclick="stop_event(event);" href="//'+DOMAINARRAY['domainmodule']+'/pinprofile/matrimonyboardviewall.php?action=mypin" target="_blank">Go to your Match Board</a></div></center>'+htmlresSplit[1]);
+				$("#boardcontent_"+ViewedID).css("margin-left","20px");
+			}
+			else
+			{
+			$("#pinprofilediv"+ViewedID).html(htmlres);
+			}			
+			}	
+		});
+	}
+		
+}
+ 
+ function PinCommentReply(viewid)
+ {
+ $('.toolTipClose').hide();
+ $('.toolTipDivClose').hide();
+var profhg = googletrack = '';
+if(arguments[1]){
+profhg = arguments[1];
+}
+if(arguments[2]){ googletrack = '&'+arguments[2]; }
+ cookary=GetCookie("LOGININFO").split("^|");
+entrytype = cookary[7];
+/*if (entrytype=="F")
+{
+$('#boardcontent_'+viewid).html('Paid member can see comments');
+}
+else
+{*/
+ $.ajax({
+			url	: "//"+DOMAINARRAY['domainmodule']+"/pinprofile/pinnedsummary.php",
+			type	: 'GET',
+			data	: 'vwid='+viewid+googletrack,
+			beforeSend:function(){$("#viewallCommDiv").html("<center><img src='//"+DOMAINARRAY['domainnameimgs']+"/bmimgs/loading-icon.gif'></center>");},
+			success: function (htmlres) {
+			$('#boardcontent_'+profhg+viewid).html(htmlres);
+			}
+ });
+ //}
+ $('#boardtxt_'+profhg+viewid).show();
+ }
+ 
+function showTooltip(txt){
+	var tiptxt = txt;
+	$("#"+tiptxt).show();
+}
+
+function hideTooltip(txt){
+	var tiptxt = txt;
+	$("#"+tiptxt).hide();
+	$("#"+tiptxt).mouseenter(function() {
+		$(this).show();
+	}).mouseleave(function() {
+		$(this).hide();
+	});
+}
+function maxLenControl(e,txtObj,Len)	{
+	if (txtObj.value.length>=Len)	{
+		if (e.keyCode==8 || e.keyCode==46 || (e.keyCode>=37 && e.keyCode<=40) || e.keyCode==36 || e.keyCode==35)	
+			return true;
+		else	{		
+			txtObj.value	=	txtObj.value.substr(0,Len);
+			return false;
+		}
+	}
+}
+
+function showToolTipDiv(url,params,serialiseno,idPos)	{
+	var urlrep = url.replace("//profile."+DOMAINARRAY['domainnameshort']+"matrimony.com","");
+	_gaq.push(['_trackPageview',urlrep]);
+	$('.pbrd').hide();
+	$('.toolTipClose').hide();
+	for(var S=0; S<=10; S++) {
+		$('#toolTipDiv_'+S).hide();
+		$('#appendId_'+S).html("");
+	}$('#appendId_'+serialiseno).html("");
+	$('.toolTipDivClose').html("");$('.toolTipDivClose').hide("");
+
+	
+	var  urlParams			=	(params==""?url:params);
+	var  paramsVal			=	{},hash,hashes = urlParams.split(/&/);
+	
+	for(var i = 0; i < hashes.length; i++)	{
+		hash 			=	hashes[i].split('=');
+		paramsVal[hash[0]] 	=	hash[1];
+	}
+	
+	
+	var  addFunc			=	(paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1?"vprefreshwindow();":"eirefreshMainWindow();");
+	$('#appendId_'+serialiseno).append('<div style="position: relative; display:none;" class="toolTipDivClose" id="toolTipDiv_'+serialiseno+'"><div id="toolTipDivArrow_'+serialiseno+'" style="width:20px; position:absolute; right: 50px; top:0px; z-index:15003;"><div class="tiptopBArrow"></div></div><div id="innerTool" style="position:absolute; right:0px;top:11px; z-index:15002;"><div style="position:absolute; right:8px; top:8px; z-index:15000;"><a href="javascript:;" class="closeEventAdd" onclick="$(\'.toolTipDivClose\').hide();'+addFunc+'"><span class="tipfectClose"></span></a></div><div class="srh-tooltip" style="width:auto; padding-top:15px;" id="SHOWDIVPOP_'+serialiseno+'"></div></div></div><div class="clear"><!-- --</div><br clear="all">');
+
+	var  showDivId        	=	"SHOWDIVPOP_"+serialiseno;
+
+	if(idPos.indexOf('AcceptButton') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-340)+"px","top":"-6px"});
+			$('#innerTool').css({"top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+			}
+	}
+	if(idPos.indexOf('AcceptLink') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-445)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('AcceptButtonOnly') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-545)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('AcceptLinkFirst') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-565)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('expInterestLink') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"top":"0px"});
+			$('#innerTool').css({"right":"0px","top":"11px"});
+			$('#toolTipDiv_'+serialiseno).css({"top":"-12px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NotInterestedButton') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"top":"-6px"});
+			$('#innerTool').css({"top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NotInterestedLink') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"right":"30px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NeedMoreInfoButton') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-315)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+
+		}
+	}
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NeedMoreTimeButton') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-315)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NeedMoreInfoLink') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-420)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos != "" && idPos != undefined){
+		if(idPos.indexOf('NeedMoreTimeLink') == 0 && (paramsVal["fromVp"]==1 || paramsVal["viewprofile"]==1)){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-420)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('SendaRemainder') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-430)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('ExpIntButton') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left-390)+"px","top":"-6px"});
+			$('#innerTool').css({"right":"0px","top":"5px"});
+			$('#toolTipDiv_'+serialiseno).css({"top":"5px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('expmsgid') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#innerTool').css({"right":"0px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+	if(idPos.indexOf('expmsgid_PH') == 0){
+		if(idPos != "" && idPos != undefined){
+			var getIdPosition 		=	$('#'+idPos).position();
+			$('#toolTipDivArrow_'+serialiseno).css({"left":(getIdPosition.left+40)+"px"});
+			$('#innerTool').css({"right":"0px"});
+			$('#toolTipDivArrow_'+serialiseno) .hide();
+		}
+	}
+ 
+	$('#toolTipDiv_'+serialiseno).show();
+	 jqajaxRequest(url,"GET",params+"&resdiv="+showDivId,showDivId); 
+	 setTimeout(function(){$('#toolTipDivArrow_'+serialiseno) .show();},1000);
+}
+
+function restoreDivPopWidth(runningno){
+	$('#SHOWDIVPOP_'+runningno).css("width","525px");
+}
+
+function stop_event(event)	
+{
+	if(event.stopPropagation){event.stopPropagation();return false;} // Firefox and chrome
+	else if(window.event){window.event.cancelBubble = true;return false;} // IE
+ }
+/*function popup_visitor(url){ 
+$("#cboxClose").remove();
+$.colorbox({open:true,opacity:5,open:true,href:url});
+}*/
+function showvoicetooltip(url,resultdiv)
+{   
+	$('.pbrd').hide();
+	$('.toolTipClose').hide();
+	$('.toolTipDivClose').hide();
+	var result="voicecontent_"+resultdiv;
+	$('#voice_'+resultdiv).css({"display":"block"});
+	jqajaxRequest(url,"GET",'',result);
+}
+function fblogincallback(){
+	var pushval = 1;
+	pushval=_gaq.push(['_trackEvent', 'LN', 'LNVFB']);
+	$.ajax({
+		data: {oauth_provider : 'facebook'},
+		url: '/login/fbloginprocess.php',
+		type: 'POST',
+		timeout: 30000,
+		success: function(data) {
+			$('body').append(data);	
+		},
+		complete: function (jqXHR,textStatus) {
+			if(textStatus == 'timeout'){
+				$("#error").css("display", "block");
+				$('#error').append('<div id="fberr"></div>');
+				$("#fberr").html('Request timed out.\nIf you continue to face the problem there could be an issue with your\nInternet connection.');
+				var jerror = "FBlogin: "+ textStatus;
+				WriteToErrorFile(jerror); 
+			}
+		},
+		error: function (jqXHR,textStatus,errorThrown) { 
+			if(jqXHR.status == 500 || jqXHR.status == 404){
+				var jerror = "FBlogin: " + errorThrown;
+				WriteToErrorFile(jerror);
+			}
+		}
+	});
+}
+
+function resetTopPanelHeight()	{
+	$("#leftrightcontainer").css("height","");
+}
+
+function ChangeHighlightsMenu(elEm,clsname){
+
+	$('.'+clsname).removeClass(clsname);
+	if(arguments[2] != "" && arguments[2] != undefined && arguments[2] != null)	{
+		$('#'+arguments[2]).addClass(clsname);
+	} else {
+		$('#'+elEm.id).addClass(clsname);
+	}
+}
+function GAeventTrk(eleobj,category,label)
+{
+	if (eleobj.type=="checkbox")
+	{
+		if (eleobj.checked)
+		{
+		_gaq.push(['_trackEvent', category, "checked", label]);
+		}
+		else
+		{	
+		_gaq.push(['_trackEvent', category, "unchecked", label]);
+		}
+	}
+	else
+	{
+	_gaq.push(['_trackEvent', eleobj, category, label]);
+	}
+
+}
+function unsetarrval(arrayname,arraykey){
+	jsontext[arrayname][arraykey]= "";
+}
+
+// Push state Ajax Function
+function PushStatejqajaxRequest(file,method,qs,storeContent,arryname){
+	var arrnm = arguments[4];
+	if(arguments[5] =='' || arguments[5] == undefined) dt = 'HTML';
+	else dt = arguments[5];
+
+	if(arguments[6] =='' || arguments[6] == undefined) callbackfunction = '';
+	else callbackfunction = arguments[6];
+	qs = qs+"&closediv="+storeContent;
+
+	if(reqSent==1){return false;}else{
+	$.ajax({  
+		url: file,	
+		type: method,
+		data: qs,
+		cache: false,
+		dataType: dt,
+		//async: false,
+		timeout: 30000,
+		beforeSend: function(){ 
+			reqSent =1;
+			$("#"+storeContent).html('<center><img src="//imgs.bharatmatrimony.com/bmimgs/small_loading.gif"></center>');
+			$("#"+storeContent).show();//$.colorbox.resize();
+		},
+		success: function (html) {
+			if(jsontext[arrnm]){
+				jsontext[arrnm][temarrykyval]=html;
+			}
+			$("#"+storeContent).html("");
+			$("#"+storeContent).fadeOut(0).fadeIn("slow");
+			$("#"+storeContent).html(html);
+			parent.$("#"+storeContent).html(html);
+
+			if(callbackfunction != ''){
+				callbackfunction(); 
+			}$(".litebox").colorbox($.extend({}, getParameters())); $.colorbox.resize();
+		},
+		complete: function (jqXHR,textStatus) {
+			reqSent =0;
+			if(textStatus == 'timeout'){
+				$("#"+storeContent).html('<div class="padd5 lheight16"><font color="#ff0000">Request timed out.</font> <a href="javascript:void(0)" onclick=PushStatejqajaxRequest(\''+file+'\',\''+method+'\',\''+qs+'\',\''+storeContent+'\',\''+dt+'\') class="clr1">Click here</a> <font color="#000000">to try again.</font><br />If you continue to face the problem there could be an issue with your<br />Internet connection.</div>');
+				var jerror = file + "?"+ qs + " : "+ textStatus;
+				WriteToErrorFile(jerror); 
+			}
+		},
+		error: function (jqXHR,textStatus,errorThrown) {
+			if(jqXHR.status == 500 || jqXHR.status == 404){
+				var jerror = file + "?"+ qs + " : " + errorThrown;
+				WriteToErrorFile(jerror);
+			}
+		}
+	}); }
+}
+
+// Display function for Pop State
+function jqajaxdisplaycallbk(displaytext,storeContent){
+	$("#"+storeContent).fadeOut(0).fadeIn("slow");
+	$("#"+storeContent).html(displaytext);
+	parent.$("#"+storeContent).html(displaytext);
+	$(".litebox").colorbox($.extend({}, getParameters())); $.colorbox.resize();
+}
+function viewhideAll(){
+	$('#colorbox,#cboxLoadedContent,#cboxClose').addClass('vpboxsettings');
+	$('#cboxOverlay').css({'background':'none','background-color':'black',"opacity":"0.8"});
+	$("#SHOWDIVPOP3").hide();
+    $(".tiptopArrow").hide();
+}
+function cboxcssreset(){
+	$('#cboxOverlay').css('background','url("//imgs.bharatmatrimony.com/bmimgs/litebox/overlay.png")repeat scroll 0 0 rgba(0, 0, 0, 0)');
+	$('#cboxOverlay').css({'height':'100%','position':'fixed','width':'100%'});
+	$('#colorbox,#cboxLoadedContent,#cboxClose').removeClass('vpboxsettings');
+	$("#PhotoPrivacy").hide();
+}
+function ViewEnlargephoto(phno,viewid,encid,srcfrm){
+	var viewphotoopenflg = 1;
+	if(viewphotoopenflg == 1){
+		if(phno !="" && viewid!="" && encid != ""){
+				if($("#colorbox").css("display")=='block'){
+				  $("#common_three_div").html('');
+				  viewhideAll();
+				}
+				var webUrl = window.location.pathname;
+				var fileName = webUrl.substring(webUrl.lastIndexOf('/')+1);
+				var GAcategory ='';
+				var GAaction ='';
+				var GAlabel ='';
+				var pname='';
+				var pagename='';
+				if(arguments[4] == "search"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'Search';
+					GAlabel    = 'View';
+					 pagename = 'search';
+				}else if(arguments[4] == "MHRJ"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'My home recently joined';
+					GAlabel    = 'View';
+				}else if(arguments[4] == "MHRU"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'My home recently updated';
+					GAlabel    = 'View';
+				}else if(arguments[4] == "MHYET"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'My home yettobe viewd';
+					GAlabel    = 'View';
+				}else if(arguments[4] == "POD"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'Profile of the day';
+					GAlabel    = 'View';
+				}else if(arguments[4] == "VP"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'View profile';
+					GAlabel    = 'View';
+					pagename = 'VP';
+				}else if(arguments[4] == "VSP"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'View Similar profile';
+					GAlabel    = 'View';
+				}else if(arguments[4] == "WNLP"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'webnotification listall page';
+					GAlabel    = 'View';
+				}else if(fileName == "listallmailbox.php"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'Unified Inbox';
+					GAlabel    = 'View';
+					pagename = "LAL";
+				}else if(fileName == "listviewall.php"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'List all page';
+					GAlabel    = 'View';
+					pagename = 'shortlist';
+				}else if(fileName == "logoutact.php"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'Logoutact';
+					GAlabel    = 'View';
+				}else if(fileName == "phoneshowall.php"){
+					GAcategory = 'View Enlarge Photo';
+					GAaction   = 'Member view my profile';
+					GAlabel    = 'View';
+				}else if(fileName == "managephoto.php"){
+					GAcategory = 'Add Photo';
+					GAaction   = 'View Album';
+					GAlabel    = 'Viewed';
+				}
+				if(srcfrm == 'image'){
+					var domin="//"+DOMAINARRAY['domainnamebmimage']+"/photo/enlargephoto.php";
+				}else if(arguments[4]== 'web'){
+					var domin="//www."+DOMAINARRAY['domainnameshort']+"matrimony.com/photo/enlargephoto.php";
+				}else{
+				  var domin="//"+DOMAINARRAY['domainmodule']+"/photo/enlargephoto.php";
+				}
+				var param = "photono="+phno+"&ID="+viewid+"&PID="+encid+"&pagename="+pagename+"&arguments="+arguments[5]+"&ppwd="+arguments[6];
+				_gaq.push(['_trackEvent',GAcategory,GAaction,GAlabel]);
+				$.ajax({
+					url : domin,
+					type : "POST",
+					data : param,
+					beforeSend:function(){
+						$.colorbox({onOpen:function(){viewhideAll();},onClosed:function(){cboxcssreset();},html:'<div style=""><center><img src="//'+DOMAINARRAY['domainnameimgs']+'/bmimgs/small_loading.gif" style="padding-top:85px;"></center></div>',scrolling:false,escKey:true});
+					},
+					success: function (response) {
+						 $("#cboxLoadedContent").html(response);
+					}
+				});
+		   }
+	}else{
+		var domin="//"+DOMAINARRAY['domainnamebmimage']+"/photo/viewphoto.php?";	
+		var param = "photono="+phno+"&ID="+viewid+"&PID="+encid+"&pagename="+pagename+"&arguments="+arguments[5]+"&ppwd="+arguments[6];
+		window.open(domin+param, '', 'directories=no,width=900,height=600,menubar=no,resizable=no,scrollbars=yes,status=no,titlebar=no,top=0');	
+	}
+}
+function ViewphotoAction(viewid,type,pagename){
+	if(arguments[3] === "undefined" && arguments[4] === "undefined"){
+		var placeholder = '';
+		var pinavilable = '';
+	}else{
+		var placeholder = arguments[3];
+		var pinavilable = arguments[4];
+	}
+	if(type == 'EI'){
+       var Url = '../mailbox/expressinterest.php?ActionType=SENEI&EXPID='+viewid+'&PageName='+pagename+'&placeholder='+placeholder+'&pinavailable='+pinavilable;
+	   var GAcategory = 'SI';
+	   var GAaction = 'View Enlarge Photo'; 
+	   var GAlabel  = 'SI sent';
+	   _gaq.push(['_trackEvent',GAcategory,GAaction,GAlabel]);
+	}else if(type == 'SM'){
+		var Url = '../mailbox/inbcontact.php?ActionType=SENPM&ID='+viewid+'&PageName='+pagename+'&placeholder='+placeholder+'&pinavailable='+pinavilable;
+		
+	}
+	$.ajax({
+		url : Url,
+		dataType : 'html',
+		beforeSend:function(){
+			$('#cboxLoadedContent').html('');
+			$('#cboxLoadingOverlay, #cboxLoadingGraphic').show();
+			cboxcssreset();
+		},
+		cache:false,
+		success:function(resp){
+        $('#cboxLoadingOverlay, #cboxLoadingGraphic').hide();
+		$.colorbox({html:resp,escKey:true});
+     }
+	});
+}
+function Photoprotectedpwd(){
+	var pagname = arguments[0];
+	var resp = new Array();
+	var reqpwd = 1;
+   	var ppwd = $("#PPASSWORD").val();
+	if(ppwd.length == 0 || ppwd == ''){
+		$("#pwderr").html("Enter the password");
+		$.colorbox.resize();
+		return false;
+	}else{
+		var mid  = $("#mid").val();
+		var encid = $("#pid").val();
+		var Url = "//"+DOMAINARRAY['domainmodule']+"/photo/enlargephoto.php?photono=1&ID="+mid+"&PID="+encid+"&ppwd="+ppwd+"&reqpwd="+reqpwd+"&PageName="+pagname;
+		$.ajax({
+			url : Url,
+			dataType : 'html',
+			beforeSend:function(){
+			},
+			success:function(resp){
+        $('#cboxLoadingOverlay, #cboxLoadingGraphic').hide();
+			  var resp = resp.split("~~~");
+			 if(resp[0].length > 1 && resp[0] != 'success'){
+				 $("#pwderr").html(resp[0]);
+				$.colorbox.resize('width','360px');
+			  }else if(resp[0] == 'success'){
+				$("#Vppopup").html('');
+				$("#pwderr").html('');
+				viewhideAll();
+				ViewEnlargephoto('1',mid,encid,'profile',pagname,'',ppwd)
+			  }
+			}
+		});
+	}
+
+
+}
+function SMPHAppDownload(memberdtls){
+$.colorbox.resize();
+var curDomain=DOMAINARRAY["domainmodule"];
+var memberdetails=memberdtls.split("-");
+var memberid=memberdetails[0];
+var mobilealerts=memberdetails[1];
+var page=chatvalsend=memberdetails[2];
+var smartphonevar="Smartphonedownload";
+if(page=="inbsend"||page=="chat"){
+		curDomain=memberdetails[3];
+		var sendvar="PM";
+		if(page=="chat"){
+			usermemberid=memberdetails[4];
+			sendvar="CHAT";
+			smartphonevar="appromosmsslert"+usermemberid
+		}
+		_gaq.push(["_trackEvent","App-DWNLD",sendvar,"Download Now"]);
+		chatvalsend=memberdetails[2];
+		page="inbsend";
+	}
+	if(page=="expressinterest"){
+	_gaq.push(["_trackEvent","App-DWNLD","EI","Download Now"])
+	}
+	var domain=curDomain.split(".");
+	var domainname=domain[1];
+	var params="Dwnld=yes&mid="+memberid+"&malts="+mobilealerts+"&domain="+domainname+"&ct="+chatvalsend;
+	jqajaxRequest("//"+curDomain+"/mailbox/"+page+".php","POST",params,smartphonevar);
+	$.colorbox.resize()
+}
+
+function regInterGA(GASRC,GAACT,sDomain,GAacc)
+{
+    var category = 'RegCompToPayments-'+sDomain;
+	_gaq.push(['_setAccount', "UA-"+GAacc+"-1"]);
+	_gaq.push(['_trackEvent',category, GASRC, GAACT]); 	
+	ga('send', {'hitType': 'event', 'eventCategory': category, 'eventAction': GASRC, 'eventLabel': GAACT});
+}

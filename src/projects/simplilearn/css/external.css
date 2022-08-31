@@ -1,0 +1,405 @@
+/* ----------------------------common begins---------------------------------- */
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.full-div{
+    width: 100%;
+    padding: 5px 5px 5px 5px;
+    font-size: 0;
+}
+
+.middle-div{
+    width: 90%;
+    padding: 5px 20px 5px 20px;
+    margin: auto;
+}
+
+.bgblue{
+    background-color: blue;
+}
+
+.bgpink{
+    background-color: pink;
+}
+
+.bglightsteelblue{
+    background-color: lightsteelblue;
+}
+
+.bgred{
+    background-color: red;
+}
+
+.bgyellow{
+    background-color: yellow;
+}
+
+.bglightgrey{
+    background-color: lightgrey;
+}
+
+.bglightlavender{
+    background-color: lavender;
+}
+
+.bgwhitesmoke{
+    background-color:whitesmoke;
+}
+
+.bggainsboro{
+    background-color:gainsboro;
+}
+
+.bglightgrey{
+    background-color:lightgrey;
+}
+
+.bgazure{
+    background-color: azure;
+}
+
+.bgaliceblue{
+    background-color: aliceblue;
+}
+
+.bgcyan{
+    background-color: lightcyan;
+}
+
+.bglightblue{
+    background-color: lightblue;
+}
+
+/* ----------------------------------common ends----------------------------- */
+
+/* ------------------------------------------header begins---------------------------------------------- */
+
+.header{
+    width: 100%;
+    padding: 5px 5px 5px 5px;
+    font-size: 0;
+
+}
+
+.header-container{
+    
+    margin: auto;
+    width: 100%;
+    padding: 0px 5px 0px 5px;
+    }
+
+.header-container>ul{
+    padding: 0px 0px 0px 5px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: right;
+    
+}
+
+.header-container>ul>li{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0px 0px 0px 40px;
+}
+
+.header-container>ul>li>a{
+    text-decoration: none;
+    color: black;
+}
+
+.header-container>ul>li>a:hover{
+    color: dodgerblue;  
+}
+
+/* --------------------------------------------header ends--------------------------------------------------- */
+
+/* -------------------------------------------search begins-------------------------------------------------- */
+
+.search{
+    width: 100%;
+    padding: 0px 5px 0px 5px;
+    font-size: 0;
+}
+
+.search-div{
+    width: 100%;
+    padding: 0px 0px 0px 5px;
+}
+
+.search-logo{
+    width: 15%;
+    padding: 0px 0px 0px 0px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-menu{
+    width: 85%;
+    padding: 0px 0px 0px 20px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-menu > h2{
+    width: 150px;
+    font-size: 15px;
+    background-color:dodgerblue;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 0px 10px 45px;
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: 12px 8px;
+    background-size:20px 20px;
+}
+
+.search-menu > h2:hover{
+    cursor: pointer;
+}
+
+.search-logo > img:hover{
+    cursor:pointer
+
+}
+
+.search-menu > input:hover{
+    cursor: pointer;
+}
+
+.search-menu > input{
+    margin-left: 30px;
+    width: 45%;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid dodgerblue;
+    padding: 10px 5px 10px 60px;
+    color: dodgerblue;
+    font-size: 15px;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px 8px;   
+}
+
+.search-menu > input::placeholder{
+    color: dodgerblue;
+}
+
+.search-menu h3{
+    padding: 5px 5px 5px 236px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search-menu p {   
+    text-align: center;
+    width: 100px;
+    color: grey;
+    border: 1px solid grey;
+    font-size: 15px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-menu > h3:hover{
+    cursor: pointer;
+    color: dodgerblue;
+    border: 1px solid dodgerblue;
+}
+
+/* --------------------------------header ends---------------------------------------- */
+
+/* -------------------------------homepage begins------------------------------------------------ */
+
+.homepage{
+    width: 100%;
+    padding: 5px 5px 0px 5px;
+    font-size: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.homepage > .middle-div {
+    padding: 5px 5px 0px 5px;
+}
+
+.left-col{
+    width: 45%;
+    padding: 45px 5px 0px 25px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.left-col > h1{
+    padding: 5px 85px 10px 5px;
+    font-size: 50px;
+    color: white;
+}
+
+.left-col  h2{
+    padding: 5px 5px 5px 5px;
+    font-size: 18px;
+    color: white;
+    font-family:'Times New Roman', Times, serif
+}
+
+.left-col  button{
+    width: 260px;
+    padding: 15px 10px 15px 10px;
+    background-color: dodgerblue;
+    font-size: 17px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    border: none;
+}
+
+.left-col > .middle-div{
+    padding: 5px 5px 0px 5px;
+}
+
+.left-col > h3:hover{
+    cursor: pointer;
+    background-color:steelblue;
+}
+
+.left-col > div{
+    width: 100%;
+    padding: 5px 5px 30px 5px;   
+}
+
+.left-col > h3{
+    padding: 5px 5px 35px 5px ;
+}
+
+.right-col{
+    width: 55%;
+    padding: 95px 5px 0px 25px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.right-col > h1{
+    margin: auto;
+    background-color: black;
+    text-align: center;
+    width: 555px;
+    padding: 30px 0px 0px 0px;
+    border: 1px solid white;
+    border-bottom: 0px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+/* ------------------------------------------homepage ends-------------------------------------- */
+
+/* ------------------------------------------partnering begins------------------------------------- */
+
+.partnering{
+    width: 100%;
+    padding: 5px 5px 5px 5px;
+    font-size: 0;
+}
+
+.partnering .full-div{
+    padding: 25px 5px 35px 5px;
+    font-size: 18px;
+    color: grey;
+    text-align: center;
+}
+
+.partnering .partnering-img{
+    width: 100%;
+    padding: 5px 5px 25px 20px;
+}
+
+/* ---------------------------------------partnering endsss---------------------------------------- */
+
+/* ----------------------------------------programs begins----------------------------------------- */
+
+.programs{
+    width: 100%;
+    padding: 5px 5px 5px 5x;
+    font-size: 0;
+    background-color: rgb(248, 251, 255);
+}
+
+.programs .post-graduate{
+    width: 100%;
+    padding: 45px 5px 5px 15px;
+}
+
+.programs h1{
+    font-size: 30px;;
+    padding: 5px 5px 25px 5px; 
+    font-family: Roboto, sans-serif;
+}
+
+.programs h2{
+    font-size: 22px;
+    font-weight: bold;
+    font-family: Roboto, sans-serif;
+    padding: 5px 5px 15px 5px;
+}
+
+.programs h3{
+    font-size: 16px;
+    font-family: roboto, sans-serif;
+    padding: 5px 5px 5px 5px;
+}
+
+.programs ul{
+    list-style-type: none;
+    padding: 5px 5px 5px 5px;
+}
+
+.programs .post-graduate> ul > li{
+    font-size: 10px;
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    padding: 5px 5px 5px 25px;
+    background-position: 10px 12px;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+
+
+}
+
+.programs h4{
+    font-size: 16px;
+    padding: 5px 5px 5px 5px;
+}
+
+.programs .pgslider{
+    width: 100%;
+    padding: 5px 0px 5px 10px;
+}
+
+.programs .pgtemplate{
+    width:33%;
+    padding: 0px 30px 5px 0px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.programs .pgtemplate img{
+    border-radius: 5px;
+}
+
+/* .programs .inner-pgtemplate{
+    
+} */
+
+/* ----------------------------------------programs ends---------------------------------------- */

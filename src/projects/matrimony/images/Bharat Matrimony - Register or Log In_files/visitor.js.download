@@ -1,0 +1,132 @@
+var log_info=GetCookie("LOGININFO");
+var v_mpg_ck=0;var popurl="http://"+DOMAINARRAY['domainmodule']+"/register/visitor-popup.php";
+
+function msg_ck_set(name,value){document.cookie=name+"="+escape(value)+";DOMAIN="+findloc()+";PATH=/";}
+function getcurrent_time(){var today=new Date();return today.getTime();}
+
+function anonConnection()
+{
+	var time=getcurrent_time();
+	if (GetCookie('vfst_time')==null)
+	{
+		msg_ck_set('vfst_time',time);msg_ck_set('v_rtime',time);v_mpg_ck=time;
+	}
+	else
+	{
+		var t_app=GetCookie('vfst_time')+"-"+time;
+		if(t_app.substr(0,1)=="-"){t_app=t_app.substr(1,t_app.length);}
+		msg_ck_set('vfst_time',t_app);
+		msg_ck_set('v_rtime',time);v_mpg_ck=time;
+	}
+}
+
+function re_first(e)
+{
+	try{
+	var e=(!e)?window.event:e;
+	trig_ex_pop(e);
+
+	var fck_val=GetCookie('vfst_time');var new_fck=0;
+
+	if(fck_val!=null && fck_val!="")
+	{
+			if(fck_val.indexOf('-')!=-1)
+			{
+				var fck_arr=fck_val.split("-");
+				for(m=0;m<fck_arr.length;m++)
+				{
+					if(fck_arr[m]!=v_mpg_ck)
+					{
+						if(new_fck==0){new_fck=fck_arr[m]}else{new_fck=new_fck+"-"+fck_arr[m]}
+					}
+				}
+
+				msg_ck_set('vfst_time',new_fck);
+
+				if(new_fck.indexOf('-')!=-1)
+				{
+					var new_fck_val=new_fck.split("-");
+					msg_ck_set('v_rtime',new_fck_val[new_fck_val.length-1]);
+				}
+				else
+				{msg_ck_set('v_rtime',new_fck);}	
+			}
+			else
+			{Delete_Cookie( 'vfst_time', '/' );Delete_Cookie( 'v_rtime', '/' );}
+	}
+	
+	} catch (e) {}
+}
+
+function Delete_Cookie( name, path ) 
+{
+	if (GetCookie(name)!=null) {document.cookie = name + "=" +( ( path ) ? ";path=" + path : "") +( ( findloc() ) ? ";domain=" + findloc() : "" );}
+}
+
+function trig_ex_pop(e)
+{
+	var e=(!e)?window.event:e;
+	var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+	var is_safari = /safari/.test( navigator.userAgent.toLowerCase() );
+	if (navigator.appName == 'Netscape'){
+		pop(e);
+		if(!is_chrome && !is_safari) {return false;}
+	} 
+	else 
+	{
+		var lhref=location.href;
+		if(GetCookie('vfst_time')==GetCookie('v_rtime') && lhref.indexOf("logout.php")==-1 && lhref.indexOf("community-matrimonial")==-1)
+		{
+			var is_IE=navigator.appVersion.toLowerCase().indexOf('msie');
+			var IE_ver=getIEVersion();
+
+			if(is_IE && IE_ver==6){lout_fun(e);}
+			if(is_firefox){lout_fun2(e);}
+		}
+	}
+}
+
+function pop(e) 
+{
+	var lhref=location.href;
+	if(GetCookie('vfst_time')==GetCookie('v_rtime') && lhref.indexOf("logout.php")==-1 && lhref.indexOf("community-matrimonial")==-1)
+	{
+		var is_IE=navigator.appVersion.toLowerCase().indexOf('msie');
+		var IE_ver=getIEVersion();
+		var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+		if(is_IE && IE_ver==6){lout_fun(e);}
+		if(is_firefox){lout_fun2(e);}	
+	}
+}
+
+function lout_fun(e)
+{
+	var e=(!e)?window.event:e;
+	if((e.clientX<0) && (e.clientY<0))
+	{
+		window.open(popurl,"mywin","width=800,height=600,toolbar=1,directories=1,menubar=1,status=1,location=1,scrollbars=1,resizable=1");
+	}
+}
+
+function lout_fun2(e){
+	if(window.innerWidth==0 && window.innerHeight==0)
+	{
+	window.open(popurl,"mywin","width=800,height=600,toolbar=1,directories=1,menubar=1,status=1,location=1,scrollbars=1,resizable=1");
+	}
+	
+}
+
+function getIEVersion()
+{
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+ return rv;
+}
+
+window.onunload=re_first;

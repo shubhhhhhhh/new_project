@@ -1,0 +1,371 @@
+var FooterPopulated = false;
+var AllSectionIdentityList = [];
+$(document).ready(function () {
+
+    var TempSourcePath = " https://" + DOMAINARRAY.domainnameweb + "/FooterJsonFiles";
+
+    AllSectionIdentityList = [{ Id: "RegionalSitesBlock", "SourcePathName": TempSourcePath + "/RegionalSitesContents.json", UIType: "Type 1" },
+    { Id: "CommunityMatrimonyBlock", "SourcePathName": TempSourcePath + "/CommunityMatrimonyContents.json", UIType: "Type 1" },
+    { Id: "ReligiousSitesBlock", "SourcePathName": TempSourcePath + "/ReligiousSitesContents.json", UIType: "Type 1" },
+    { Id: "ExclusiveSitesBlock", "SourcePathName": TempSourcePath + "/ExclusiveSitesContents.json", UIType: "Type 1" },
+    { Id: "MandapBlock", "SourcePathName": TempSourcePath + "/MandapContents.json", UIType: "Type 2" },
+    { Id: "WeddingBazaarBlock", "SourcePathName": TempSourcePath + "/WeddingBazaarContents.json", UIType: "Type 2" },
+    { Id: "CommunityShaadiBlock", "SourcePathName": TempSourcePath + "/CommunityShaadiContents.json", UIType: "Type 1" }];
+
+    AllSectionIdentityList.forEach((eachSection) => {
+        eachSection.BlockDomObj = $("#" + eachSection.Id);
+    })
+
+    $(window).scroll(_.throttle(function () {
+        if (!FooterPopulated) {
+            fetchAllSectionData();
+            FooterPopulated = true;
+        }
+    }, 300));
+});
+
+function fetchAllSectionData() {
+
+    var AllPromiseList = AllSectionIdentityList.map(eachSection => {
+        return ResourceRequestPromise(eachSection.SourcePathName)
+    })
+
+    Promise.all(AllPromiseList)
+        .then(function (AllResponses) {
+            // console.log(AllResponses);
+
+            AllSectionIdentityList.forEach((eachSection, eachSectionKey) => {
+                eachSection.ContentDetails = AllResponses[eachSectionKey];
+            })
+
+            AllSectionIdentityList.forEach((eachSection, eachSectionKey) => {
+                if (eachSection.UIType == "Type 1") {
+                    populateType1SectionContents(eachSection.BlockDomObj, eachSection.ContentDetails);
+                } else if (eachSection.UIType == "Type 2") {
+                    populateType2SectionContents(eachSection.BlockDomObj, eachSection.ContentDetails);
+                } else if (eachSection.UIType == "Type 3") {
+                    populateType3SectionContents(eachSection.BlockDomObj, eachSection.ContentDetails);
+                }
+            })
+        }, function (ErrorStatus) {
+            console.log(ErrorStatus);
+        })
+}
+
+function ResourceRequestPromise(SourcePathName) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            async: true,
+            type: "GET",
+            url: SourcePathName,
+            dataType: "json",
+            success: function (response) {
+                // console.log(response);
+                resolve(response);
+            },
+            error: function (response) {
+                console.log(response);
+                reject(response);
+            }
+        })
+    })
+}
+
+function populateType1SectionContents(SectionBlockDomObj, RegionalSitesStructure) {
+
+    RegionalSitesStructure.forEach((eachCategoryInfo, eachCategoryKey) => {
+        var TablinkDomObj = $('<div class="bpsidetablink"></div>');
+        if (eachCategoryInfo.CategoryName != "View More") {
+            TablinkDomObj.text(eachCategoryInfo.CategoryName);
+            TablinkDomObj.attr("data-internalname", eachCategoryInfo.InternalName);
+
+            TablinkDomObj.click((event) => {
+                // bp1openLink(event, eachCategoryInfo.InternalName)
+                // console.log(event.target);
+                var CurrentDom = $(event.target);
+                CurrentDom.siblings(".bpsidetablink").removeClass("bm-blk");
+                CurrentDom.addClass("bm-blk");
+                var TargetId = CurrentDom.data("internalname");
+
+                var CategoryWiseTabs = CurrentDom.closest(".cyber-pad").find(".bptabright").find(".bpbrowsetab");
+                CategoryWiseTabs.each(function (eachKey, eachElement) {
+                    eachElement.style.display = "none";
+                })
+
+                CurrentDom.closest(".cyber-pad").find(".bptabright #" + TargetId).css({ display: "block" });
+            });
+
+            if (eachCategoryKey == 0) {
+                TablinkDomObj.addClass("bm-blk");
+            }
+
+            SectionBlockDomObj.find(".bptab").append(TablinkDomObj);
+
+            if (RegionalSitesStructure.length - 1 == eachCategoryKey) {
+                SectionBlockDomObj.find(".bptab").append($('<div class="paddt10"> </div>'));
+            }
+
+            var TabContentDomObj = $('<div class="bpbrowsetab bp1browsetab"></div>');
+            TabContentDomObj.attr("id", eachCategoryInfo.InternalName);
+
+            if (eachCategoryKey == 0) {
+                TabContentDomObj.css({ "display": "block" });
+            } else {
+                TabContentDomObj.css({ "display": "none" });
+            }
+
+            var MobTbheadDom = $('<div class="mob-tbhead"></div>');
+
+            var ScrollBarDomObj = $('<div class="scrollbar"></div>');
+
+            eachCategoryInfo.SubCategories.forEach((eachSubCategoryInfo, eachSubCategoryKey) => {
+                var SubCategoryLinkDomObj = $('<div class="hptablink"></div>');
+                SubCategoryLinkDomObj.text(eachSubCategoryInfo.SubCategoryName);
+                SubCategoryLinkDomObj.attr("data-subinternalname", eachSubCategoryInfo.SubInternalName);
+
+                SubCategoryLinkDomObj.click((event) => {
+                    // console.log(event.target);
+                    var CurrentDom = $(event.target);
+                    CurrentDom.siblings(".hptablink").removeClass("bm-blkbtn");
+                    CurrentDom.addClass("bm-blkbtn");
+                    var TargetId = CurrentDom.data("subinternalname");
+
+                    var SubCategoryWiseTabs = CurrentDom.closest(".bpbrowsetab").find(".scrollbar").find(".divisionbrowsetab");
+                    SubCategoryWiseTabs.each(function (eachKey, eachElement) {
+                        eachElement.style.display = "none";
+                    })
+
+                    CurrentDom.closest(".bpbrowsetab").find(".scrollbar #" + TargetId).css({ display: "block" });
+
+                });
+
+                if (eachSubCategoryKey > 0) {
+                    SubCategoryLinkDomObj.addClass("margl7");
+                } else {
+                    SubCategoryLinkDomObj.addClass("bm-blkbtn");
+                }
+
+                MobTbheadDom.append(SubCategoryLinkDomObj);
+
+                var SubCategoryContentDomObj = $('<div class="hptab"></div>');
+                SubCategoryContentDomObj.attr("id", eachSubCategoryInfo.SubInternalName);
+
+                SubCategoryContentDomObj.addClass("divisionbrowsetab");
+
+                if (eachSubCategoryKey == 0) {
+                    SubCategoryContentDomObj.css({ "display": "block" });
+                } else {
+                    SubCategoryContentDomObj.css({ "display": "none" });
+                }
+
+                populateSubCategoryContentAndAppend(SubCategoryContentDomObj, eachSubCategoryInfo.Divisions);
+
+                ScrollBarDomObj.append(SubCategoryContentDomObj);
+            })
+
+            TabContentDomObj.append(MobTbheadDom);
+            TabContentDomObj.append(ScrollBarDomObj);
+
+            SectionBlockDomObj.find(".bptabright").append(TabContentDomObj);
+        } else {
+            var linkDomObj = $('<a target="_blank" rel="noreferrer"></a>');
+            linkDomObj.attr({
+                href: eachCategoryInfo.SiteLink
+            });
+            linkDomObj.text(eachCategoryInfo.CategoryName);
+
+            linkDomObj.addClass("tb-vmlink");
+            linkDomObj.addClass("pr-0");
+            TablinkDomObj.append(linkDomObj);
+
+            SectionBlockDomObj.find(".bptab").append(TablinkDomObj);
+
+            if (RegionalSitesStructure.length - 1 == eachCategoryKey) {
+                SectionBlockDomObj.find(".bptab").append($('<div class="paddt10"> </div>'));
+            }
+        }
+
+    });
+}
+
+function populateSubCategoryContentAndAppend(ParentDomObj, DivisionList) {
+    var DivisionContentDom = $('<div class="rghttablink"></div>');
+    DivisionList.forEach((eachDivisionDetail, eachDivisionKey) => {
+        if (eachDivisionKey == 0) {
+            ParentDomObj.append($('<div class="rghttabhd paddt5">' + eachDivisionDetail.DivisionName + '</div>'));
+        } else {
+            ParentDomObj.append($('<div class="rghttabhd paddt15">' + eachDivisionDetail.DivisionName + '</div>'));
+        }
+
+
+        var tempDivisionContentDomObj = DivisionContentDom.clone();
+
+        if (DivisionList.length - 1 == eachDivisionKey)
+            tempDivisionContentDomObj.addClass("bdr-btm-0 pb-0");
+
+        eachDivisionDetail.SiteList.forEach((eachLinkDetail, eachLinkKey) => {
+            var linkDomObj = $('<a target="_blank" rel="noreferrer"></a>');
+            linkDomObj.attr({
+                href: eachLinkDetail.SiteUrl,
+                title: eachLinkDetail.SiteTitle
+            });
+            linkDomObj.text(eachLinkDetail.SiteName);
+
+            if (eachLinkDetail.SiteName == "View More") {
+                linkDomObj.addClass("tb-vmlink");
+            }
+
+            tempDivisionContentDomObj.append(linkDomObj);
+            if (eachDivisionDetail.SiteList.length - 1 != eachLinkKey)
+                tempDivisionContentDomObj.append($('<span></span>'));
+        })
+
+        ParentDomObj.append(tempDivisionContentDomObj);
+    })
+}
+
+function populateType2SectionContents(SectionBlockDomObj, RegionalSitesStructure) {
+    RegionalSitesStructure.forEach((eachCategoryInfo, eachCategoryKey) => {
+        var TablinkDomObj = $('<div class="bpsidetablink"></div>');
+        TablinkDomObj.text(eachCategoryInfo.CategoryName);
+        TablinkDomObj.attr("data-internalname", eachCategoryInfo.InternalName);
+
+        TablinkDomObj.click((event) => {
+
+            // console.log(event.target);
+            var CurrentDom = $(event.target);
+            CurrentDom.siblings(".bpsidetablink").removeClass("bm-blk");
+            CurrentDom.addClass("bm-blk");
+            var TargetId = CurrentDom.data("internalname");
+
+            var CategoryWiseTabs = CurrentDom.closest(".cyber-pad").find(".bptabright").find(".bpbrowsetab");
+            CategoryWiseTabs.each(function (eachKey, eachElement) {
+                eachElement.style.display = "none";
+            })
+
+            CurrentDom.closest(".cyber-pad").find(".bptabright #" + TargetId).css({ display: "block" });
+        });
+
+        if (eachCategoryKey == 0) {
+            TablinkDomObj.addClass("bm-blk");
+        }
+
+        SectionBlockDomObj.find(".bptab").append(TablinkDomObj);
+
+        if (RegionalSitesStructure.length - 1 == eachCategoryKey) {
+            SectionBlockDomObj.find(".bptab").append($('<div class="paddt10"> </div>'));
+        }
+
+        var TabContentDomObj = $('<div class="bpbrowsetab bp1browsetab"></div>');
+        TabContentDomObj.attr("id", eachCategoryInfo.InternalName);
+
+        if (eachCategoryKey == 0) {
+            TabContentDomObj.css({ "display": "block" });
+        } else {
+            TabContentDomObj.css({ "display": "none" });
+        }
+
+        var ScrollBarDomObj = $('<div class="scrollbar"></div>');
+
+        populateSubCategoryContentAndAppend(ScrollBarDomObj, eachCategoryInfo.Divisions);
+
+        TabContentDomObj.append(ScrollBarDomObj);
+
+        SectionBlockDomObj.find(".bptabright").append(TabContentDomObj);
+    });
+}
+
+function populateType3SectionContents(SectionBlockDomObj, ContentStructure) {
+    // RegionalSitesStructure.forEach((eachCategoryInfo, eachCategoryKey) => {
+    /* var TablinkDomObj = $('<div class="bpsidetablink"></div>');
+    TablinkDomObj.text(eachCategoryInfo.CategoryName);
+    TablinkDomObj.attr("data-internalname", eachCategoryInfo.InternalName);
+
+    TablinkDomObj.click((event) => {
+
+        // console.log(event.target);
+        var CurrentDom = $(event.target);
+        CurrentDom.siblings(".bpsidetablink").removeClass("bm-blk");
+        CurrentDom.addClass("bm-blk");
+        var TargetId = CurrentDom.data("internalname");
+
+        var CategoryWiseTabs = CurrentDom.closest(".cyber-pad1").find(".bptabright").find(".bpbrowsetab");
+        CategoryWiseTabs.each(function (eachKey, eachElement) {
+            eachElement.style.display = "none";
+        })
+
+        CurrentDom.closest(".cyber-pad").find(".bptabright #" + TargetId).css({ display: "block" });
+    });
+
+    if (eachCategoryKey == 0) {
+        TablinkDomObj.addClass("bm-blk");
+    }
+
+    SectionBlockDomObj.find(".bptab").append(TablinkDomObj); */
+
+    /* if (RegionalSitesStructure.length - 1 == eachCategoryKey) {
+        SectionBlockDomObj.find(".bptab").append($('<div class="paddt10"> </div>'));
+    }
+
+    var TabContentDomObj = $('<div class="bpbrowsetab bp1browsetab"></div>');
+    TabContentDomObj.attr("id", eachCategoryInfo.InternalName);
+
+    if (eachCategoryKey == 0) {
+        TabContentDomObj.css({ "display": "block" });
+    } else {
+        TabContentDomObj.css({ "display": "none" });
+    } */
+
+    /* var ScrollBarDomObj = $('<div class="scrollbar acc-ht mt-0 mb-0"></div>');
+
+    populateSubCategoryContentAndAppend(ScrollBarDomObj, eachCategoryInfo.Divisions);
+
+    TabContentDomObj.append(ScrollBarDomObj);
+
+    SectionBlockDomObj.find(".bptabright").append(TabContentDomObj); */
+    // });
+
+    var ScrollBarDomObj = $('<div class="scrollbar acc-ht mt-0 mb-0"></div>');
+
+    populateSubCategoryContentAndAppend(ScrollBarDomObj, ContentStructure);
+
+    // TabContentDomObj.append(ScrollBarDomObj);
+
+    SectionBlockDomObj.find(".cyber-pad1").append(ScrollBarDomObj);
+}
+
+function populateDivisionContent(ParentDomObj, DivisionList) {
+    var DivisionContentDom = $('<div class="rghttablink"></div>');
+    DivisionList.forEach((eachDivisionDetail, eachDivisionKey) => {
+        if (eachDivisionKey == 0) {
+            ParentDomObj.append($('<div class="rghttabhd paddt5">' + eachDivisionDetail.DivisionName + '</div>'));
+        } else {
+            ParentDomObj.append($('<div class="rghttabhd paddt15">' + eachDivisionDetail.DivisionName + '</div>'));
+        }
+
+
+        var tempDivisionContentDomObj = DivisionContentDom.clone();
+
+        if (DivisionList.length - 1 == eachDivisionKey)
+            tempDivisionContentDomObj.addClass("bdr-btm-0 pb-0");
+
+        eachDivisionDetail.SiteList.forEach((eachLinkDetail, eachLinkKey) => {
+            var linkDomObj = $('<a target="_blank" rel="noreferrer"></a>');
+            linkDomObj.attr({
+                href: eachLinkDetail.SiteUrl,
+                title: eachLinkDetail.SiteTitle
+            });
+            linkDomObj.text(eachLinkDetail.SiteName);
+
+            if (eachLinkDetail.SiteName == "View More") {
+                linkDomObj.addClass("tb-vmlink");
+            }
+
+            tempDivisionContentDomObj.append(linkDomObj);
+            if (eachDivisionDetail.SiteList.length - 1 != eachLinkKey)
+                tempDivisionContentDomObj.append($('<span></span>'));
+        })
+
+        ParentDomObj.append(tempDivisionContentDomObj);
+    })
+}

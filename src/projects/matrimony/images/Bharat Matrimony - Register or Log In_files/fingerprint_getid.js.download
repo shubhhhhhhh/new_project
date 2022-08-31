@@ -1,0 +1,55 @@
+/*
+* File Name : fingerprint_getid.js
+* Created : 30.07.2019
+* Author : Mallikarjunan C
+* Description : Assign Fingerprint Unique Id to Login form Hidden field
+*/
+$(document).ready(function() {
+	var str_fpd = "";
+	var fPId = !!localStorage.getItem('oldfpID') ? localStorage.getItem('oldfpID') : '';
+	var fpDT = navigator.userAgent;			
+		var options = {
+			fonts: {extendedJsFonts: false}, 
+			excludes: {userAgent: false}, 
+			preprocessor: function(key, value) { 
+				if (key == "userAgent") {
+				var parser = new UAParser(value);
+					var userAgentMinusVersion = parser.getOS().name + ' ' + parser.getBrowser().name;
+					fpDT += "|"+parser.getOS().name+'-'+parser.getOS().version+"|"+parser.getBrowser().name+'-'+parser.getBrowser().version;
+				return userAgentMinusVersion
+				}
+				return value
+			},
+			excludes: { fonts: true, enumerateDevices: true } 
+		}
+		if (window.requestIdleCallback) {
+			requestIdleCallback(function () {
+				Fingerprint2.get(options, function (components) {
+				var values = components.map(function (component) { return component.value })
+				var murmur = Fingerprint2.x64hash128(values.join(''), 31)
+				str_fpd = murmur;
+				sysdetails = JSON.stringify(components);
+				fpDT += "|"+str_fpd+"|"+fPId;
+				localStorage.setItem('fpID',str_fpd);
+				var x = document.getElementsByName("fpDT");
+				for (var i = 0; i < x.length; i++) {
+					x[i].value = fpDT
+				}
+				});
+			})
+		} else {
+			setTimeout(function () {
+				Fingerprint2.get(options, function (components) {
+				var values = components.map(function (component) { return component.value })
+				var murmur = Fingerprint2.x64hash128(values.join(''), 31)
+				str_fpd = murmur;
+				fpDT += "|"+str_fpd+"|"+fPId;
+				localStorage.setItem('fpID',str_fpd);
+				var x = document.getElementsByName("fpDT");
+				for (var i = 0; i < x.length; i++) {
+					x[i].value = fpDT
+				}
+				}); 
+			}, 500)
+		}
+});

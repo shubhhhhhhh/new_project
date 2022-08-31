@@ -1,0 +1,276 @@
+.ad-gallery {
+  width: 981px;
+  margin-left:13px;
+}
+
+  .ad-gallery .ad-image-wrapper {
+   width: 697px;
+    height: 454px;
+    margin-top: 0px;
+    position: relative;
+    overflow: hidden;
+	
+	float:left;
+
+  }
+    .ad-gallery .ad-image-wrapper .ad-loader {
+      position: absolute;
+      z-index: 10;
+      top: 48%;
+      left: 48%;
+      border: 1px solid #CCC;
+    }
+    .ad-gallery .ad-image-wrapper .ad-next {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 25%;
+      height: 100%;
+      cursor: pointer;
+      display: block;
+      z-index: 100;
+    }
+    .ad-gallery .ad-image-wrapper .ad-prev {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 25%;
+      height: 100%;
+      cursor: pointer;
+      display: block;
+      z-index: 100;
+    }
+  /*  .ad-gallery .ad-image-wrapper .ad-prev, .ad-gallery .ad-image-wrapper .ad-next {
+       Or else IE will hide it 
+      background: url(non-existing.jpg)\9
+    }*/
+      .ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {
+        background: url(//imgs.bharatmatrimony.com/bmimgs/gallery-prev-imageicon.png);
+        width: 28px;
+        height: 66px;
+        display: none;
+        position: absolute;
+        top: 47%;
+        left: 12px;
+        z-index: 101;
+      }
+      .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {
+        background: url(//imgs.bharatmatrimony.com/bmimgs/gallery-next-imageicon.png);
+        width: 28px;
+        height: 66px;
+        right: 12px;
+        left: auto;
+      }
+    .ad-gallery .ad-image-wrapper .ad-image {
+      position: absolute;
+      overflow: hidden;
+      top: 6px!important;
+      left: 0;
+      z-index: 9;
+    }
+      .ad-gallery .ad-image-wrapper .ad-image a img {
+        border: 0;
+      }
+      .ad-gallery .ad-image-wrapper .ad-image .ad-image-description {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 7px;
+        text-align: left;
+        width: 100%;
+        z-index: 2;
+        background: url(opa75.png);
+        color: #000;
+      }
+      * html .ad-gallery .ad-image-wrapper .ad-image .ad-image-description {
+        background: none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader (enabled=true, sizingMethod=scale, src='opa75.png');
+      }
+        .ad-gallery .ad-image-wrapper .ad-image .ad-image-description .ad-description-title {
+          display: block;
+        }
+  .ad-gallery .ad-controls {
+
+	text-align:center;
+	font-size:13px;
+	color:#363636;
+	clear:both;
+	position:absolute;
+	bottom:10px;
+	width:100%;
+	height:36px;
+  }
+
+    .ad-gallery .ad-slideshow-controls {
+      float: right;
+    }
+      .ad-gallery .ad-slideshow-controls .ad-slideshow-start, .ad-gallery .ad-slideshow-controls .ad-slideshow-stop {
+        padding-left: 5px;
+        cursor: pointer;
+      }
+      .ad-gallery .ad-slideshow-controls .ad-slideshow-countdown {
+        padding-left: 5px;
+        font-size: 0.9em;
+      }
+    .ad-gallery .ad-slideshow-running .ad-slideshow-start {
+      cursor: default;
+      font-style: italic;
+    }
+  .ad-gallery .ad-nav {
+    width: 100%;
+    position: relative;
+	height:75px;
+  }
+    .ad-gallery .ad-forward, .ad-gallery .ad-back {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      z-index: 10;
+    }
+    /* IE 6 doesn't like height: 100% */
+    * html .ad-gallery .ad-forward, .ad-gallery .ad-back {
+      height: 100px;
+    }
+    .ad-gallery .ad-back {
+      cursor: pointer;
+      left: -15px;
+      width: 13px;
+      display: none;
+      background: url(//imgs.bharatmatrimony.com/bmimgs/ad_scroll_back.png) 0px 28px no-repeat;
+    }
+    .ad-gallery .ad-forward {
+      cursor: pointer;
+      display: none;
+      right: -15px;
+      width: 13px;
+      background: url(//imgs.bharatmatrimony.com/bmimgs/ad_scroll_forward.png) 0px 28px no-repeat;
+    }
+    .ad-gallery .ad-nav .ad-thumbs {
+      overflow: hidden;
+      width: 100%;
+	  height:75px;
+    }
+      .ad-gallery .ad-thumbs .ad-thumb-list {
+        float: left;
+        list-style: none;
+		height:75px;
+      }
+        .ad-gallery .ad-thumbs li {
+          float: left;
+          padding-left: 2px;
+		  padding-right: 2px;
+		  height:75px;
+        }
+          .ad-gallery .ad-thumbs li a {
+            display: block;
+          }
+            .ad-gallery .ad-thumbs li a img {
+              display: block;
+            }
+            .ad-gallery .ad-thumbs li a.ad-active img {
+				
+    height: 75px;
+    width: 75px;
+	
+            }
+/* Can't do display none, since Opera won't load the images then */
+.ad-preloads {
+  position: absolute;
+  left: -9000px;
+  top: -9000px;
+}
+
+ul .ad-thumb-list{
+    list-style-image:url('//imgs.bharatmatrimony.com/bmimgs/loading-icon.gif');
+}
+#gallery{
+   
+    /*background: #e1eef5;*/
+}
+
+ #descriptions {
+    position: relative;
+    height: 50px;
+    background: #EEE;
+    margin-top: 10px;
+    width: 640px;
+    padding: 10px;
+    overflow: hidden;
+ }
+ #descriptions .ad-image-description {
+   position: absolute;
+ } 
+ #descriptions .ad-image-description .ad-description-title {
+   display: block;
+ }
+ .right_gallery_text{width:241px;margin-top:6px;height:639px;background:#fff;padding:28px 1px 13px;}
+ #phdesc{text-align:center;}
+ .photo_label{width:100%; }
+ body{}
+ .content_part_text .labelhead span {font-size:12px;font-weight:bold;display:inline-block;float:left;}
+.content_part_text .labelvalue span {font-size:12px;margin-left:4px;display:inline-block;float:left;width:160px;}
+ .banner_style{
+	background: none repeat scroll 0 0 #FFFFFF;height: 60px;margin-bottom: 10px;margin-right: 2px; margin-top: 10px;padding: 4px;width: 468px;
+}
+.customername{font-size:15px;font-weight:bold;display:block;color:#363636;margin-bottom:11px;}
+.content_part_text{display:block;width:100%;margin-bottom:8px;clear:both;float:left;}
+.ad-thumb-list li a img{border:none;}
+.labelvalue a{margin-left:4px;display:block;}
+.likemember_block{margin-top:10px;margin-left:10px;background: #fff2af; background: -moz-linear-gradient(top, #fff2af 0%, #fff1ac 10%, #fff1ac 28%, #ffed9d 51%, #ffe990 81%, #ffe78a 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff2af), color-stop(10%,#fff1ac), color-stop(28%,#fff1ac), color-stop(51%,#ffed9d), color-stop(81%,#ffe990), color-stop(100%,#ffe78a)); background: -webkit-linear-gradient(top, #fff2af 0%,#fff1ac 10%,#fff1ac 28%,#ffed9d 51%,#ffe990 81%,#ffe78a 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #fff2af 0%,#fff1ac 10%,#fff1ac 28%,#ffed9d 51%,#ffe990 81%,#ffe78a 100%); background: -ms-linear-gradient(top, #fff2af 0%,#fff1ac 10%,#fff1ac 28%,#ffed9d 51%,#ffe990 81%,#ffe78a 100%); background: linear-gradient(to bottom, #fff2af 0%,#fff1ac 10%,#fff1ac 28%,#ffed9d 51%,#ffe990 81%,#ffe78a 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff2af', endColorstr='#ffe78a',GradientType=0 ); border:1px solid #f4d96f;
+width:182px;padding:16px 18px 12px 18px;clear:both;}
+.interest_button{margin-top:10px;}
+.interest_button a{padding:9px 5px;display:block;margin:0px auto;width:118px;
+background: #ffa03d; background: -moz-linear-gradient(top, #ffa03d 0%, #ff9933 10%, #ff9027 22%, #ff8a1f 49%, #ff7e0e 83%, #ff7704 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa03d), color-stop(10%,#ff9933), color-stop(22%,#ff9027), color-stop(49%,#ff8a1f), color-stop(83%,#ff7e0e), color-stop(100%,#ff7704)); background: -webkit-linear-gradient(top, #ffa03d 0%,#ff9933 10%,#ff9027 22%,#ff8a1f 49%,#ff7e0e 83%,#ff7704 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffa03d 0%,#ff9933 10%,#ff9027 22%,#ff8a1f 49%,#ff7e0e 83%,#ff7704 100%); background: -ms-linear-gradient(top, #ffa03d 0%,#ff9933 10%,#ff9027 22%,#ff8a1f 49%,#ff7e0e 83%,#ff7704 100%); background: linear-gradient(to bottom, #ffa03d 0%,#ff9933 10%,#ff9027 22%,#ff8a1f 49%,#ff7e0e 83%,#ff7704 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa03d', endColorstr='#ff7704',GradientType=0 );
+border:1px solid #ff7600;box-shadow:#fea661 inset 10px 10px 10px;color:#fff;font-size:16px;font-weight:bold;text-align:center;border-radius:6px;-moz-border-radius:6px;
+-webkit-border-radius:6px;-moz-box-shadow:0 0 2px #FEA661 inset, 0 1px 4px 3px #DDD1A0;-webkit-box-shadow: 0 0 2px #FEA661 inset, 0 1px 4px 3px #DDD1A0;box-shadow:0 0 2px #FEA661 inset, 0 1px 4px 3px #DDD1A0;width:118px;} 
+.icon_background{ background: none repeat scroll 0 0 #FFFFFF;border: 1px solid #E2E2E2;
+float: left;height: 22px;padding: 3px;text-align: center;vertical-align: middle;width: 21px;border-radius: 7px 7px 7px 7px;-moz-border-radius: 7px;
+-webkit-border-radius: 7px ;-moz-border-radius: 7px;margin-left:3px;}
+
+.clearclass{clear:both;font-size:0px;line-height:0;height:0px;}
+.like-member{width:190px;}
+.interest_button{width:190px;text-align:center;}
+.icon-back-main{width:107px!important;margin-left:49px!important;}
+.gallery_info {
+    background: none repeat scroll 0 0 #F1F1F1;
+    box-shadow: 7px -4px 6px -1px #C8C8C8 inset;
+    padding-left: 8px;
+    position: relative;
+    width: 270px;
+	height:491px;
+	padding-top:18px;
+}
+.totalleft_container
+{
+	float:left;
+	position:relative;
+	background:#d9d9d9;
+	height:509px;
+	width:697px;
+}
+*+html .totalleft_container{ height:527px; }
+/* colorbox enlarge photo tweaks */
+#colorbox.vpboxsettings #cboxTopLeft,#colorbox.vpboxsettings #cboxTopRight,#colorbox.vpboxsettings #cboxBottomLeft,
+#colorbox.vpboxsettings #cboxBottomRight,#colorbox.vpboxsettings #cboxMiddleLeft,
+#colorbox.vpboxsettings #cboxMiddleRight,#colorbox.vpboxsettings #cboxTopCenter,
+#colorbox.vpboxsettings #cboxBottomCenter{
+	display:none;
+	width: 270px;
+}
+#cboxOverlay.vpboxsettings{
+	background-color:none,
+	background-color:black,
+	opacity: 0.8
+}
+#colorbox.vpboxsettings #cboxLoadedContent{
+	height:650px;
+	width: 1050px;
+}
+#colorbox.vpboxsettings #cboxClose{
+	top:10px;
+	right:10px;
+}

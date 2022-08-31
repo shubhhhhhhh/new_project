@@ -1,0 +1,212 @@
+var ajobj;
+var DOMAINARRAY=new Array();
+var ad_bar_val=window.location.href;
+ad_bar_val=ad_bar_val.toLowerCase();
+var bar_val_st1=ad_bar_val.substring(ad_bar_val.indexOf('.'),ad_bar_val.indexOf('.com')+4);
+var bar_val_st2=bar_val_st1.replace('.','');bar_val_st2=bar_val_st2.replace('.com','');bar_val_st2=bar_val_st2.replace('matrimony','');
+DOMAINARRAY['domainnameimgs']="imgs"+bar_val_st1; 
+DOMAINARRAY['domainnameshort']=bar_val_st2;
+DOMAINARRAY['domainmodule'] = "profile"+bar_val_st1;
+DOMAINARRAY['domainnameweb'] = "www"+bar_val_st1; 
+DOMAINARRAY['domainnamebmimage'] = "image"+bar_val_st1;
+DOMAINARRAY['domainnamebmimg'] = "img"+bar_val_st1; 
+DOMAINARRAY['domainnamebmlong'] = bar_val_st2+"matrimony.com";
+var upimg="//"+DOMAINARRAY['domainnameimgs']+"/bmimages/rp-arrow-up.gif";
+var downimg="//"+DOMAINARRAY['domainnameimgs']+"/bmimages/rp-arrow-down.gif";
+
+function BN(dn,s) { if (dgebid(dn)){var ab=dgebid(dn);(s=="b") ? ss="block" : ss="none"; if(ab!='') { ab.style.display=ss; } }} 
+//function $BN(dn,s) { if ($(dn)){var d=$(dn);(s=="b") ? ss="block" : ss="none"; if(d!='') { d.style.display=ss; } }}
+function dv(obj){if(document.getElementById){if(document.getElementById(obj)!=null){return document.getElementById(obj)}else{return"";}}else if(document.all){if(document.all[obj]!=null){return document.all[obj]}else{return"";}}}function showscore(c){var c;var x=dv('ardown');var x1=dv('scoreshowdown');var y=dv('arup');var y1=dv('scoreshowup');y1.style.display="block";if(c.length<1){return;}if(dv(c).style.display=="none"){dv(c).style.display="block";x.style.display="none";x1.style.display="none";y.style.display="block";y1.style.display="block";space.style.display="none";}else{dv(c).style.display="none";x.style.display="block";x1.style.display="block";y.style.display="none";y1.style.display="none";space.style.display="block";}}var openval="";var imgval="";
+function promotioncontent(divid,imgid){if((dv('faq1')!="null")&&(dv('faq1')!="")){if(divid!="faq1"&&dv("faq1").style.display=="block"){dv("faq1").style.display="none";dv("faq1-title").innerHTML="";dv("faq1-title").innerHTML="<img src="+upimg+">";}}if(openval==divid){if(dv(openval).style.display=="block"){dv(imgval).innerHTML="";dv(imgval).innerHTML="<img src="+upimg+">";dv(openval).style.display="none";}else{dv(imgval).innerHTML="";dv(imgval).innerHTML="<img src="+downimg+">";dv(openval).style.display="block";}}else{if(openval!=""){dv(openval).style.display="none";dv(imgval).innerHTML="";dv(imgval).innerHTML="<img src="+upimg+">";}if(dv(divid).style.display=="none"){dv(imgid).innerHTML="";dv(imgid).innerHTML="<img src="+downimg+">";dv(divid).style.display="block";}else{dv(imgid).innerHTML="";dv(imgid).innerHTML="<img src="+upimg+">";dv(divid).style.display="none";}}openval=divid;imgval=imgid;}function openpop(wname,wurl,wscroll,wresize,wwidth,wheight){try{var otheropt="top=250,left=525,bottom=0,toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars="+wscroll+",resize="+wresize+",width="+wwidth+",height="+wheight;var newwin=window.open(wurl,wname,otheropt);newwin.focus();} catch (e) {}}var succObj='';function successstorynxt(argNum,argdomain){var argUrl="/successstory/successstorypop.php?fileno="+argNum+"&domain="+argdomain;succObj=MakeGetRequest(argUrl,'succDiv');}function succDiv(){if(succObj.readyState==4){if(succObj.status==200){document.getElementById('dispcontent').style.display="block";document.getElementById('dispcontent').innerHTML=succObj.responseText;}else{alert('There was a problem with the request.');}}}function successstorypop(argNum,argdomain){var argUrl="/successstory/successstorypop.php?fileno="+argNum+"&domain="+argdomain;
+openpop('successstory',argUrl,1,0,630,500);}
+var succrightObj = '';
+function successrightrandom(){
+var argUrl="/successstory/successright.php?sucp="+genNumbers();
+//succrightObj=MakeGetRequest(argUrl,'succRightDiv');
+if(dgebid('rpanelsuccessstory')){ dgebid('rpanelsuccessstory').src=argUrl; }
+}function succRightDiv(){if(succrightObj.readyState==4){if(succrightObj.status==200){if(dgebid('successrightdiv')) {dgebid('successrightdiv').style.display="block";dgebid('successrightdiv').innerHTML=succrightObj.responseText;}}else{alert('There was a problem with the request.');}}}
+
+var healthRequest = '';
+function funHealthView(){
+	frmName=document.healthProfileView;
+	if((frmName.healthPassword.value).replace(' /\s+/','')=='')	{
+		dgebid('protectspan').innerHTML='Please enter the Health Profile password';
+		frmName.healthPassword.focus();
+		return false;
+	}else{
+	var parameter = 'ID='+frmName.ID.value+'&healthPassword='+frmName.healthPassword.value+'&healthProfilePwd=yes' + genNumbers();
+	healthRequest = MakePostRequest('/healthprofile/health-profile-password.php?',parameter,'healthResult');
+	return false;
+	}
+	return false;
+}//funHealthView
+
+
+function healthResult()	{
+	if (healthRequest.readyState == 4) {
+		if (healthRequest.status == 200) {
+			dgebid('protectspan').innerHTML='';
+			if (healthRequest.responseText.length > 1) {
+				document.getElementById('healthProfileView').innerHTML	= healthRequest.responseText;
+			} 
+			else  {
+			 document.getElementById('healthContent').innerHTML	 = 'Sorry, the Health Profile password you have entered is incorrect.'; }
+		 }
+		 else alert('There was a problem with the request.'); 
+	}
+}
+
+function healthProtect(et,id) {
+	close_div();
+	if (et=='R'){ 
+		document.body.scrollTop=0;fade('','fadediv','dispdiv',570,'','','//' + DOMAINARRAY['domainmodule'] +'/inbox/inbcontact.php?ID='+ id +'&PUP=Y&inline=1','//'+ DOMAINARRAY['domainnameimgs']+'/scripts/getoptionsei.js','dispcontent','','');
+	} else { document.location.href= '//' + DOMAINARRAY['domainnameweb'] + '/payments/paymentoptions.php'; }
+}
+function slideprivBanner(){
+	var sDiv = document.getElementById("sliding-bg");
+	var stopat = 70;
+	if (parseInt(sDiv.style.height) < stopat){
+		sDiv.style.height = parseInt(sDiv.style.height) + 1 + "px";
+		setTimeout(slideprivBanner, 20);
+	}
+}
+
+function privbannershow(){
+	document.getElementById("simg").style.display= "block";
+	document.getElementById("clx").style.display= "block";
+}
+
+function privbannerhide(){document.getElementById("sliding-bg").style.display="none";}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+var reshttp="";
+function memberLocality()
+{
+	var Val=document.getElementById('localityid').value;	
+	Val=Val.replace(/^\s+|\s+$/g,"");
+	if(document.getElementById('localityid').value == "" || Val=="")
+	{
+		document.getElementById('errcity').innerHTML = "Please enter your locality";
+		document.getElementById('localityid').focus();
+		return false;
+	}     
+	var checkString = document.getElementById('localityid').value;
+    if (checkString != "") {
+    if ( /[^\sA-Z.\-()&a-z\d]/.test(checkString) || isNumber(checkString)) {
+        document.getElementById('errcity').innerHTML = "Special characters not allowed";
+        document.getElementById('localityid').focus();
+        return false;
+      }
+    }
+	document.getElementById('errcity').innerHTML = "";
+	var params="Locality="+escape(document.getElementById('localityid').value);
+	var url="/template/memberlocality.php";
+	//reshttp=MakePostRequest(url,params,resMemberLocality);
+	document.getElementById('memberlocalitybox').innerHTML='<div style="padding: 20px 0px 20px 80px;"><img src="//imgs.bharatmatrimony.com/bmimages/loading-icon.gif"></div>';
+
+	$.ajax({
+		url: url,	
+		type: 'POST',
+		data: params,
+		success: function (html) {
+			document.getElementById('localitybox').style.display='none';
+			document.getElementById('memberlocalitybox').innerHTML='<div style="padding: 20px 0px 20px 20px;">'+html+'</div>';
+		}
+	});
+
+}
+
+
+function privilagePromation(domainname,matriid,clicktrack){
+
+    var mobile=fntrim(dgebid('PRIV_PHONE').value);
+	var name=fntrim(dgebid('PRIV_NAME').value);
+	var city=fntrim(dgebid('PRIV_CITY').value);
+	var age =fntrim(dgebid('AGE').value);
+	var startage = fntrim(dgebid('STARTAGE').value);
+	var createdby =fntrim(dgebid('CREATEDBY').value);
+	var maritalstatus = fntrim(dgebid('MARITAL_STATUS').value);
+	var countrycode =  fntrim(dgebid('PRIV_COUNTRY').value);
+
+	dgebid('PRIV_PHONE_ERROR').innerHTML ='';
+	dgebid('PRIV_NAME_ERROR').innerHTML ='';
+
+	if(name=='' || name == 'Name'){
+		dgebid('PRIV_NAME_ERROR').innerHTML ='Please enter the name';
+		dgebid('PRIV_NAME').focus();
+		return false;
+	}
+	else if(name.search((/^[a-zA-Z\-. ]+$/))) {
+		dgebid('PRIV_NAME_ERROR').innerHTML ='Please enter a valid name';		
+		dgebid('PRIV_NAME').focus();
+		return false;
+	}	
+	else if(dgebid('PRIV_COUNTRY').selectedIndex==0){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ='Please select the country';
+		dgebid('PRIV_COUNTRY').focus();return false;
+	}
+	else if(mobile=='' || mobile=='Mobile No.'){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ='Please enter the mobile number';
+		dgebid('PRIV_PHONE').focus();
+		return false;
+	}
+	else if(mobile.search((/^[0-9\- ]+$/))){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ='Please enter a valid mobile number';
+		dgebid('PRIV_PHONE').focus();
+		return false;
+	}
+	else if(countrycode=="91"){
+	  var val = mobile.replace(/-|\+|\s/g, '');
+	  val=val.replace(/^0{1,}/,"");	 
+      if(val.match(/^([0-9])\1*$/)!=null){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ="Please enter a valid mobile number";
+		dgebid('PRIV_PHONE').focus();
+		return false;
+	  }else if(val.match(/^.*?([6-9]{1})([0-9]{9})$/)==null){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ="Please enter a valid mobile number";
+		dgebid('PRIV_PHONE').focus();
+		return false;
+	  }
+	} else if(countrycode!="91"){
+	  var val = mobile.replace(/-|\+|\s/g, '');
+	  val=val.replace(/^0{1,}/,"");  	  
+	  if((val.length<7) || (val.length>10)){
+		dgebid('PRIV_PHONE_ERROR').innerHTML ="Your Mobile Number must be between 7 and 10 digits only";
+		dgebid('PRIV_PHONE').focus();
+		return false;
+	  } 
+	}
+
+	if(clicktrack == '' || clicktrack == 0){
+		clicktrack = '6';
+	}
+	var url= "../template/privform.php";
+	var params = "countrycode="+countrycode+"&mobile="+mobile+"&name="+name+"&city="+city+"&domain="+domainname+"&createdby="+createdby+"&age="+age+"&maritalstatus="+maritalstatus+"&clicktrack="+clicktrack;
+	if(matriid!=''){
+		params +="&matriid="+matriid;
+	}
+
+	reqSent = 0;	
+	jqajaxRequest(url,'GET',params,'privform','',dispConfirmationForHome);		
+}
+function fntrim(s)
+{
+  return s.replace(/^\s+|\s+$/, '');
+} 
+
+function dispConfirmationForHome()
+{
+	dgebid('privform').style.display='none';
+	dgebid('privthanks').style.display='block';
+	if($('#privform').html() == 1)
+	{
+		$('#privthanks').html('<b>Thank you for showing interest in Assisted Matrimony service. You will receive a call from our Relationship Manager.</b>');
+	} else {
+		$('#privthanks').html('<b>We are currently experiencing technical difficulties. Please try again later.</b>');
+	}
+	$.colorbox.resize({"width":720});	
+}
+

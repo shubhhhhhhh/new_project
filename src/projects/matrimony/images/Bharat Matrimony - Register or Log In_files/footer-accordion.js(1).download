@@ -1,0 +1,614 @@
+  //toggle the component with class srch-acc-body
+  $(".srchs-acc-head").click(function () {
+	  if ($('.srch-acc-body').is(':visible')) {
+		  $(".srch-acc-body").slideUp(500);
+	  }
+	  if ($(this).next(".srch-acc-body").is(':visible')) {
+		  $(this).next(".srch-acc-body").slideUp(500);
+	  } 
+
+else {$(this).next(".srch-acc-body").slideDown(500);}
+  });
+  
+
+$('.srch-acc-body').click(function(event){
+event.stopPropagation();
+		});
+	
+
+
+  //toggle the component with class accordion_body
+  $(".accordion_head").click(function () {
+	  if ($('.accordion_body').is(':visible')) {
+		  $(".accordion_body").slideUp(500);
+		  $(".plusminus").text('+');
+		  $(this).removeClass("acc-active");
+	
+	  }
+	  if ($(this).next(".accordion_body").is(':visible')) {
+		  $(this).next(".accordion_body").slideUp(500);
+		  $(this).children(".plusminus").text('+');
+		  $(this).removeClass("acc-active");
+	
+	  } 
+
+else {
+		  $(this).next(".accordion_body").slideDown(500);
+		  $(this).children(".plusminus").html('&#150');	
+		   $(".accordion_head").removeClass("acc-active");
+		   $(this).addClass("acc-active");
+	
+	  }
+  });
+
+// Hide Accordion body on click outside
+$(document).on("click", function(event){
+	if(!$(event.target).closest(".accordion_head").length){
+		$(".accordion_body").slideUp("500");
+		$(".accordion_head").removeClass("acc-active");
+		$(".plusminus").text('+');
+	}
+});
+
+$('.accordion_body').click(function(event){
+event.stopPropagation();
+		});
+	
+
+
+  //toggle the component with class ftr-acc-body
+  $(".footer-acc-head").click(function () {
+	  if ($('.ftr-acc-body').is(':visible')) {
+		  $(".ftr-acc-body").slideUp(500);
+		  $(".ftr-acc-plusminus").text('+');
+	
+	  }
+	  if ($(this).next(".ftr-acc-body").is(':visible')) {
+		  $(this).next(".ftr-acc-body").slideUp(500);
+		  $(this).children(".ftr-acc-plusminus").text('+');
+	
+	  } 
+
+else {
+		  $(this).next(".ftr-acc-body").slideDown(500);
+		  $(this).children(".ftr-acc-plusminus").html('&#150;');	
+		   $(".footer-acc-head").removeClass("ftr-acc-active");
+		   $(this).addClass("ftr-acc-active");
+	
+	  }
+  });
+
+function bpopenLink(evt, animName) {
+  var i, x, bptablink;x = document.getElementsByClassName("bpbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bptablink = document.getElementsByClassName("bptablink");
+  for (i = 0; i < x.length; i++) {bptablink[i].className = bptablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function mandapopenLink(evt, animName) {
+  var i, x, mandaptablink;x = document.getElementsByClassName("mandapbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  mandaptablink = document.getElementsByClassName("mandaptablink");
+  for (i = 0; i < x.length; i++) {mandaptablink[i].className = mandaptablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function bazaaropenLink(evt, animName) {
+  var i, x, bazaartablink;x = document.getElementsByClassName("bazaarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bazaartablink = document.getElementsByClassName("bazaartablink");
+  for (i = 0; i < x.length; i++) {bazaartablink[i].className = bazaartablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function bp1openLink(evt, animName) {
+  var i, x, bp1tablink;x = document.getElementsByClassName("bp1browsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bp1tablink = document.getElementsByClassName("bp1tablink");
+  for (i = 0; i < x.length; i++) {bp1tablink[i].className = bp1tablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function cbs1openLink(evt, animName) {
+  var i, x, cbs1tablink;x = document.getElementsByClassName("cbs1browsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  cbs1tablink = document.getElementsByClassName("cbs1tablink");
+  for (i = 0; i < x.length; i++) {cbs1tablink[i].className = cbs1tablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function es1openLink(evt, animName) {
+  var i, x, es1tablink;x = document.getElementsByClassName("es1browsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  es1tablink = document.getElementsByClassName("es1tablink");
+  for (i = 0; i < x.length; i++) {es1tablink[i].className = es1tablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function esopenLink(evt, animName) {
+  var i, x, establink;x = document.getElementsByClassName("esbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  establink = document.getElementsByClassName("establink");
+  for (i = 0; i < x.length; i++) {establink[i].className = establink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function bharatopenlink(evt, animName) {
+  var i, x, bharattablink;x = document.getElementsByClassName("bharatbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bharattablink = document.getElementsByClassName("bharattablink");
+  for (i = 0; i < x.length; i++) {bharattablink[i].className = bharattablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function bengaliopenlink(evt, animName) {
+  var i, x, bengalitablink;x = document.getElementsByClassName("bengalibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bengalitablink = document.getElementsByClassName("bengalitablink");
+  for (i = 0; i < x.length; i++) {bengalitablink[i].className = bengalitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function gujaratiopenlink(evt, animName) {
+  var i, x, gujaratitablink;x = document.getElementsByClassName("gujaratibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  gujaratitablink = document.getElementsByClassName("gujaratitablink");
+  for (i = 0; i < x.length; i++) {gujaratitablink[i].className = gujaratitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function hindiopenlink(evt, animName) {
+  var i, x, hinditablink;x = document.getElementsByClassName("hindibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  hinditablink = document.getElementsByClassName("hinditablink");
+  for (i = 0; i < x.length; i++) {hinditablink[i].className = hinditablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function kannadaopenlink(evt, animName) {
+  var i, x, kannadatablink;x = document.getElementsByClassName("kannadabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  kannadatablink = document.getElementsByClassName("kannadatablink");
+  for (i = 0; i < x.length; i++) {kannadatablink[i].className = kannadatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function malayaleeopenlink(evt, animName) {
+  var i, x, malayaleetablink;x = document.getElementsByClassName("malayaleebrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  malayaleetablink = document.getElementsByClassName("malayaleetablink");
+  for (i = 0; i < x.length; i++) {malayaleetablink[i].className = malayaleetablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function marathiopenlink(evt, animName) {
+  var i, x, marathitablink;x = document.getElementsByClassName("marathibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  marathitablink = document.getElementsByClassName("marathitablink");
+  for (i = 0; i < x.length; i++) {marathitablink[i].className = marathitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function marwadiopenlink(evt, animName) {
+  var i, x, marwaditablink;x = document.getElementsByClassName("marwadibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  marwaditablink = document.getElementsByClassName("marwaditablink");
+  for (i = 0; i < x.length; i++) {marwaditablink[i].className = marwaditablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function oriyaopenlink(evt, animName) {
+  var i, x, oriyatablink;x = document.getElementsByClassName("oriyabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  oriyatablink = document.getElementsByClassName("oriyatablink");
+  for (i = 0; i < x.length; i++) {oriyatablink[i].className = oriyatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function punjabiopenlink(evt, animName) {
+  var i, x, punjabitablink;x = document.getElementsByClassName("punjabibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  punjabitablink = document.getElementsByClassName("punjabitablink");
+  for (i = 0; i < x.length; i++) {punjabitablink[i].className = punjabitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function tamilopenlink(evt, animName) {
+  var i, x, tamiltablink;x = document.getElementsByClassName("tamilbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  tamiltablink = document.getElementsByClassName("tamiltablink");
+  for (i = 0; i < x.length; i++) {tamiltablink[i].className = tamiltablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function teluguopenlink(evt, animName) {
+  var i, x, telugutablink;x = document.getElementsByClassName("telugubrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  telugutablink = document.getElementsByClassName("telugutablink");
+  for (i = 0; i < x.length; i++) {telugutablink[i].className = telugutablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function urduopenlink(evt, animName) {
+  var i, x, urdutablink;x = document.getElementsByClassName("urdubrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  urdutablink = document.getElementsByClassName("urdutablink");
+  for (i = 0; i < x.length; i++) {urdutablink[i].className = urdutablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function assameseopenlink(evt, animName) {
+  var i, x, assamesetablink;x = document.getElementsByClassName("assamesebrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  assamesetablink = document.getElementsByClassName("assamesetablink");
+  for (i = 0; i < x.length; i++) {assamesetablink[i].className = assamesetablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function sindhiopenlink(evt, animName) {
+  var i, x, sindhitablink;x = document.getElementsByClassName("sindhibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  sindhitablink = document.getElementsByClassName("sindhitablink");
+  for (i = 0; i < x.length; i++) {sindhitablink[i].className = sindhitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function parsiopenlink(evt, animName) {
+  var i, x, parsitablink;x = document.getElementsByClassName("parsibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  parsitablink = document.getElementsByClassName("parsitablink");
+  for (i = 0; i < x.length; i++) {parsitablink[i].className = parsitablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+
+function cbsopenLink(evt, animName) {
+  var i, x, cbstablink;x = document.getElementsByClassName("cbsbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  cbstablink = document.getElementsByClassName("cbstablink");
+  for (i = 0; i < x.length; i++) {cbstablink[i].className = cbstablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function brahminopenlink(evt, animName) {
+  var i, x, brahmintablink;x = document.getElementsByClassName("brahminbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  brahmintablink = document.getElementsByClassName("brahmintablink");
+  for (i = 0; i < x.length; i++) {brahmintablink[i].className = brahmintablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function ezhavaopenlink(evt, animName) {
+  var i, x, ezhavatablink;x = document.getElementsByClassName("ezhavabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  ezhavatablink = document.getElementsByClassName("ezhavatablink");
+  for (i = 0; i < x.length; i++) {ezhavatablink[i].className = ezhavatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function bm96KuliMarathaopenlink(evt, animName) {
+  var i, x, bm96KuliMarathatablink;x = document.getElementsByClassName("bm96KuliMarathabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bm96KuliMarathatablink = document.getElementsByClassName("bm96KuliMarathatablink");
+  for (i = 0; i < x.length; i++) {bm96KuliMarathatablink[i].className = bm96KuliMarathatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function vanniyaropenlink(evt, animName) {
+  var i, x, vanniyartablink;x = document.getElementsByClassName("vanniyarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vanniyartablink = document.getElementsByClassName("vanniyartablink");
+  for (i = 0; i < x.length; i++) {vanniyartablink[i].className = vanniyartablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function nairopenlink(evt, animName) {
+  var i, x, nairtablink;x = document.getElementsByClassName("nairbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  nairtablink = document.getElementsByClassName("nairtablink");
+  for (i = 0; i < x.length; i++) {nairtablink[i].className = nairtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function lingayatopenlink(evt, animName) {
+  var i, x, lingayattablink;x = document.getElementsByClassName("lingayatbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  lingayattablink = document.getElementsByClassName("lingayattablink");
+  for (i = 0; i < x.length; i++) {lingayattablink[i].className = lingayattablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function scopenlink(evt, animName) {
+  var i, x, sctablink;x = document.getElementsByClassName("scbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  sctablink = document.getElementsByClassName("sctablink");
+  for (i = 0; i < x.length; i++) {sctablink[i].className = sctablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function bmscopenlink(evt, animName) {
+  var i, x, bmsctablink;x = document.getElementsByClassName("bmscbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  bmsctablink = document.getElementsByClassName("bmsctablink");
+  for (i = 0; i < x.length; i++) {bmsctablink[i].className = bmsctablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function nadaropenlink(evt, animName) {
+  var i, x, nadartablink;x = document.getElementsByClassName("nadarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  nadartablink = document.getElementsByClassName("nadartablink");
+  for (i = 0; i < x.length; i++) {nadartablink[i].className = nadartablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function naiduopenlink(evt, animName) {
+  var i, x, naidutablink;x = document.getElementsByClassName("naidubrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  naidutablink = document.getElementsByClassName("naidutablink");
+  for (i = 0; i < x.length; i++) {naidutablink[i].className = naidutablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function vishwakarmaopenlink(evt, animName) {
+  var i, x, vishwakarmatablink;x = document.getElementsByClassName("vishwakarmabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vishwakarmatablink = document.getElementsByClassName("vishwakarmatablink");
+  for (i = 0; i < x.length; i++) {vishwakarmatablink[i].className = vishwakarmatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function yadavopenlink(evt, animName) {
+  var i, x, yadavtablink;x = document.getElementsByClassName("yadavbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  yadavtablink = document.getElementsByClassName("yadavtablink");
+  for (i = 0; i < x.length; i++) {yadavtablink[i].className = yadavtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function vokkaligaopenlink(evt, animName) {
+  var i, x, vokkaligatablink;x = document.getElementsByClassName("vokkaligabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vokkaligatablink = document.getElementsByClassName("vokkaligatablink");
+  for (i = 0; i < x.length; i++) {vokkaligatablink[i].className = vokkaligatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function mudaliyaropenlink(evt, animName) {
+  var i, x, mudaliyartablink;x = document.getElementsByClassName("mudaliyarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  mudaliyartablink = document.getElementsByClassName("mudaliyartablink");
+  for (i = 0; i < x.length; i++) {mudaliyartablink[i].className = mudaliyartablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function kammaopenlink(evt, animName) {
+  var i, x, kammatablink;x = document.getElementsByClassName("kammabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  kammatablink = document.getElementsByClassName("kammatablink");
+  for (i = 0; i < x.length; i++) {kammatablink[i].className = kammatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function adidravidaropenlink(evt, animName) {
+  var i, x, adidravidartablink;x = document.getElementsByClassName("adidravidarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  adidravidartablink = document.getElementsByClassName("adidravidartablink");
+  for (i = 0; i < x.length; i++) {adidravidartablink[i].className = adidravidartablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function marathaopenlink(evt, animName) {
+  var i, x, marathatablink;x = document.getElementsByClassName("marathabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  marathatablink = document.getElementsByClassName("marathatablink");
+  for (i = 0; i < x.length; i++) {marathatablink[i].className = marathatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function reddyopenlink(evt, animName) {
+  var i, x, reddytablink;x = document.getElementsByClassName("reddybrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  reddytablink = document.getElementsByClassName("reddytablink");
+  for (i = 0; i < x.length; i++) {reddytablink[i].className = reddytablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function shaadiopenLink(evt, animName) {
+  var i, x, shaaditablink;x = document.getElementsByClassName("shaadibrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  shaaditablink = document.getElementsByClassName("shaaditablink");
+  for (i = 0; i < x.length; i++) {shaaditablink[i].className = shaaditablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+
+function brahminopenlinknew(evt, animName) {
+  var i, x, brahmintablinknew;x = document.getElementsByClassName("brahminbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  brahmintablinknew = document.getElementsByClassName("brahmintablinknew");
+  for (i = 0; i < x.length; i++) {brahmintablinknew[i].className = brahmintablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function marathaopenlinknew(evt, animName) {
+  var i, x, marathatablinknew;x = document.getElementsByClassName("marathabrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  marathatablinknew = document.getElementsByClassName("marathatablinknew");
+  for (i = 0; i < x.length; i++) {marathatablinknew[i].className = marathatablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function muslimopenlink(evt, animName) {
+  var i, x, muslimtablink;x = document.getElementsByClassName("muslimbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  muslimtablink = document.getElementsByClassName("muslimtablink");
+  for (i = 0; i < x.length; i++) {muslimtablink[i].className = muslimtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function christianopenlink(evt, animName) {
+  var i, x, christiantablink;x = document.getElementsByClassName("christianbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  christiantablink = document.getElementsByClassName("christiantablink");
+  for (i = 0; i < x.length; i++) {christiantablink[i].className = christiantablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function divorceeopenlink(evt, animName) {
+  var i, x, divorceetablink;x = document.getElementsByClassName("divorceebrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  divorceetablink = document.getElementsByClassName("divorceetablink");
+  for (i = 0; i < x.length; i++) {divorceetablink[i].className = divorceetablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function manglikopenlink(evt, animName) {
+  var i, x, mangliktablink;x = document.getElementsByClassName("manglikbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  mangliktablink = document.getElementsByClassName("mangliktablink");
+  for (i = 0; i < x.length; i++) {mangliktablink[i].className = mangliktablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function fourtyplusopenlink(evt, animName) {
+  var i, x, fourtyplustablink;x = document.getElementsByClassName("fourtyplusbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  fourtyplustablink = document.getElementsByClassName("fourtyplustablink");
+  for (i = 0; i < x.length; i++) {fourtyplustablink[i].className = fourtyplustablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function keralachristianopenlink(evt, animName) {
+  var i, x, keralachristiantablink;x = document.getElementsByClassName("keralachristianbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  keralachristiantablink = document.getElementsByClassName("keralachristiantablink");
+  for (i = 0; i < x.length; i++) {keralachristiantablink[i].className = keralachristiantablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function jainopenlink(evt, animName) {
+  var i, x, jaintablink;x = document.getElementsByClassName("jainbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  jaintablink = document.getElementsByClassName("jaintablink");
+  for (i = 0; i < x.length; i++) {jaintablink[i].className = jaintablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function sikhopenlink(evt, animName) {
+  var i, x, sikhtablink;x = document.getElementsByClassName("sikhbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  sikhtablink = document.getElementsByClassName("sikhtablink");
+  for (i = 0; i < x.length; i++) {sikhtablink[i].className = sikhtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+function defenceopenlink(evt, animName) {
+  var i, x, defencetablink;x = document.getElementsByClassName("defencebrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  defencetablink = document.getElementsByClassName("defencetablink");
+  for (i = 0; i < x.length; i++) {defencetablink[i].className = defencetablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function doctorsopenlink(evt, animName) {
+  var i, x, doctorstablink;x = document.getElementsByClassName("doctorsbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  doctorstablink = document.getElementsByClassName("doctorstablink");
+  for (i = 0; i < x.length; i++) {doctorstablink[i].className = doctorstablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function iimopenlink(evt, animName) {
+  var i, x, iimtablink;x = document.getElementsByClassName("iimbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  iimtablink = document.getElementsByClassName("iimtablink");
+  for (i = 0; i < x.length; i++) {iimtablink[i].className = iimtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function jainopenlinknew(evt, animName) {
+  var i, x, jaintablinknew;x = document.getElementsByClassName("jainbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  jaintablinknew = document.getElementsByClassName("jaintablinknew");
+  for (i = 0; i < x.length; i++) {jaintablinknew[i].className = jaintablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function jaiswalopenlinknew(evt, animName) {
+  var i, x, jaiswaltablinknew;x = document.getElementsByClassName("jaiswalbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  jaiswaltablinknew = document.getElementsByClassName("jaiswaltablinknew");
+  for (i = 0; i < x.length; i++) {jaiswaltablinknew[i].className = jaiswaltablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function agarwalopenlinknew(evt, animName) {
+  var i, x, agarwaltablinknew;x = document.getElementsByClassName("agarwalbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  agarwaltablinknew = document.getElementsByClassName("agarwaltablinknew");
+  for (i = 0; i < x.length; i++) {agarwaltablinknew[i].className = agarwaltablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function jatopenlinknew(evt, animName) {
+  var i, x, jattablinknew;x = document.getElementsByClassName("jatbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  jattablinknew = document.getElementsByClassName("jattablinknew");
+  for (i = 0; i < x.length; i++) {jattablinknew[i].className = jattablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function vishwakarmaopenlinknew(evt, animName) {
+  var i, x, vishwakarmatablinknew;x = document.getElementsByClassName("vishwakarmabrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vishwakarmatablinknew = document.getElementsByClassName("vishwakarmatablinknew");
+  for (i = 0; i < x.length; i++) {vishwakarmatablinknew[i].className = vishwakarmatablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+function rajputopenlinknew(evt, animName) {
+  var i, x, rajputtablinknew;x = document.getElementsByClassName("rajputbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  rajputtablinknew = document.getElementsByClassName("rajputtablinknew");
+  for (i = 0; i < x.length; i++) {rajputtablinknew[i].className = rajputtablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function buddhistopenlinknew(evt, animName) {
+  var i, x, buddhisttablinknew;x = document.getElementsByClassName("buddhistbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  buddhisttablinknew = document.getElementsByClassName("buddhisttablinknew");
+  for (i = 0; i < x.length; i++) {buddhisttablinknew[i].className = buddhisttablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function vanjariopenlinknew(evt, animName) {
+  var i, x, vanjaritablinknew;x = document.getElementsByClassName("vanjaribrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vanjaritablinknew = document.getElementsByClassName("vanjaritablinknew");
+  for (i = 0; i < x.length; i++) {vanjaritablinknew[i].className = vanjaritablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function vokkaligaopenlinknew(evt, animName) {
+  var i, x, vokkaligatablinknew;x = document.getElementsByClassName("vokkaligabrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vokkaligatablinknew = document.getElementsByClassName("vokkaligatablinknew");
+  for (i = 0; i < x.length; i++) {vokkaligatablinknew[i].className = vokkaligatablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function yadavopenlinknew(evt, animName) {
+  var i, x, yadavtablinknew;x = document.getElementsByClassName("yadavbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  yadavtablinknew = document.getElementsByClassName("yadavtablinknew");
+  for (i = 0; i < x.length; i++) {yadavtablinknew[i].className = yadavtablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function balijaopenlinknew(evt, animName) {
+  var i, x, balijatablinknew;x = document.getElementsByClassName("balijabrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  balijatablinknew = document.getElementsByClassName("balijatablinknew");
+  for (i = 0; i < x.length; i++) {balijatablinknew[i].className = balijatablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function nadaropenlinknew(evt, animName) {
+  var i, x, nadartablinknew;x = document.getElementsByClassName("nadarbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  nadartablinknew = document.getElementsByClassName("nadartablinknew");
+  for (i = 0; i < x.length; i++) {nadartablinknew[i].className = nadartablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function scopenlinknew(evt, animName) {
+  var i, x, sctablinknew;x = document.getElementsByClassName("scbrowsetabnew");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  sctablinknew = document.getElementsByClassName("sctablinknew");
+  for (i = 0; i < x.length; i++) {sctablinknew[i].className = sctablinknew[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+
+
+
+function rsopenLink(evt, animName) {
+  var i, x, cbstablink;x = document.getElementsByClassName("cbsbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  cbstablink = document.getElementsByClassName("cbstablink");
+  for (i = 0; i < x.length; i++) {cbstablink[i].className = cbstablink[i].className.replace("bm-blk", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blk";
+}
+
+function mmopenlink(evt, animName) {
+  var i, x, brahmintablink;x = document.getElementsByClassName("brahminbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  brahmintablink = document.getElementsByClassName("brahmintablink");
+  for (i = 0; i < x.length; i++) {brahmintablink[i].className = brahmintablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function cmopenlink(evt, animName) {
+  var i, x, ezhavatablink;x = document.getElementsByClassName("ezhavabrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  ezhavatablink = document.getElementsByClassName("ezhavatablink");
+  for (i = 0; i < x.length; i++) {ezhavatablink[i].className = ezhavatablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function kcmopenlink(evt, animName) {
+  var i, x, vanniyartablink;x = document.getElementsByClassName("vanniyarbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  vanniyartablink = document.getElementsByClassName("vanniyartablink");
+  for (i = 0; i < x.length; i++) {vanniyartablink[i].className = vanniyartablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function jmopenlink(evt, animName) {
+  var i, x, nairtablink;x = document.getElementsByClassName("nairbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  nairtablink = document.getElementsByClassName("nairtablink");
+  for (i = 0; i < x.length; i++) {nairtablink[i].className = nairtablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function smopenlink(evt, animName) {
+  var i, x, lingayattablink;x = document.getElementsByClassName("lingayatbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  lingayattablink = document.getElementsByClassName("lingayattablink");
+  for (i = 0; i < x.length; i++) {lingayattablink[i].className = lingayattablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}
+
+function budmopenlink(evt, animName) {
+  var i, x, sctablink;x = document.getElementsByClassName("scbrowsetab");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
+  sctablink = document.getElementsByClassName("sctablink");
+  for (i = 0; i < x.length; i++) {sctablink[i].className = sctablink[i].className.replace(" bm-blkbtn", "");}
+  document.getElementById(animName).style.display = "block";evt.currentTarget.className += " bm-blkbtn";
+}

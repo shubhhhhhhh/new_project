@@ -1,0 +1,92 @@
+	$(document).ready(function(){
+		$('#colorbox').css('z-index','30000');
+		$('#cboxOverlay').css('z-index','29998');
+		$('.translucent_cover').css('z-index','19998');
+		$('.top_block').css('z-index','20000');
+		$("#top_web_motify_icon_comet_chat1").click(function () {$('.menublock').css('z-index','9996');})
+		$('#sbid').click(function(event) {event.stopPropagation();});
+		$('#fixed-div_help').click(function(event) {event.stopPropagation();});
+		//$('#logoutreplacediv').hide();
+		$('#webnotifyreplacediv').hide();
+		$('.logout-popup-inactive').live("click",function(event){ $('.fixed-logout-popup-bg').show(); $(this).addClass('logout-popup-active').removeClass('logout-popup-inactive'); });
+		$('#close').click(function(){ if($('#logout').hasClass('logout-popup-active') || $('.logout').hasClass('logout-popup-active') ){	 
+									$('.fixed-logout-popup-bg').hide();
+									$('.logout').addClass('logout-popup-inactive').removeClass('logout-popup-active');
+									}
+								});
+
+	});
+
+	function showmenubar(block)
+	{	
+		for(i=2;i<=8;i++)
+			{
+				$('#menu_block'+i).prev().removeClass('midalog-active');
+			}
+		$('#'+block).show();
+		$('#'+block).prev().addClass('midalog-active').removeClass('midalog');
+
+
+	
+	}
+	function hidemenubar(block){		
+		$('#'+block).hide()
+		$('#'+block).prev().addClass('midalog').removeClass('midalog-active');
+	}
+	
+	function topnavlogincheck(){	if(dgebid("ID").value=="ID / E-mail / Mobile Number" || dgebid("ID").value=="" ||  dgebid("ID").value=="ID / E-mail") { 	$('#PASSWORD').addClass('fixed-txtBox').removeClass('errorbg'); 	$('#ID').removeClass('fixed-txtBox').addClass('errorbg').focus(); return false;	} else if(dgebid("PASSWORD").value=="password" || dgebid("PASSWORD").value=="") { $('#ID').addClass('fixed-txtBox').removeClass('errorbg'); $('#PASSWORD').removeClass('fixed-txtBox').addClass('errorbg').focus(); return false;}}
+
+	
+
+
+	$(window).scroll(function(){
+
+		var topnavhgt = document.getElementById('fixed-topnavbg').offsetTop;
+
+		if ($(window).scrollTop() > topnavhgt) {
+
+			var notifycount=$('#head_cometchat_webnotify_dash_count').html();
+			var dashboardplaceholder=$('#cometchat_trayicon_dashboard_popup').html();
+			$('#fixed-topnavbg').addClass('fixed-top_header_fixed');
+			$('#services-tab,#mobi-apps-tab1,#nav-help-tab1').hide();
+			$('#logo_outer').css('display','block');
+			if (notifycount == null || notifycount == 0 ){
+				$('#notify-count-div').css('display','none');
+				}
+				else{
+				//$('#notify-count-div').css('display','inline-block');
+				$('#notify-count-div').html(notifycount);
+			}
+			$('#cometchat_trayicon_dashboard_popup').removeClass('scrolldownpos');
+			$('#logout-placeholder').parents().css('display','block');
+			$('#lpad #logout').hide();
+			$('#logout-placeholder #logout').show();
+			$('#notify-sep').hide();
+			$('.fixed-logout-icon-1024').css('background-position','-62px -124px');
+			$('.fixed-logout-icon1-1024').css('left','-5px');
+			$('.fixed-webnotify-icon-on').css('background-position','-88px -88px');
+			$('#logoutreplacediv').show();
+			$('#webnotifyreplacediv').show();
+			$('.fixed-logout-popup-bg').css({'right':'0px','top':'6px'});
+			$('#topnavlog').hide();
+		
+
+ 
+        } else {
+			$('#notify-sep').show();
+			$('#cometchat_trayicon_dashboard_popup').removeClass('cometchat_tabopen');
+			$('.fixed-logout-popup-bg').css({'right':'-2px','top':'12px'});
+			$('#fixed-topnavbg').removeClass('fixed-top_header_fixed');
+			$('#logo_outer').css('display','none');
+			$('#services-tab,#mobi-apps-tab1,#nav-help-tab1').show();
+			$('#lpad #logout').show();
+			$('#logout-placeholder #logout').hide();
+			//$('.fixed-logout-icon-1024').css('background-position','0px 0px');
+			$('.fixed-webnotify-icon-on').css('background-position','0 -87px');
+			//$('.fixed-logout-icon1-1024').css('left','3px');
+			$('#logoutreplacediv').hide();
+			$('#webnotifyreplacediv').hide();
+			$('#topnavlog').show();
+	
+        }
+    });

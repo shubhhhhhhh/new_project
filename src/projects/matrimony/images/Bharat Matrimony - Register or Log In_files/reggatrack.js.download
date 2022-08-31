@@ -1,0 +1,34 @@
+function RegGATrack(CurVal,CurId,gatrackcount,gentrack){	
+	var flag = 0;
+	var EntryType="";
+	var path ="";
+	var pushval = 1;
+	var chcktab = $(".active").attr("id");
+	if(gentrack=="" || gentrack== undefined ){
+		if(($(".active").attr("id")) == 'a1'){
+			EntryType = "Free";
+		}
+		else if($(".active").attr("id") == 'a2'){
+			EntryType = "Paid";
+		}	
+	}
+	if ((CurVal.length > 0) && (CurVal !=0)) {
+		if(gentrack=="" || gentrack == undefined){
+			path = '/GAVirtualForm/'+EntryType+'/'+CurId;
+		}
+		else {
+			path = '/GAVirtual/'+CurId;
+		}
+	}
+	if((path!="") && (gatrackcount==0)){
+		pushval = _gaq.push(['_trackPageview',path]);
+		flag = 1;
+		return flag; // this return is for - if-incase error in GA track
+	}
+	return flag;
+}	
+
+
+
+
+
