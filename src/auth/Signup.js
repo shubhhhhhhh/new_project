@@ -35,13 +35,13 @@ export default function Signup() {
     return (
         <>
 
-            <form onSubmit={handleSubmit}>
+            {/* <form onSubmit={handleSubmit}>
                 <input type="text" name="name" onChange={handleChange} /><br></br>
                 <input type="email" name="email" onChange={handleChange} /><br></br>
                 <input type="number" name="phone" onChange={handleChange} /><br></br>
                 <input type="password" name="password" onChange={handleChange} /><br></br>
                 <input type="submit" value="Signup Karo Na"></input>
-            </form>
+            </form> */}
 
             <ToastContainer />
 

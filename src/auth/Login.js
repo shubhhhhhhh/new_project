@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "../component/Dashboard/Dashboard";
+import SetToken from "../constant/Constant";
 
 export default function Login()
 {
@@ -25,10 +26,12 @@ export default function Login()
 
     async function handleSubmit(event) {
         event.preventDefault();
+        console.log(form)
         const response = await login(form)
         console.log(response)
         if (response.status == "success") {
             toast("login done");
+            SetToken(response.token)
             setTimeout(() => {
                 navigate("dashboard")
             }, 2000)

@@ -5,14 +5,7 @@ import Table from 'react-bootstrap/Table';
 export default function Dashboard(props) {
     const data = [{ name: 'a', phone: 1 }, { name: 'r', phone: 3 }, { name: 'w', phone: 2 }]
 
-    const tbody = data.map((v) => {
-        return <tr>
-            <td>${v}</td>
-            <td>${v.name}</td>
-            <td>${v.name}</td>
-            <td>${v.phone}</td>
-        </tr>
-    }).join();
+    
     return (
         <>
             <Navbar>
@@ -27,8 +20,8 @@ export default function Dashboard(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((v) => {
-                                return <tr>
+                            {data.filter((v) => {
+                                <tr>
                                     <td>${v}</td>
                                     <td>${v.name}</td>
                                     <td>${v.name}</td>

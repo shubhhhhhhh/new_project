@@ -1,3 +1,9 @@
+export default function SetToken(login_data){
+   
+    localStorage.setItem("customer-info",JSON.stringify(login_data))
+    
+}
+
 export const getToken = ()=>
 {
     if(localStorage.getItem("customer-info"))
@@ -5,3 +11,4 @@ export const getToken = ()=>
         return JSON.parse(localStorage.getItem("customer-info")).token;
     }
 }
+
