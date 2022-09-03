@@ -20,7 +20,7 @@ export default function Signup() {
         if (response.status == "success") {
             toast("signup succssfuylly");
             setTimeout(() => {
-                navigate("login")
+                navigate("/")
             }, 2000)
 
         }

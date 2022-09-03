@@ -31,7 +31,7 @@ export default function Login()
         console.log(response)
         if (response.status == "success") {
             toast("login done");
-            SetToken(response.token)
+            SetToken(response)
             setTimeout(() => {
                 navigate("dashboard")
             }, 2000)
@@ -67,7 +67,7 @@ export default function Login()
 
                                     <div style={{ width: "23rem" }} className="br"></div>
 
-                                    <Link to={"/"} ><Button variant="secondary" className="signup">signup</Button></Link>
+                                    <Link to={"signup"} ><Button variant="secondary" className="signup">signup</Button></Link>
 
                                 </Form>
                             
@@ -77,7 +77,7 @@ export default function Login()
 
             <ToastContainer/>
 
-            <Dashboard data={form}/>
+            {/* <Dashboard data={form}/> */}
         </>
     )
 }
