@@ -1,10 +1,19 @@
 import { getToken } from "../constant/Constant"
 import { ApiRoute } from "../routes/ApiRoutes"
 import { API_URL } from "./Url"
-export const getAllEmployee = async()=>
+export const getAllEmployee = async(token)=>
 {
+    const postheader = {
+        method:'GET',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${token}`
+        }
+    }
+    const response = await fetch(`${API_URL.EMPLOYEE_URL}${ApiRoute.get_all_employee}`,postheader)
 
-}
+    return await response.json();
+}   
 
 export const  getAllData = async()=>
 {
