@@ -16,10 +16,10 @@ import Modal from 'react-bootstrap/Modal';
 
 
 function AddPop(props) {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
   
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const handleShow = () => setShow(true);
 
     
     const [form, setForm] = useState({});
@@ -48,7 +48,7 @@ function AddPop(props) {
 
         await addemployee()
         await props.getallemployee()
-
+         handleClose()
     }
 
     function handleCancel() {
@@ -98,14 +98,14 @@ function AddPop(props) {
 
                     </Form>
           </Modal.Body>
-          <Modal.Footer>
+          {/* <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
             <Button variant="primary" onClick={handleClose}>
               Save Changes
             </Button>
-          </Modal.Footer>
+          </Modal.Footer> */}
         </Modal>
       </>
     );
