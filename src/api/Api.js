@@ -72,3 +72,17 @@ export const addEmployee =  async (token,add_data)=> {
     return await response.json();
 }
 
+export const deleteEmployee =  async (token,id)=> {
+    const postheader = {
+        method:'DELETE',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${token}`
+        }
+    
+    }
+    const response = await fetch(`${API_URL.EMPLOYEE_URL}${ApiRoute.delete_employee}/${id}`,postheader)
+
+    return await response.json();
+}
+
