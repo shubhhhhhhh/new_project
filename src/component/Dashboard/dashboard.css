@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+.addpop{
+    position: absolute;
+    right: 300px;
+    bottom: 200px;
+    background-color: aliceblue;
+}
