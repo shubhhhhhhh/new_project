@@ -86,3 +86,18 @@ export const deleteEmployee =  async (token,id)=> {
     return await response.json();
 }
 
+
+export const updateEmployee =  async (token,data,id)=> {
+    const postheader = {
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${token}`
+        }
+        ,
+        body:JSON.stringify(data)
+    }
+    const response = await fetch(`${API_URL.EMPLOYEE_URL}${ApiRoute.update_employee}/${id}`,postheader)
+    console.log(response)
+    return await response.json();
+}

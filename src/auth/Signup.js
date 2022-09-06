@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import "../Project_api/css/signup.css";
+import "./css/signup.css";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,6 +32,7 @@ export default function Signup() {
     function handleChange(event) {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
+    
     return (
         <>
 
@@ -46,33 +47,33 @@ export default function Signup() {
             <ToastContainer />
 
             <Card border="secondary" style={{ width: '25rem' }} className="card">
-                    <Card.Body>
+                <Card.Body>
 
-                        <Form>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Control type="text" onChange={handleChange}  name="name" placeholder=" enter name" />
-                            </Form.Group>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Control type="text" onChange={handleChange} name="name" placeholder=" enter name" />
+                        </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="email"onChange={handleChange}  name="email" placeholder="Enter email" />
-                            </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Control type="email" onChange={handleChange} name="email" placeholder="Enter email" />
+                        </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Control type="number" onChange={handleChange}  name="phone" placeholder="enter phone no." />
-                            </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Control type="number" onChange={handleChange} name="phone" placeholder="enter phone no." />
+                        </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Control type="password" onChange={handleChange}  name="password" placeholder=" enterPassword" />
-                            </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Control type="password" onChange={handleChange} name="password" placeholder=" enterPassword" />
+                        </Form.Group>
 
-                            <Button variant="primary" onClick={handleSubmit} className="login" style={{ width: '23rem' }} >
-                                create account
-                            </Button>
+                        <Button variant="primary" onClick={handleSubmit} className="login" style={{ width: '23rem' }} >
+                            create account
+                        </Button>
 
-                        </Form>
+                    </Form>
 
-                    </Card.Body>
-                </Card>
+                </Card.Body>
+            </Card>
 
         </>
     )
