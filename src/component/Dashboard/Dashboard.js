@@ -9,26 +9,22 @@ import '../Dashboard/dashboard.css'
 import Nav from 'react-bootstrap/Nav';
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Modal from 'react-bootstrap/Modal';
-import { getToken } from "../../constant/Constant";
+import { clearToken, getToken } from "../../constant/Constant";
 
 
 export default function Dashboard(props) {
    
     const [data, setData] = useState([{ name: 'a', phone: 1 }, { name: 'r', phone: 3 }, { name: 'w', phone: 2 }])
     const [onedata,setOnedata]=useState({});
+    const navigate = useNavigate();
 
-    async function getallemployee() {
-        try {
+    async function getallemployee() {   
             await  getAllEmployee(getToken()).then(res=>setData([...res.data]))
-        }
-        catch (error) {
-            alert("error hua bhai")
-        }
     }
-
+    
     useEffect(() => {
         getallemployee()
     }, [])
@@ -40,6 +36,11 @@ export default function Dashboard(props) {
     }
     if (addbtn == true)
         addui = <AddPop addui={addUI} getallemployee={getallemployee}  />        
+
+    function logoutUI(){
+        clearToken()    
+        navigate('/')
+    }
 
 
     const [deletebtn,setdeletebtn]=useState(false)
@@ -93,8 +94,13 @@ export default function Dashboard(props) {
                     <Navbar.Brand href="#home">Employee Dashboard</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav>
+                        <Nav className="addbtn">
                             <Button variant="secondary" onClick={addUI}>Add Employee</Button>
+                        </Nav>
+                    </Navbar.Collapse>
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="logoutbtn">
+                            <Button variant="secondary" onClick={logoutUI}>logout</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -240,7 +246,7 @@ function UpdatePop(props) {
   
     return (
       <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal     dialogClassName="modal-90w" show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>update employee</Modal.Title>
           </Modal.Header>
