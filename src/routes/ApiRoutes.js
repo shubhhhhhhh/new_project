@@ -7,5 +7,5 @@ export const ApiRoute = {
     delete_employee:"employee",
     single_employee:"employee",
     get_all_employee:"employee",
-    update_employee:"updateEmployee",
+    update_employee:"",
 }
