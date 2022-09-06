@@ -98,6 +98,6 @@ export const updateEmployee =  async (token,data,id)=> {
         body:JSON.stringify(data)
     }
     const response = await fetch(`${API_URL.EMPLOYEE_URL}${ApiRoute.update_employee}/${id}`,postheader)
-
+    console.log(response)
     return await response.json();
 }

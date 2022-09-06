@@ -232,9 +232,10 @@ function UpdatePop(props) {
     }
 
     async function handleUpdate(){
-         await updateEmployee(getToken(),form,form._id)
+         await updateEmployee(getToken(),form,form._id).then(res=>console.log(res.message))
          await props.getallemployee()
          handleClose()
+
     }
   
     return (
