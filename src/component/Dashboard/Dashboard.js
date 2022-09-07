@@ -238,7 +238,7 @@ function UpdatePop(props) {
     }
 
     async function handleUpdate(){
-         await updateEmployee(getToken(),form,form._id).then(res=>console.log(res.message))
+         await updateEmployee(form,form._id).then(res=>console.log(res.message))
          await props.getallemployee()
          handleClose()
 
@@ -298,7 +298,7 @@ function DeletePop(props) {
     }
 
     async function handleDelete(){
-         await deleteEmployee(getToken(),form._id)
+         await deleteEmployee(form._id)
          await props.getallemployee()
          handleClose()
     }
