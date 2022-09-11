@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllEmployee } from "../api/Api";
 
 export default function SetToken(login_data) {
 
@@ -12,6 +13,10 @@ export const getToken = () => {
         return JSON.parse(localStorage.getItem("customer-info")).token;
     }
     else return false
+}
+
+export const clearToken = ()=>{
+    localStorage.clear()
 }
 
 export const Auth = ({ children }) => {
