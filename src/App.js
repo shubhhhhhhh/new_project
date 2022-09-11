@@ -5,18 +5,27 @@ import { Auth } from "./constant/Constant";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Dashboard from "./component/Dashboard/Dashboard";
+import Cfirst from "./projects/Project_api/context_api/Cfirst";
+import Csecond from "./projects/Project_api/context_api/Csecond";
+import Cthird from "./projects/Project_api/context_api/Cthird";
+import Cfourth from "./projects/Project_api/context_api/Cfourth";
 
 export default function App()
 {
     return(
         <>
-            <Router>
+        <Cfirst>
+        <Csecond/>
+        <Cthird/>
+        <Cfourth/>
+        </Cfirst>
+            {/* <Router>
                 <Routes>
                     <Route path="/" element={<Login />}/>
                     <Route path="signup" element={<Signup />}/>
                     <Route path="dashboard" element={<Auth><Dashboard /></Auth>}/>
                 </Routes>
-            </Router>
+            </Router> */}
         </>
     )
 }
