@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { deleteEmployee, loadUser } from "../api/Api";
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate , useParams } from "react-router-dom";
+import { useState , useEffect } from "react";
+import { deleteEmployee , loadUser } from "../api/Api";
+import { ToastContainer , toast } from "react-toastify";
 
 export function DeleteEmployee() {
     const navigate = useNavigate();
@@ -15,7 +15,6 @@ export function DeleteEmployee() {
             console.log(response)
             if (response.status == "success") {
                 setform(response.data)
-
             }
         })
     }, []);
