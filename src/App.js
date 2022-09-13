@@ -1,34 +1,49 @@
 import React,{Component} from "react";
 import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
 import './App.css';
-import { Auth } from "./constant/Constant";
+import  Auth  from "./auth/auth.js";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Dashboard from "./component/Dashboard/Dashboard";
-import Cfirst from "./projects/Project_api/context_api/Cfirst";
-import Csecond from "./projects/Project_api/context_api/Csecond";
-import Cthird from "./projects/Project_api/context_api/Cthird";
-import Cfourth from "./projects/Project_api/context_api/Cfourth";
+import Header from "./constant/Header";
+
+
 
 export default function App()
 {
     return(
         <>
-        <Cfirst>
-        <Csecond/>
-        <Cthird/>
-        <Cfourth/>
-        </Cfirst>
-            {/* <Router>
+            <Router>
+                <Header/>
                 <Routes>
                     <Route path="/" element={<Login />}/>
                     <Route path="signup" element={<Signup />}/>
                     <Route path="dashboard" element={<Auth><Dashboard /></Auth>}/>
+                    
                 </Routes>
-            </Router> */}
+            </Router>
         </>
     )
 }
+
+
+// import Cfirst from "./projects/Project_api/context_api/Cfirst";
+// import Csecond from "./projects/Project_api/context_api/Csecond";
+// import Cthird from "./projects/Project_api/context_api/Cthird";
+// import Cfourth from "./projects/Project_api/context_api/Cfourth";
+
+// export default function App()
+// {
+//     return(
+//         <>
+//         <Cfirst>
+//         <Csecond/>
+//         <Cthird/>
+//         <Cfourth/>
+//         </Cfirst>
+//         </>
+//     )
+// }
 
 // import logo from './logo.svg';
 // import Home from './components/home';

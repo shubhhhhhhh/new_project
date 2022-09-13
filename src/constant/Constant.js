@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getAllEmployee } from "../api/Api";
-
 export default function SetToken(login_data) {
 
     localStorage.setItem("customer-info", JSON.stringify(login_data))
@@ -17,22 +13,4 @@ export const getToken = () => {
 
 export const clearToken = ()=>{
     localStorage.clear()
-}
-
-export const Auth = ({ children }) => {
-    const navigate = useNavigate()
-
-   useEffect(()=>{
-    if(!getToken()){
-        navigate("/")
-    }
-   },[])
-
-    return(
-        <>
-        {children}
-       </>
-    )
-       
-
 }
