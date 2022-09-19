@@ -72,12 +72,12 @@ export const addEmployee =  async (token,add_data)=> {
     return await response.json();
 }
 
-export const deleteEmployee =  async (token,id)=> {
+export const deleteEmployee =  async (id)=> {
     const postheader = {
         method:'DELETE',
         headers:{
             'Content-Type':'application/json',
-            'Authorization':`Bearer ${token}`
+            'Authorization':`Bearer ${getToken()}`
         }
     
     }
@@ -86,3 +86,18 @@ export const deleteEmployee =  async (token,id)=> {
     return await response.json();
 }
 
+
+export const updateEmployee =  async (data,id)=> {
+    const postheader = {
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${getToken()}`
+        }
+        ,
+        body:JSON.stringify(data)
+    }
+    const response = await fetch(`${API_URL.EMPLOYEE_URL}${ApiRoute.update_employee}/${id}`,postheader)
+    console.log(response)
+    return await response.json();
+}

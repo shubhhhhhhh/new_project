@@ -18,9 +18,7 @@ export default function DynamicImport()
             <First />
         </Suspense>
             <h1>
-                {
-                state
-                }
+                {state}
             </h1>
         <Second />
         </>
