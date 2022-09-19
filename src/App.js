@@ -6,6 +6,7 @@ import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Dashboard from "./component/Dashboard/Dashboard";
 import Header from "./constant/Header";
+import Momo from "./projects/Project_api/Momo";
 
 
 
@@ -13,7 +14,8 @@ export default function App()
 {
     return(
         <>
-            <Router>
+        <Momo/>
+            {/* <Router>
                 <Header/>
                 <Routes>
                     <Route path="/" element={<Login />}/>
@@ -21,7 +23,7 @@ export default function App()
                     <Route path="dashboard" element={<Auth><Dashboard /></Auth>}/>
                     
                 </Routes>
-            </Router>
+            </Router> */}
         </>
     )
 }
