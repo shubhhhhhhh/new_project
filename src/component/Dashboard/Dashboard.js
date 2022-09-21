@@ -89,7 +89,7 @@ export default function Dashboard(props) {
     return (
         <>
 
-            <Container bg-success>
+            <Container>
                 <Row className="justify-content-center">
                     <Col xs={12} md={8} className="justify-content-center">
                         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
@@ -12,13 +12,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "../component/Dashboard/Dashboard";
 import SetToken from "../constant/Constant";
+import { Maincontext } from "../context/Context";
 
 export default function Login()
 {
     const [form, setForm] = useState();
     const navigate = useNavigate();
     
-    
+    const{setid}=useContext(Maincontext)
 
     function handleChange(event) {
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -32,6 +33,9 @@ export default function Login()
         if (response.status == "success") {
             toast("login done");
             SetToken(response)
+            sessionStorage.setItem("idinfo",JSON.stringify(response.name))
+            setid(JSON.parse(sessionStorage.getItem("idinfo")))
+            
             setTimeout(() => {
                 navigate("dashboard")
             }, 2000)
@@ -40,7 +44,7 @@ export default function Login()
         else {
             toast.error(response.message)
         }
-         
+        
         return response.data;
     }
 

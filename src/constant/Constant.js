@@ -1,7 +1,5 @@
 export default function SetToken(login_data) {
-
     localStorage.setItem("customer-info", JSON.stringify(login_data))
-
 }
 
 export const getToken = () => {
@@ -13,4 +11,5 @@ export const getToken = () => {
 
 export const clearToken = ()=>{
     localStorage.clear()
+    sessionStorage.clear()
 }

@@ -1,29 +1,30 @@
-import React,{Component} from "react";
-import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import  Auth  from "./auth/auth.js";
+import Auth from "./auth/auth.js";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Dashboard from "./component/Dashboard/Dashboard";
 import Header from "./constant/Header";
-import Momo from "./projects/Project_api/Momo";
+import GlobalContext from "./context/ContextGlobal";
+// import Momo from "./projects/Project_api/Momo";
 
 
-
-export default function App()
-{
-    return(
+export default function App() {
+    return (
         <>
-        <Momo/>
-            {/* <Router>
-                <Header/>
-                <Routes>
-                    <Route path="/" element={<Login />}/>
-                    <Route path="signup" element={<Signup />}/>
-                    <Route path="dashboard" element={<Auth><Dashboard /></Auth>}/>
-                    
-                </Routes>
-            </Router> */}
+            <GlobalContext>
+                {/* <Momo/> */}
+                <Router>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="signup" element={<Signup />} />
+                        <Route path="dashboard" element={<Auth><Dashboard /></Auth>} />
+
+                    </Routes>
+                </Router>
+            </GlobalContext>
         </>
     )
 }

@@ -2,16 +2,20 @@ import { useState } from "react";
 import { Maincontext } from "./Context";
 
 export default function GlobalContext({children}){
-    const[idinfo,setIdinfo] = useState
+    const[idinfo,setIdinfo] = useState({name:"login"})
 
-    const setvalue = {
+    function dd(info){
+        setIdinfo({name:info})
+    }
+
+    const value = {
         id:idinfo,
-        setid:setIdinfo
+        setid:dd
     }
 
     return(
         <>
-         <Maincontext.Provider value={setvalue}>
+         <Maincontext.Provider value={value}>
             {children}
          </Maincontext.Provider>
         </>

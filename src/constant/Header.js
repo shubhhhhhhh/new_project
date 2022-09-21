@@ -1,15 +1,26 @@
-import { Button, Container, Navbar ,Nav } from "react-bootstrap"
+import { useContext, useEffect } from "react";
+import { Button, Container, Navbar, Nav } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { clearToken } from "./Constant"
+import { Maincontext } from "../context/Context";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function Header() {
 
+    const { id,setid} = useContext(Maincontext)
     const navigate = useNavigate();
 
     function logout() {
         clearToken()
         navigate('/')
+        setid("login")
     }
+
+    useEffect( ()=>{
+        if(sessionStorage.getItem("idinfo"))
+            setid(JSON.parse(sessionStorage.getItem("idinfo")))
+        console.log(id)
+    },[])
 
     return (
         <>
@@ -18,12 +29,15 @@ export default function Header() {
                     <Navbar.Brand >Employee Corner</Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
-
-                        <Nav className="logoutbtn">
-                            <Button variant="secondary" onClick={logout}>logout</Button>
-                        </Nav>
-
+                        <NavDropdown title={id.name} id="nav-dropdown">
+                            <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <Nav className="logoutbtn">
+                                <Button variant="secondary" onClick={logout}>logout</Button>
+                            </Nav>
+                        </NavDropdown>
                     </Navbar.Collapse>
+
                 </Container>
             </Navbar>
         </>
