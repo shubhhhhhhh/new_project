@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import { clearToken } from "./Constant"
 import { Maincontext } from "../context/Context";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
@@ -11,7 +10,7 @@ export default function Header() {
     const navigate = useNavigate();
 
     function logout() {
-        clearToken()
+        import ("./Constant").then(ff=>{ff.clearToken()})
         navigate('/')
         setid("login")
     }

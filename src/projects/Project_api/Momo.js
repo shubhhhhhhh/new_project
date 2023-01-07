@@ -28,7 +28,6 @@ export default function Momo() {
             <h1>{num}</h1>
             <button onClick={counterFun}>Count</button>
             <button onClick={counterFun3}>Count3</button>
-
             <button onClick={counterFun2}>Counter2</button>
         </>
     )

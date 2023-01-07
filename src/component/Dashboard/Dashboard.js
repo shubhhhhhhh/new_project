@@ -6,9 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 
 
 import '../Dashboard/dashboard.css'
-
 import { getAllEmployee } from "../../api/Api";
-
 import {getToken } from "../../constant/Constant";
 
 import AddPop from "./addpop";
